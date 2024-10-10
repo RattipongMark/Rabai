@@ -4,8 +4,7 @@
   "description": "Rabai-WebApp",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
@@ -14,7 +13,6 @@
     "express": "^4.21.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.7.0",
-    "mongose": "^0.0.2-security",
-    "nodemon": "^3.1.7"
+    "mongose": "^0.0.2-security"
   }
 }
