@@ -12,7 +12,7 @@ app.use(express.json());
 app.use('/api/auth', authRouter);
 // db connect
 mongoose
-    .connect('mongodb://127.0.0.1:27017/rabai')
+    .connect('mongodb+srv://Iamdev:password1234@rabaiweb.gpd3d.mongodb.net/rabaiweb?retryWrites=true&w=majority&appName=RabaiWeb')
     .then(() => console.log('Connected to DB success!!'))
     .catch((erorr) => console.error('Failed to connect DB : ',error));
 
