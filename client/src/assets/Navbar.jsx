@@ -1,11 +1,17 @@
 import { useState, useEffect } from "react";
 import "/src/index.css";
 import "/src/css/navbar.css";
+import { useAuth } from '../contexts/AuthContext'
 
 export default function Navb() {
   const [activeTab, setActiveTab] = useState("Home");
 
   const sections = ["DiscussionBoard", "Anonymous-Chat", "Activity"];
+
+  const { userData, logout } = useAuth();
+  const handlelogout = async () => {
+    await logout();
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -132,22 +138,21 @@ export default function Navb() {
             <div className="w-10 rounded-full">
               <img
                 alt="User Avatar"
-                src="/public/goose2.svg"
+                src="/public/profilegoose2.svg"
               />
             </div>
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content bg-noti rounded-box z-[1] mt-3 w-52 px-2 py-4 shadow flex flex-col gap-2"
           >
             <li>
-              <a className="justify-between">
-                Profile
-                <span className="badge">New</span>
+              <a className="justify-between hover:bg-white/10 ">
+              {userData.name}
               </a>
             </li>
             <li><a>Settings</a></li>
-            <li><a>Logout</a></li>
+            <li><a onClick={handlelogout} className="text-danger">Logout</a></li>
           </ul>
         </div>
       </div>

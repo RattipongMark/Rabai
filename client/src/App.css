@@ -18,6 +18,10 @@ body{
   color: #8A8A8E;
 }
 
+.text-danger{
+  color:#F24D4D;
+}
+
 .bg-danger{
   background-color: #F24D4D;
 }
