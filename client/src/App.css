@@ -1,0 +1,23 @@
+.bg-image {
+    background-image: url('./public/bg.svg');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    opacity: 70%;
+  }
+
+body{
+ background-color: #20243C;
+}
+
+.text-orange{
+    color: #FB923C;
+}
+
+.text-gray{
+  color: #8A8A8E;
+}
+
+.bg-danger{
+  background-color: #F24D4D;
+}

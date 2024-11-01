@@ -1,0 +1,14 @@
+.bg-noti{
+    background-color: rgba(40, 44, 69, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px;
+    border-color: 404664;
+}
+
+.nav-blur {
+    /* background: #20243C; */
+    backdrop-filter: blur(20px);
+    background-size: cover;
+    background-position: center;
+    z-index: 40;
+  }
