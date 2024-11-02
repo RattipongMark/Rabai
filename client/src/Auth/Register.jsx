@@ -32,7 +32,7 @@ const Register = () => {
         </p>
       </div>
 
-      <div className="min-w-fit min-h-fit flex flex-col lg:flex-row justify-center items-center mb-10 relative sm:mx-auto sm:w-full sm:max-w-xl">
+      <div className="baloo2 min-w-fit min-h-fit flex flex-col lg:flex-row justify-center items-center mb-10 relative sm:mx-auto sm:w-full sm:max-w-xl">
         <div className="mb-6 lg:mb-0 lg:mr-36 flex justify-center">
           <img src="" alt="" className="rounded-full size-56" />
         </div>
