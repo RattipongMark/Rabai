@@ -1,3 +1,9 @@
+.baloo2{
+  font-family: "Baloo 2", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
 .bg-image {
     background-image: url('./public/bg.svg');
     background-size: cover;
@@ -20,6 +26,14 @@ body{
 
 .text-danger{
   color:#F24D4D;
+}
+
+.lgt-txt{
+  color: #FFF9F0;
+}
+
+.bg-orange{
+  background-color: #FB923C;
 }
 
 .bg-danger{

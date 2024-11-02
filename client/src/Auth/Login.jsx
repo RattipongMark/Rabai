@@ -1,6 +1,7 @@
 import React from 'react';
 import useLogin from '../hooks/useLogin'; // Assume you have a hook for login
 import { Spin } from 'antd'; // Import Spin for the loading spinner
+import '../App.css'
 
 const Login = () => {
   const { loading, loginUser } = useLogin(); // Assume you have login logic in useLogin hook
