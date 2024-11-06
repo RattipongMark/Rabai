@@ -6,6 +6,7 @@ import Login from './Auth/Login';
 import Dashboard from './pages/Dashboard';
 import AnonyChat from './pages/Anony';
 import { useAuth } from './contexts/AuthContext';
+import Activity from './pages/Activity';
 
 const App = () => {
   // ตรวจสอบข้อมูลจาก localStorage และตรวจสอบว่าเป็น null หรือไม่
@@ -26,7 +27,7 @@ const App = () => {
         <Route path='/' element={check ? <Dashboard /> : <Navigate to="/login" />} />
         <Route path='/DiscussionBoard' element={check ? <Dashboard /> : <Navigate to="/login" />} />
         <Route path='/Anonymous-Chat' element={check ? <AnonyChat /> : <Navigate to="/login" />} />
-        
+        <Route path='/Activity' element={check ? <Activity /> : <Navigate to="/login" />} />
       </Routes>
     </Router>
   );
