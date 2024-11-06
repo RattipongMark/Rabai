@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
 import "/src/index.css";
 import "/src/css/navbar.css";
-import { useAuth } from '../contexts/AuthContext'
+import { useAuth } from "../contexts/AuthContext";
+
 
 export default function Navb() {
   const [activeTab, setActiveTab] = useState("Home");
 
   const sections = ["DiscussionBoard", "Anonymous-Chat", "Activity"];
 
-  const { userData, logout } = useAuth();
-  const handlelogout = async () => {
+  const {logout } = useAuth();
+  const storedData = JSON.parse(localStorage.getItem('user_data'));
+  const handleLogout = async () => {
     await logout();
-  }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,10 +33,11 @@ export default function Navb() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [sections]);
 
+
   return (
-    <div className="navbar nav-blur fixed px-4 lg:px-16 py-4 text-white font-thin z-50">
+    <div className="navbar nav-blur fixed px-4 w-full lg:px-16 py-4 text-white font-thin z-50  w-full ">
       {/* Left Side - Logo and Mobile Menu */}
-      <div className="navbar-start w-full">
+      <div className="navbar-start flex w-full">
         <div className="dropdown">
           <div
             tabIndex={0}
@@ -59,12 +62,12 @@ export default function Navb() {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-white rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content bg-noti rounded-box z-[1] mt-3 w-52 p-2 shadow lg:hidden"
           >
             {sections.map((section) => (
               <li key={section}>
                 <a
-                  href={`#${section}`}
+                  href={`/${section}`}
                   className={activeTab === section ? "active" : ""}
                 >
                   {section.replace(/([A-Z])/g, " $1").trim()}
@@ -73,11 +76,11 @@ export default function Navb() {
             ))}
           </ul>
         </div>
-        <a><img src="./public/Logo.svg" alt="Logo" /></a>
+        <a className="hidden lg:block"><img src="./public/Logo.svg" alt="Logo" /></a>
       </div>
 
-      {/* Center - Navbar Links */}
-      <ul className="flex gap-10 px-1 w-full">
+      {/* Center - Navbar Links for Desktop */}
+      <ul className="hidden w-full lg:flex gap-10 px-1 w-full justify-center">
         {sections.map((section) => (
           <li key={section}>
             <a
@@ -85,7 +88,7 @@ export default function Navb() {
                 activeTab === section ? "text-orange-400 font-semibold" : "text-white"
               } hover:text-orange-300`}
               onClick={() => setActiveTab(section)}
-              href={`#${section}`}
+              href={`/${section}`}
             >
               {section.replace(/([A-Z])/g, " $1").trim()}
             </a>
@@ -94,7 +97,7 @@ export default function Navb() {
       </ul>
 
       {/* Right Side - Notifications and User Profile */}
-      <div className="navbar-end flex gap-8 w-full">
+      <div className="navbar-end flex gap-4 lg:gap-8 w-full justify-end">
         {/* Notifications Dropdown */}
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button">
@@ -102,22 +105,13 @@ export default function Navb() {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-noti backdrop-blur-lg rounded-2xl z-[1] mt-3 w-[446px] max-h-[442px] h-fit p-4 shadow-lg flex flex-col gap-4"
+            className="menu menu-sm dropdown-content bg-noti backdrop-blur-lg rounded-2xl z-[1] mt-3 w-52 lg:w-[446px] max-h-[442px] h-fit p-4 shadow-lg flex flex-col gap-4"
           >
             <div className="text-orange-400 font-medium">Notification</div>
             <div className="text-gray-400 font-light">Discussion Board</div>
             <div className="flex flex-col gap-2 min-h-[50px]">
-                {/* Notification Items */}
-                <NotificationCard
-                  avatar="/public/profilegoose2.svg"
-                  title="The cat of home"
-                  message="Comment on your post : ซาหวัดดีรึค้าบวัยรุ่น..."
-                />
-                <NotificationCard
-                  avatar="/public/profilegoose2.svg"
-                  title="The cat of home"
-                  message="Comment on your post : ซาหวัดดีรึค้าบวัยรุ่น..."
-                /><NotificationCard
+              {/* Notification Items */}
+              <NotificationCard
                 avatar="/public/profilegoose2.svg"
                 title="The cat of home"
                 message="Comment on your post : ซาหวัดดีรึค้าบวัยรุ่น..."
@@ -128,14 +122,13 @@ export default function Navb() {
                 Delete All
               </button>
             </div>
-            
           </ul>
         </div>
 
         {/* User Profile Dropdown */}
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-            <div className="w-10 rounded-full">
+            <div className="w-8 lg:w-10 rounded-full">
               <img
                 alt="User Avatar"
                 src="/public/profilegoose2.svg"
@@ -144,15 +137,15 @@ export default function Navb() {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-noti rounded-box z-[1] mt-3 w-52 px-2 py-4 shadow flex flex-col gap-2"
+            className="menu menu-sm dropdown-content bg-noti rounded-box z-[1] mt-3 w-40 lg:w-52 px-2 py-4 shadow flex flex-col gap-2"
           >
             <li>
               <a className="justify-between hover:bg-white/10 ">
-              {userData.name}
+                {storedData.user.name}
               </a>
             </li>
             <li><a>Settings</a></li>
-            <li><a onClick={handlelogout} className="text-danger">Logout</a></li>
+            <li><a onClick={handleLogout} className="text-danger">Logout</a></li>
           </ul>
         </div>
       </div>
@@ -162,26 +155,21 @@ export default function Navb() {
 
 function NotificationCard({ avatar, title, message }) {
   return (
-    <div className="flex items-start px-2 py-2  rounded-lg  h-[60px] w-full hover:border border-[#404664]">
+    <div className="flex items-start px-2 py-2 rounded-lg h-[60px] w-full hover:border border-[#404664]">
       {/* Avatar Section */}
-      <div className="relative w-10 h-10 mr-4">
+      <div className="relative w-8 h-8 lg:w-10 lg:h-10 mr-4">
         <img
           src={avatar}
           alt="Avatar"
           className="w-full h-full rounded-full"
         />
-        {/* Icon Badge */}
-        <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-[#282C45]">
-          <span className="text-white text-xs flex justify-center items-center">
-            <img src="/public/incon_noti.svg" alt="" />
-          </span>
+        <div className="absolute bottom-0 right-0 w-3 h-3 lg:w-4 lg:h-4 bg-green-500 rounded-full border-2 border-[#282C45]">
+          <img src="/public/incon_noti.svg" alt="" className="w-full h-full" />
         </div>
       </div>
-
-      {/* Text Section */}
       <div>
-        <h3 className="text-white font-semibold">{title}</h3>
-        <p className="text-gray-400 text-sm">{message}</p>
+        <h3 className="text-white font-semibold text-sm lg:text-base">{title}</h3>
+        <p className="text-gray-400 text-xs lg:text-sm">{message}</p>
       </div>
     </div>
   );
