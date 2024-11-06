@@ -2,6 +2,7 @@ import React from 'react';
 import useLogin from '../hooks/useLogin'; // Assume you have a hook for login
 import { Spin } from 'antd'; // Import Spin for the loading spinner
 import '../App.css'
+import Bg from '../assets/bg';
 
 const Login = () => {
   const { loading, loginUser } = useLogin(); // Assume you have login logic in useLogin hook
@@ -17,18 +18,22 @@ const Login = () => {
   };
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center py-12 lg:px-8 w-screen">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Sign in to your account
-        </h2>
+    <Bg>
+    <div className="flex min-h-screen flex-col justify-center py-8 lg:px-8 w-screen">
+      <div className="flex justify-center space-x-2 sm:space-x-4 text-4xl font-bold baloo2 sm:mx-auto sm:w-full sm:max-w-xl sm:text-6xl md:text-7xl lg:text-8xl">
+        <span className="lgt-txt">
+          Just
+        </span>
+        <span className="text-orange">
+          Rabai !
+        </span>
       </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <div className="mt-10 flex justify-center items-center sm:mx-auto sm:w-full sm:max-w-sm">
         <form onSubmit={handleLogin} className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-              Email address
+            <label htmlFor="email" className="block text-sm font-medium leading-6 lgt-txt baloo2">
+              Username
             </label>
             <div className="mt-2">
               <input
@@ -37,13 +42,13 @@ const Login = () => {
                 type="email"
                 required
                 autoComplete="email"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-80 bg-white rounded-md px-2 py-1.5 text-gray-900 shadow-sm ring-4 ring-inset ring-gray-200 focus:ring-4 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+            <label htmlFor="password" className="block text-sm font-medium leading-6 lgt-txt baloo2">
               Password
             </label>
             <div className="mt-2">
@@ -53,33 +58,36 @@ const Login = () => {
                 type="password"
                 required
                 autoComplete="current-password"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-80 bg-white rounded-md px-2 py-1.5 text-gray-900 shadow-sm ring-4 ring-inset ring-gray-200 focus:ring-4 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
-
-          <div className="flex justify-center">
+          <div className="baloo2">
+        <div className="flex justify-center">
             {loading ? (
               <Spin size="small" /> // Show loading spinner while logging in
             ) : (
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="w-80 mt-10 px-4 py-2 rounded-2xl bg-orange text-sm font-semibold leading-6 lgt-txt shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
                 Sign in
               </button>
             )}
           </div>
-        </form>
-
-        <p className="mt-10 text-center text-sm text-gray-500">
+  
+        <p className="mt-4 text-center text-sm text-gray-500">
           Don't have an account?{' '}
-          <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+          <a href="/register" className="font-semibold leading-6 text-orange hover:text-orange-300">
             Register here
           </a>
         </p>
       </div>
+        </form>
+      </div>
+
     </div>
+    </Bg>
   );
 };
 

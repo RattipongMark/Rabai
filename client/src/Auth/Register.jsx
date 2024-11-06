@@ -32,11 +32,11 @@ const Register = () => {
         </p>
       </div>
 
-      <div className="min-w-fit min-h-fit flex flex-col lg:flex-row justify-center items-center mb-10 relative sm:mx-auto sm:w-full sm:max-w-xl">
+      <div className="baloo2 min-w-fit min-h-fit flex flex-col lg:flex-row justify-center items-center mb-10 relative sm:mx-auto sm:w-full sm:max-w-xl">
         <div className="mb-6 lg:mb-0 lg:mr-36 flex justify-center">
           <img src="" alt="" className="rounded-full size-56" />
         </div>
-        <div onSubmit={handleRegister} className="gap-4 grid grid-cols-1 sm:grid-cols-2 sm:gap-6 w-72 md:w-auto lg:w-auto">
+        <form onSubmit={handleRegister} className="gap-4 grid grid-cols-1 sm:grid-cols-2 sm:gap-6 w-72 md:w-auto lg:w-auto">
           <div>
             <label htmlFor="name" className="block text-sm font-medium leading-6 lgt-txt">
               Username
@@ -100,11 +100,10 @@ const Register = () => {
               />
             </div>
           </div> 
-        </div>
-        <div className="flex flex-col sm:flex-row justify-center items-center mt-6 sm:mt-4 sm:space-x-4 lg:space-x-20 md:space-x-20 lg:absolute lg:-bottom-5 lg:right-0 lg:items-end md:items-end space-y-4 sm:space-y-0">
+          <div className="flex flex-col sm:flex-row justify-center items-center mt-6 sm:mt-4 sm:space-x-4 lg:space-x-20 md:space-x-20 lg:absolute lg:-bottom-5 lg:right-0 lg:items-end md:items-end space-y-4 sm:space-y-0">
             <p className="text-center text-sm text-gray-500">
               Already a member?{' '}
-              <a href="#" className="font-semibold leading-6 text-orange hover:text-orange-300">
+              <a href="/login" className="font-semibold leading-6 text-orange hover:text-orange-300">
                 Sign in here
               </a>
             </p>
@@ -113,12 +112,17 @@ const Register = () => {
             ) : (
               <button
                 type="submit"
-                className="w-full sm:w-auto mt-4 sm:mt-0 px-4 py-2 rounded-xl bg-orange text-lg font-semibold leading-6 lgt-txt shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                className="w-full sm:w-auto mt-4 sm:mt-0 px-4 py-2 rounded-xl bg-orange text-sm font-semibold leading-6 lgt-txt shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
                 Submit
               </button>
             )}
+            
         </div>
+          
+
+        </form>
+
       </div>
     </div>
   );
