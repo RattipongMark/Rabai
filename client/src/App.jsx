@@ -4,7 +4,7 @@ import './App.css';
 import Register from './Auth/Register';
 import Login from './Auth/Login';
 import Dashboard from './pages/Dashboard';
-import AnonyChat from './pages/Anony';
+import AnonyChat from './pages/Anonyroom';
 import { useAuth } from './contexts/AuthContext';
 import Activity from './pages/Activity';
 
