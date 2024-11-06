@@ -35,7 +35,7 @@ export default function Navb() {
 
 
   return (
-    <div className="navbar nav-blur fixed px-4 w-full lg:px-16 py-4 text-white font-thin z-50  w-full ">
+    <div className="navbar nav-blur fixed px-4 lg:px-16 py-4 text-white font-thin z-50  w-full baloo2">
       {/* Left Side - Logo and Mobile Menu */}
       <div className="navbar-start flex w-full">
         <div className="dropdown">
@@ -80,7 +80,7 @@ export default function Navb() {
       </div>
 
       {/* Center - Navbar Links for Desktop */}
-      <ul className="hidden w-full lg:flex gap-10 px-1 w-full justify-center">
+      <ul className="hidden w-full lg:flex gap-10 px-1 justify-center">
         {sections.map((section) => (
           <li key={section}>
             <a
