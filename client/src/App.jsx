@@ -5,6 +5,7 @@ import Register from './Auth/Register';
 import Login from './Auth/Login';
 import Dashboard from './pages/Dashboard';
 import AnonyChat from './pages/Anonyroom';
+import RoomTemplate from './pages/Roomtemplate';
 import { useAuth } from './contexts/AuthContext';
 
 const App = () => {
@@ -26,7 +27,7 @@ const App = () => {
         <Route path='/' element={check ? <Dashboard /> : <Navigate to="/login" />} />
         <Route path='/DiscussionBoard' element={check ? <Dashboard /> : <Navigate to="/login" />} />
         <Route path='/Anonymous-Chat' element={check ? <AnonyChat /> : <Navigate to="/login" />} />
-        
+        <Route path="/room/:roomName" element={<RoomTemplate />} />
       </Routes>
     </Router>
   );
