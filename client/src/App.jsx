@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import AnonyChat from './pages/Anonyroom';
 import RoomTemplate from './pages/Roomtemplate';
 import { useAuth } from './contexts/AuthContext';
+import Activity from './pages/Activity';
 
 const App = () => {
   // ตรวจสอบข้อมูลจาก localStorage และตรวจสอบว่าเป็น null หรือไม่
@@ -26,8 +27,11 @@ const App = () => {
         {/* ถ้ามี token จะเข้าถึงหน้า DiscussionBoard หรือ Anonymous-Chat ได้ */}
         <Route path='/' element={check ? <Dashboard /> : <Navigate to="/login" />} />
         <Route path='/DiscussionBoard' element={check ? <Dashboard /> : <Navigate to="/login" />} />
+        
         <Route path='/Anonymous-Chat' element={check ? <AnonyChat /> : <Navigate to="/login" />} />
         <Route path="/room/:roomName" element={<RoomTemplate />} />
+
+        <Route path='/Activity' element={check ? <Activity /> : <Navigate to="/login" />} />
       </Routes>
     </Router>
   );
