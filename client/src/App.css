@@ -11,6 +11,12 @@
     z-index: -1;
   }
 
+.bg-avatar {
+  background-image: url('./public/bg-avatar.svg');
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
 body{
  background-color: #20243C;
 }
@@ -38,3 +44,4 @@ body{
 .bg-danger{
   background-color: #F24D4D;
 }
+

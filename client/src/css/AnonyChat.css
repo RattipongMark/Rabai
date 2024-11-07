@@ -1,0 +1,11 @@
+.scroller {
+--scrollbar-color-thumb: rgb(232, 115, 32);
+--scrollbar-color-track: rgba(107, 107, 117, 0.372);
+--scrollbar-width: thin;
+--scrollbar-width-legacy: 0.5rem;
+}
+
+.scroller {
+    scrollbar-color: var(--scrollbar-color-thumb) var(--scrollbar-color-track);
+    scrollbar-width: var(--scrollbar-width);
+}
