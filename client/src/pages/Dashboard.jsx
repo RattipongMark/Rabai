@@ -11,8 +11,7 @@ const Dashboard = () => {
   }
 
   const storedData = JSON.parse(localStorage.getItem('user_data'));
-  console.log("aaa",storedData ); 
-
+  
   return (
 
     <Bg>

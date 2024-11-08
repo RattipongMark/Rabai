@@ -5,7 +5,6 @@ const createError = require('../utils/appError');
 exports.createMessage = async (req, res, next) => {
     try {
         const { content, room , userId,userName} = req.body;
-        console.log("userId",userId)
         if (!content || !room) {
             return next(new createError('Content and room are required', 400));
         }
@@ -40,7 +39,6 @@ exports.getMessagesByRoom = async (req, res, next) => {
             .populate('userId', 'userName') // ดึงข้อมูลของผู้ส่ง
             .sort({ timestamp: -1 }); // เรียงตามเวลาใหม่ที่สุด
 
-        console.log("getmsg",messages);
         res.status(200).json({
             status: 'success',
             results: messages.length,

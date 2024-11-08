@@ -30,7 +30,6 @@ useEffect(() => {
       const response = await fetch(`http://localhost:3000/api/messages/${roomName}`);
       const data = await response.json();
       setMessages(data.data.messages);
-      console.log(messages)
     };
     fetchMessages();
   
@@ -47,7 +46,6 @@ useEffect(() => {
       if (storedData && storedData.user._id) {
         const { success, fakedata, message } = await getFakeName(storedData.user._id);
         setFakeData(fakedata);
-        console.log("client",fakedata);
         if (success) {
           setFakeName(fakedata.fakeName);
         } else {
@@ -71,6 +69,7 @@ useEffect(() => {
         user: {userId:fakedata._id,userName:fakedata.fakeName},
         roomName: roomName,
       };
+      
       // ส่งข้อความไปยัง backend และ emit ผ่าน socket
       sendMessage(newMessage);
       socketRef.current.emit('sendMessage', newMessage);
@@ -99,9 +98,9 @@ useEffect(() => {
       <div className="room-content mt-6">
   <div className="message-list space-y-4">
     {messages.map((msg, index) => (
+      console.log(msg),
       <div
         key={index}
-        
       >
         <div className={`message-content p-4 rounded-lg bg-white`}>
           <strong>{msg.userName}: </strong> {/* แก้ไขตรงนี้ */}
