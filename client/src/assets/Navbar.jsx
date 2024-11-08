@@ -35,7 +35,7 @@ export default function Navb() {
 
 
   return (
-    <div className="navbar nav-blur fixed px-4 lg:px-16 py-4 text-white font-thin z-50  w-full baloo2">
+    <div className="navbar nav-blur fixed px-4 lg:px-16 py-4 text-white font-thin z-50  w-full top-0 right-0 left-0">
       {/* Left Side - Logo and Mobile Menu */}
       <div className="navbar-start flex w-full">
         <div className="dropdown">
