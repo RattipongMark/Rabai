@@ -12,6 +12,10 @@ const anonyUserSchema = new mongoose.Schema({
         required: true,
         unique: true, 
     },
+    avatar:{
+        type: String,
+        required: true,
+    }
 });
 
 const AnonyUser = mongoose.model('AnonyUser', anonyUserSchema);

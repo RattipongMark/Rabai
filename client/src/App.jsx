@@ -4,15 +4,14 @@ import './App.css';
 import Register from './Auth/Register';
 import Login from './Auth/Login';
 import Dashboard from './pages/Dashboard';
-import AnonyChat from './pages/Anonyroom';
-import RoomTemplate from './pages/Roomtemplate';
+import AnonyChat from './pages/anonyChat/Anonyroom';
+import RoomTemplate from './pages/anonyChat/Roomtemplate';
 import { useAuth } from './contexts/AuthContext';
 import Activity from './pages/Activity';
 
 const App = () => {
   // ตรวจสอบข้อมูลจาก localStorage และตรวจสอบว่าเป็น null หรือไม่
   const storedData = JSON.parse(localStorage.getItem('user_data'));
-  console.log("hi", storedData);
 
   // ใช้ optional chaining เพื่อตรวจสอบว่า storedData มีค่าไหมก่อนที่จะเข้าถึง token
   const check = storedData?.token;

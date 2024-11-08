@@ -7,11 +7,11 @@ const useAnony = () => {
   const [error, setError] = useState(null);
 
   // Create a new fake name
-  const createFakeName = async (userId, fakeName) => {
+  const createFakeName = async (userId, fakeName , avatar) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.post('http://localhost:3000/api/anony/setfake', { userId, fakeName });
+      const response = await axios.post('http://localhost:3000/api/anony/setfake', { userId, fakeName,avatar });
 
       if (response.status === 201) {
         return { success: true, message: 'Fake name saved successfully!' };

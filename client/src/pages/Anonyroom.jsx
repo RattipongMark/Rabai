@@ -25,7 +25,6 @@ const AnonyChat = () => {
   const [fakeName, setFakeName] = useState("");
   const [selectedRoom, setSelectedRoom] = useState("");
 
-  console.log(storedData.user._id)
 
   const goToRoom = (roomName) => {
     setSelectedRoom(roomName);

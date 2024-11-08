@@ -11,7 +11,6 @@ const useChat = () => {
 
     setSending(true);
     setError(null);
-    console.log("newmsg",newMessage.user.userId)
     try {
       const response = await axios.post('http://localhost:3000/api/messages/', {
         userId: newMessage.user.userId,
@@ -19,7 +18,7 @@ const useChat = () => {
         room: newMessage.roomName,
         content: newMessage.content,
       });
-      console.log("Message sent successfully", response.data);
+      console.log("Message sent successfully =>", response.data);
 
       // Reset message after sending
       setMessage('');
