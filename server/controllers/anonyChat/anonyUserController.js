@@ -1,10 +1,9 @@
-const AnonyUser = require('../models/anonyUserModel'); 
-const createError = require('../utils/appError');
+const AnonyUser = require('../../models/anonyChat/anonyUserModel'); 
+const createError = require('../../utils/appError');
 
 exports.createAnony = async (req, res, next) => {
     try {
-        const { userId, fakeName } = req.body;
-        console.log("this ms from serve ->",userId, fakeName)
+        const { userId, fakeName,avatar } = req.body;
         // Check if the fake name already exists in the database
         const existingFakeName = await AnonyUser.findOne({ fakeName });
         if (existingFakeName) {
@@ -15,6 +14,7 @@ exports.createAnony = async (req, res, next) => {
         const newFakeName = new AnonyUser({
             userId,
             fakeName,
+            avatar
         });
 
         // Save the new entry to the database
@@ -29,9 +29,7 @@ exports.createAnony = async (req, res, next) => {
 exports.getAnony = async (req, res, next) => {
     try {
         // Find the fake name by userId
-        console.log("hello from serve ->",req.params.userId);
         const fakeName = await AnonyUser.findOne({ userId: req.params.userId });
-        console.log("fakename is",fakeName);
         if (!fakeName) {
             return res.status(404).json({ message: 'Fake name not found' });
         }
