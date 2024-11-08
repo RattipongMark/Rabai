@@ -1,5 +1,5 @@
-const Message = require('../models/messageModel'); 
-const createError = require('../utils/appError');
+const Message = require('../../models/anonyChat/messageModel'); 
+const createError = require('../../utils/appError');
 
 
 exports.createMessage = async (req, res, next) => {

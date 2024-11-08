@@ -2,10 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const authRouter = require('./routes/authRoute');
-const messageRouter = require('./routes/messageRoute');
+const messageRouter = require('./routes/anonyChat/messageRoute');
 const socketIo = require('socket.io');
 const app = express();
-const anonyRouter = require('./routes/anonyRoute');
+const anonyRouter = require('./routes/anonyChat/anonyRoute');
 
 // Middlewares
 app.use(cors());
@@ -56,12 +56,10 @@ io.on('connection', (socket) => {
 
         // ตรวจสอบให้แน่ใจว่ามี `userId` และ `userName` อยู่ใน `newMessage.user`
         const messageToEmit = {
-            content: newMessage.content,
-            user: {
-                userId: newMessage.user.userId,
-                userName: newMessage.user.userName
-            },
+            userId: newMessage.user.userId,
+            userName: newMessage.user.userName,
             roomName: newMessage.roomName,
+            content: newMessage.content,
         };
 
         // Emit the message to all connected clients

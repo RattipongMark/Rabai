@@ -1,5 +1,5 @@
 import React from 'react';
-import useSignup from '../hooks/useSignup';
+import useSignup from '../hooks/auth/useSignup';
 import '../App.css'
 import { Spin } from 'antd'; // Import Spin from Ant Design
 

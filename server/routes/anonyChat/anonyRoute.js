@@ -1,5 +1,5 @@
 const express = require('express');
-const anonyController = require('../controllers/anonyUserController');
+const anonyController = require('../../controllers/anonyChat/anonyUserController');
 
 const router = express.Router();
 
