@@ -5,7 +5,8 @@ const authRouter = require('./routes/authRoute');
 const messageRouter = require('./routes/anonyChat/messageRoute');
 const socketIo = require('socket.io');
 const app = express();
-const anonyRouter = require('./routes/anonyChat/anonyRoute');
+const anonyUserRouter = require('./routes/anonyChat/anonyUserRoute');
+const anonyRoomRouter = require('./routes/anonyChat/anonyRoomRoute');
 
 // Middlewares
 app.use(cors());
@@ -14,7 +15,8 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRouter);
 app.use('/api/messages', messageRouter);
-app.use('/api/anony', anonyRouter);
+app.use('/api/anony', anonyUserRouter);
+app.use('/api/room', anonyRoomRouter);
 
 // DB Connection
 mongoose

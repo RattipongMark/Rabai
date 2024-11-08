@@ -50,3 +50,19 @@ exports.getMessagesByRoom = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.deleteMessagesByRoom = async (req, res, next) => {
+    try {
+        const { room } = req.params;
+        const del_room = await Message.deleteMany({ room });
+
+        if (del_room.deletedCount === 0) {
+            return res.status(404).json({ message: 'No messages found for this room' });
+        }
+
+        res.status(200).json({ message: 'Messages deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
