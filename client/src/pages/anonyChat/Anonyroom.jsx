@@ -91,7 +91,7 @@ const AnonyChat = () => {
             <a className="flex justify-center pt-4 px-4 w-[138px] py-2 bg-orange text-white rounded-t-3xl">
               Rooms
             </a>
-            <a className="flex justify-center pt-4 px-4 w-[138px] py-2 bg-[#4a4a63] text-white rounded-t-3xl hover:bg-[#FB923C]">
+            <a href="/CreateAnonymous-Chat" className="flex justify-center pt-4 px-4 w-[138px] py-2 bg-[#4a4a63] text-white rounded-t-3xl hover:bg-[#FB923C]">
               New Room
             </a>
           </div>
