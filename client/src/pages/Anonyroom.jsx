@@ -1,44 +1,31 @@
-import { useAuth } from "../contexts/AuthContext";
-import Navb from "../assets/Navbar";
+import React, { useState } from 'react';
+import useAnony from '../hooks/useAnony'; // Import the custom hook
+import { useNavigate } from 'react-router-dom';
 import Bg from "../assets/bg";
-import React, { useState } from "react";
+import Navb from "../assets/Navbar";
 import "/src/css/AnonyChat.css";
-import { useNavigate } from "react-router-dom";
-
-// Import SVGs
-import anony1 from "/public/anony/anony1.svg";
-import anony2 from "/public/anony/anony2.svg";
-import anony3 from "/public/anony/anony3.svg";
-import anony4 from "/public/anony/anony4.svg";
-import anony5 from "/public/anony/anony5.svg";
-import anony6 from "/public/anony/anony6.svg";
-import anony7 from "/public/anony/anony7.svg";
-import anony8 from "/public/anony/anony8.svg";
-import anony9 from "/public/anony/anony9.svg";
 
 const avatars = [
-  anony1,
-  anony2,
-  anony3,
-  anony4,
-  anony5,
-  anony6,
-  anony7,
-  anony8,
-  anony9,
+  "/public/anony/anony1.svg",
+  "/public/anony/anony2.svg",
+  "/public/anony/anony3.svg",
+  "/public/anony/anony4.svg",
+  "/public/anony/anony5.svg",
+  "/public/anony/anony6.svg",
+  "/public/anony/anony7.svg",
+  "/public/anony/anony8.svg",
+  "/public/anony/anony9.svg",
 ];
 
 const AnonyChat = () => {
-  const { logout } = useAuth();
+  const { createFakeName, loading, error } = useAnony();
   const storedData = JSON.parse(localStorage.getItem("user_data"));
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
-  const [fakeName, setFakenName] = useState("");
+  const [fakeName, setFakeName] = useState("");
   const [selectedRoom, setSelectedRoom] = useState("");
 
-  const handleLogout = async () => {
-    await logout();
-  };
+  console.log(storedData.user._id)
 
   const goToRoom = (roomName) => {
     setSelectedRoom(roomName);
@@ -46,13 +33,18 @@ const AnonyChat = () => {
   };
 
   const closeModal = () => {
-    setShowModal(false); // ปิด modal
+    setShowModal(false); // Close modal
   };
 
-  const handleJoin = () => {
+  const handleJoin = async () => {
     if (fakeName.trim()) {
-      setShowModal(false);
-      navigate(`/room/${selectedRoom}`, { state: { fakeName } });
+      const { success, message } = await createFakeName(storedData.user._id, fakeName);
+      if (success) {
+        setShowModal(false);
+        navigate(`/room/${selectedRoom}`, { state: { fakeName } });
+      } else {
+        alert(message); // Show error if the fake name already exists
+      }
     }
   };
 
@@ -80,9 +72,6 @@ const AnonyChat = () => {
               </div>
             ))}
           </div>
-          <div className="h-full flex items-start pt-4">
-            <img src="./public/glass.svg" alt="" />
-          </div>
         </div>
 
         {/* Room List Section */}
@@ -98,16 +87,7 @@ const AnonyChat = () => {
 
           {/* Room List */}
           <div className="flex flex-col gap-4 w-[520px] h-[490px] bg-[#282C45] rounded-b-3xl rounded-tr-3xl scroller overflow-y-auto p-6">
-            {[
-              "RoomName 1",
-              "RoomName 2",
-              "RoomName 3",
-              "RoomName 4",
-              "RoomName 5",
-              "RoomName 6",
-              "RoomName 7",
-              "RoomName 8",
-            ].map((room, index) => (
+            {["RoomName 1", "RoomName 2", "RoomName 3"].map((room, index) => (
               <div
                 key={index}
                 onClick={() => goToRoom(room)}
@@ -131,11 +111,8 @@ const AnonyChat = () => {
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-[#282C45] border border-[#404664] p-[30px] rounded-2xl w-[400px] flex flex-col items-center relative gap-5 ">
-            {/* ปุ่มปิด */}
-            <button
-              onClick={closeModal}
-              className="absolute top-2 right-2 "
-            >
+            {/* Close button */}
+            <button onClick={closeModal} className="absolute top-2 right-2">
               <img src="close.svg" alt="" />
             </button>
 
@@ -152,9 +129,11 @@ const AnonyChat = () => {
             <button
               onClick={handleJoin}
               className="bg-orange-500 p-2 w-full rounded-md text-white font-bold"
+              disabled={loading}
             >
-              Join
+              {loading ? 'Joining...' : 'Join'}
             </button>
+            {error && <div className="text-red-500 mt-2">{error.message}</div>}
           </div>
         </div>
       )}

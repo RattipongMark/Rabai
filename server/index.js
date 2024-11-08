@@ -1,27 +1,29 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const authRouter = require('./routes/authRoute')
+const authRouter = require('./routes/authRoute');
 const messageRouter = require('./routes/messageRoute');
 const socketIo = require('socket.io');
 const app = express();
+const anonyRouter = require('./routes/anonyRoute');
 
-// middle wares
+// Middlewares
 app.use(cors());
 app.use(express.json());
 
-// route
+// Routes
 app.use('/api/auth', authRouter);
 app.use('/api/messages', messageRouter);
+app.use('/api/anony', anonyRouter);
 
-// db connect
+// DB Connection
 mongoose
     .connect('mongodb+srv://Iamdev:password1234@rabaiweb.gpd3d.mongodb.net/rabaiweb?retryWrites=true&w=majority&appName=RabaiWeb')
     .then(() => console.log('Connected to DB success!!'))
-    .catch((error) => console.error('Failed to connect DB : ',error));
+    .catch((error) => console.error('Failed to connect DB : ', error));
 
-// global error handler
-app.use((err,req,res,next)=>{
+// Global error handler
+app.use((err, req, res, next) => {
     err.statusCode = err.statusCode || 500;
     err.status = err.status || 'error';
 
@@ -29,15 +31,15 @@ app.use((err,req,res,next)=>{
         status: err.status,
         message: err.message,
     });
-})
+});
 
-// server
+// Server setup
 const PORT = 3000;
 const server = app.listen(PORT, () => {
     console.log(`App running on port ${PORT}`);
 });
 
-// start Socket.IO with server
+// Start Socket.IO with server
 const io = socketIo(server, {
     cors: {
         origin: '*', 
@@ -48,8 +50,25 @@ const io = socketIo(server, {
 io.on('connection', (socket) => {
     console.log('New client connected');
 
+    // Listen for incoming messages
+    socket.on('sendMessage', (newMessage) => {
+        console.log('New message received:', newMessage);
 
-    
+        // ตรวจสอบให้แน่ใจว่ามี `userId` และ `userName` อยู่ใน `newMessage.user`
+        const messageToEmit = {
+            content: newMessage.content,
+            user: {
+                userId: newMessage.user.userId,
+                userName: newMessage.user.userName
+            },
+            roomName: newMessage.roomName,
+        };
+
+        // Emit the message to all connected clients
+        io.emit('newMessage', messageToEmit);
+    });
+
+    // Handle disconnection
     socket.on('disconnect', () => {
         console.log('Client disconnected');
     });
