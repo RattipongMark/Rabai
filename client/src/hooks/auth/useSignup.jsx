@@ -25,7 +25,6 @@ const useSignup = () => {
             });
 
             const data = await res.json();
-            console.log(data);
             if (res.status === 201) {
                 message.success(data.message);
                 login(data.token, data.user);

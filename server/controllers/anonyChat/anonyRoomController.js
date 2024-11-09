@@ -4,7 +4,6 @@ const Message = require('../../models/anonyChat/messageModel');
 exports.createAnonyRoom = async (req, res) => {
     try {
         const { roomName, maxParticipants, tagId } = req.body;
-        console.log("hi")
         if (!roomName || !maxParticipants || !tagId) {
             return res.status(400).json({ message: 'All fields are required.' });
         }
@@ -71,7 +70,6 @@ exports.getUserCountInRoom = async (req, res) => {
         
         // นับจำนวน userId ที่ไม่ซ้ำในห้องที่มี roomId ที่ระบุ
         const userCount = await Message.distinct('userId', { room: roomId }).countDocuments();
-        console.log(userCount)
         res.status(200).json({ roomId, userCount });
     } catch (error) {
         res.status(500).json({ message: error.message });

@@ -36,7 +36,6 @@ const useAnonyRoom = () => {
             return { ...room, tagName: tagName, userCount: userCount };  // Add the tagName and userCount
           })
         );
-        console.log(roomsWithTagsAndCounts);  
         setRooms(roomsWithTagsAndCounts);  // Update rooms state with new rooms that have tagNames and userCount
       } catch (err) {
         setError(err.message);  // Handle errors

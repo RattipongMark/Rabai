@@ -20,7 +20,6 @@ const useRoom = () => {
         const { success, fakedata, message } = await getFakeName(storedData.user._id);
         setFakeData(fakedata);
         if (success) {
-          console.log(fakedata)
           setFakeName(fakedata.fakeName);
         } else {
           alert(message || 'Failed to fetch fake name');

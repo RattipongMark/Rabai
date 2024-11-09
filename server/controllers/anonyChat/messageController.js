@@ -24,8 +24,7 @@ exports.createMessage = async (req, res, next) => {
             },
         });
     } catch (error) {
-        console.log("Error creating message: ", error); // เพิ่มการ log ข้อผิดพลาด
-        next(error);
+        res.status(500).json({ message: error.message });
     }
 };
 
@@ -47,7 +46,7 @@ exports.getMessagesByRoom = async (req, res, next) => {
             },
         });
     } catch (error) {
-        next(error);
+        res.status(500).json({ message: error.message });
     }
 };
 
