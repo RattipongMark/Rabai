@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import useAnony from "../../hooks/anonyChat/useAnony";
+import useCreateAnonyRoom from "../../hooks/anonyChat/useCreateAnonyRoom"; // Import the hook
+import useTags from "../../hooks/useTags"; // Import the useTags hook
 import { useNavigate } from "react-router-dom";
 import Bg from "../../assets/bg";
 import Navb from "../../assets/Navbar";
@@ -18,32 +20,29 @@ const avatars = [
   "/public/anony/anony9.svg",
 ];
 
-const tags = ["CPE", "CHE", "ENE", "ME", "ALL", "ENG"];
-
 const CreateAnonyChat = () => {
   const { createFakeName, loading, error } = useAnony();
+  const { createRoom, loading: roomLoading, error: roomError } = useCreateAnonyRoom(); // Use the custom hook for creating room
+  const { tags, loading: tagsLoading, error: tagsError } = useTags(); // Use the custom hook for fetching tags
   const storedData = JSON.parse(localStorage.getItem("user_data"));
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [fakeName, setFakeName] = useState("");
-
   const [roomName, setRoomName] = useState("");
   const [maxParticipants, setMaxParticipants] = useState("");
-  const [selectedAvatar, setSelectedAvatar] = useState(""); // New state for selected avatar
+  const [selectedAvatar, setSelectedAvatar] = useState("");
   const [selectedTag, setSelectedTag] = useState(null);
 
-  // ฟังก์ชันสำหรับการเลือก tag
   const handleTagChange = (selectedOption) => {
     setSelectedTag(selectedOption);
   };
 
-  // แปลง tags ให้เป็นรูปแบบที่ react-select ต้องการ
   const tagOptions = tags.map((tag) => ({
-    value: tag,
-    label: tag,
+    value: tag._id, // Assuming the tag object has an _id field
+    label: tag.tagName, // Assuming the tag object has a tagName field
   }));
 
-  const goToRoom = (roomName) => {
+  const goToRoom = () => {
     setShowModal(true);
   };
 
@@ -52,26 +51,34 @@ const CreateAnonyChat = () => {
   };
 
   const handleCreateRoom = async () => {
+    if (fakeName.trim() && selectedAvatar) {
+      if (!roomName || !maxParticipants || !selectedTag) {
+        alert("Please fill in all fields.");
+        return;
+      }
+      const { success, message } = await createFakeName(
+        storedData.user._id,
+        fakeName,
+        selectedAvatar
+      );
+      try {
+        const tagId = selectedTag.value; // Assuming 'selectedTag' has 'value'
+        const response = await createRoom(roomName, maxParticipants, tagId);
+        console.log(response); // Handle success (e.g., navigate to the room)
+        setShowModal(true);
+        navigate(`/room/${roomName}`); // Example, navigate to the room
+      } catch (err) {
+        console.error(err);
+      }
+    }
   };
 
-  const handleTagSelect = (tag) => {
-    setSelectedTags((prevTags) =>
-      prevTags.includes(tag)
-        ? prevTags.filter((t) => t !== tag)
-        : [...prevTags, tag]
-    );
-  };
-
-  // ฟังก์ชันตรวจสอบค่าที่กรอก
   const handleMaxParticipantsChange = (e) => {
     const value = e.target.value;
-
-    // ตรวจสอบว่า value อยู่ในช่วงที่กำหนด
     if (value >= 2 && value <= 50) {
       setMaxParticipants(value);
-      setError(""); // รีเซ็ตข้อผิดพลาด
     } else {
-      setError("The number of participants must be between 2 and 50.");
+      alert("The number of participants must be between 2 and 50.");
     }
   };
 
@@ -107,7 +114,7 @@ const CreateAnonyChat = () => {
         {/* Room List Section */}
         <div className="w-full sm:w-1/2 rounded-lg p-6">
           <div className="flex justify-start">
-            <a className="flex justify-center pt-4 px-4 w-[138px] py-2 bg-[#4a4a63] text-white rounded-t-3xl hover:bg-[#FB923C]">
+            <a href="/Anonymous-Chat" className="flex justify-center pt-4 px-4 w-[138px] py-2 bg-[#4a4a63] text-white rounded-t-3xl hover:bg-[#FB923C]">
               Rooms
             </a>
             <a className="flex justify-center pt-4 px-4 w-[138px] py-2 bg-[#FB923C] text-white rounded-t-3xl hover:bg-[#FB923C]">
@@ -131,13 +138,18 @@ const CreateAnonyChat = () => {
                 <label htmlFor="tags" className="px-1">
                   Choose a Tag
                 </label>
-                <Select
-                  options={tagOptions}
-                  value={selectedTag}
-                  onChange={handleTagChange}
-                  placeholder="Pick your tag"
-                  isClearable={true}
-                />
+                {tagsLoading ? (
+                  <span>Loading tags...</span>
+                ) : (
+                  <Select
+                    options={tagOptions}
+                    value={selectedTag}
+                    onChange={handleTagChange}
+                    placeholder="Pick your tag"
+                    isClearable={true}
+                    className="text-black"
+                  />
+                )}
               </div>
               <div className="w-1/2 flex flex-col gap-2">
                 <label htmlFor="inputText" className="px-1">
@@ -146,18 +158,17 @@ const CreateAnonyChat = () => {
                 <input
                   type="number"
                   value={maxParticipants}
-                  onChange={(e) => setMaxParticipants(e.target.value)}
+                  onChange={handleMaxParticipantsChange}
                   placeholder="Max Participants"
                   className="input rounded-md max-w-xs h-[38px] bg-white text-black" // ใช้ bg เดียวกัน
                   min="2" // ค่าต่ำสุด
                   max="50" // ค่าสูงสุด
                 />
-                {error && <p className="text-red-500 text-sm">{error}</p>}
               </div>
             </div>
             <div className="flex justify-center">
-              {loading ? (
-                <Spin size="small" /> // Show loading spinner while logging in
+              {roomLoading ? (
+                <span>Loading...</span> // Replace with your spinner or loading indicator
               ) : (
                 <button
                   type="submit"
@@ -176,7 +187,6 @@ const CreateAnonyChat = () => {
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-[#282C45] border border-[#404664] p-[30px] rounded-2xl  flex flex-col items-center relative gap-5 w-72 lg:w-[400px]">
-            {/* Close button */}
             <button onClick={closeModal} className="absolute top-2 right-2">
               <img src="close.svg" alt="" />
             </button>
@@ -194,11 +204,11 @@ const CreateAnonyChat = () => {
             <button
               onClick={handleCreateRoom}
               className="bg-orange-500 p-2 w-full rounded-md text-white font-bold"
-              disabled={loading}
+              disabled={roomLoading}
             >
-              {loading ? "Joining..." : "Join"}
+              {roomLoading ? "Creating..." : "Join"}
             </button>
-            {error && <div className="text-red-500 mt-2">{error.message}</div>}
+            {roomError && <div className="text-red-500 mt-2">{error.message}</div>}
           </div>
         </div>
       )}

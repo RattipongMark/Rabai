@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
 import useAnony from "../../hooks/anonyChat/useAnony";
+import useAnonyRoom from "../../hooks/anonyChat/useAnonyRoom"; // เพิ่มการนำเข้า useAnonyRoom
 import { useNavigate } from "react-router-dom";
 import Bg from "../../assets/bg";
 import Navb from "../../assets/Navbar";
 import "/src/css/AnonyChat.css";
+import { Tag } from "antd";
+import io from "socket.io-client";
+
 
 const avatars = [
   "/public/anony/anony1.svg",
@@ -19,13 +23,16 @@ const avatars = [
 
 const AnonyChat = () => {
   const { createFakeName, loading, error } = useAnony();
+  const { rooms, loading: roomsLoading, error: roomsError } = useAnonyRoom(); // ใช้ useAnonyRoom เพื่อดึงข้อมูลห้อง
   const storedData = JSON.parse(localStorage.getItem("user_data"));
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [fakeName, setFakeName] = useState("");
   const [selectedRoom, setSelectedRoom] = useState("");
-  const [selectedAvatar, setSelectedAvatar] = useState(""); // New state for selected avatar
+  const [selectedAvatar, setSelectedAvatar] = useState(""); 
+  const [userCount, setUserCount] = useState({});
 
+  console.log("room",rooms)
   const goToRoom = (roomName) => {
     setSelectedRoom(roomName);
     setShowModal(true);
@@ -52,6 +59,16 @@ const AnonyChat = () => {
   };
 
 
+  useEffect(() => {
+    const socket = io('http://localhost:3000');
+    socket.on('allRoomUserCounts', (usersInRoom) => {
+        console.log('User count in all rooms:', usersInRoom);
+        setUserCount(usersInRoom);
+    });
+  }, []);
+
+  
+
   return (
     <Bg>
       <Navb />
@@ -63,8 +80,8 @@ const AnonyChat = () => {
             <span className="text-orange-500">Select</span>
             <span>Avatar</span>
           </div>
-          <div className="grid grid-cols-3 gap-8">
-          {avatars.map((avatar, index) => (
+          <div className="grid grid-cols-3 justify-item-center gap-8 w-full bg-white">
+            {avatars.map((avatar, index) => (
               <div
                 key={index}
                 className={`flex justify-center items-start pl-4 pt-4 w-[110px] h-[110px] bg-avatar rounded-full overflow-hidden cursor-pointer ${
@@ -80,7 +97,7 @@ const AnonyChat = () => {
               </div>
             ))}
           </div>
-          <div className="pt-8 flex justify-center w-full">
+          <div className="pt-8 flex justify-center w-full bg-white">
             <img src="glass.svg" alt="" />
           </div>
         </div>
@@ -98,85 +115,28 @@ const AnonyChat = () => {
 
           {/* Room List */}
           <div className="flex flex-col gap-4 h-[490px] bg-[#282C45] rounded-b-3xl scroller overflow-y-auto p-6">
-            {["RoomName 1", "RoomName 2", "RoomName 3"].map((room, index) => (
-              <div
-                key={index}
-                onClick={() => goToRoom(room)}
-                className="cursor-pointer w-full flex justify-between items-center bg-[#3b3b51] p-4 py-6 rounded-xl hover:bg-[#3b3b51]/80"
-              >
-                <span className="px-2 py-1 bg-[#FFE1FD] text-xs text-[#4a4a63] rounded-3xl h-fit w-14 flex justify-center">
-                  CHE
-                </span>
-                <span className="flex-grow text-white ml-2">{room}</span>
-                <div className="flex gap-0.5">
-                  <div className="text-white">4</div>
-                  <div className="text-orange">/5</div>
+            {roomsLoading ? (
+              <div>Loading rooms...</div>
+            ) : roomsError ? (
+              <div className="text-red-500">Error loading rooms: {roomsError}</div>
+            ) : (
+              rooms.map((room, index) => (
+                <div
+                  key={index}
+                  onClick={() => goToRoom(room.roomName)}
+                  className="cursor-pointer w-full flex justify-between items-center bg-[#3b3b51] p-4 py-6 rounded-xl hover:bg-[#3b3b51]/80"
+                >
+                  <span className="px-2 py-1 bg-[#FFE1FD] text-xs text-[#4a4a63] rounded-3xl h-fit w-14 flex justify-center">
+                    {room.tagName}
+                  </span>
+                  <span className="flex-grow text-white ml-2">{room.roomName}</span>
+                  <div className="flex gap-0.5">
+                    <div className="text-white">{userCount[room.roomName] || 0}</div>
+                    <div className="text-orange">/{room.maxParticipants}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile View */}
-      <div className="block lg:hidden w-full h-full flex flex-col justify-center items-center text-white px-8 gap-8 text-sm overflow-x-auto scrollbar-hide">
-        {/* Avatar Selection Section */}
-        <div className="w-full rounded-lg ">
-          <div className="flex w-full justify-center gap-1 pb-5 text-lg font-extrabold">
-            <span className="text-orange-500">Select</span>
-            <span>Avatar</span>
-          </div>
-          <div className="flex overflow-x-auto gap-4 w-full px-4 scrollbar-hide scroll-snap-x">
-            {avatars.map((avatar, index) => (
-              <div
-                key={index}
-                className={`w-16 h-16 pl-2 pt-2 bg-avatar rounded-full overflow-hidden hover:border border-white/20 flex-shrink-0 scroll-snap-align-center${
-                  selectedAvatar === avatar ? "border border-orange-500" : ""
-                }`}
-                onClick={() => setSelectedAvatar(avatar)}
-              >
-                <img
-                  src={avatar}
-                  alt={`anonygoose ${index + 1}`}
-                  className="w-[100px] object-cover"
-                />
-              </div>
-            ))}
-          </div>
-          <div className="pt-4 flex justify-center w-full">
-            <img src="glass.svg" alt="" />
-          </div>
-        </div>
-
-        {/* Room List Section */}
-        <div className="w-full h-1/2 rounded-lg ">
-          <div className="flex justify-start">
-            <a className="flex justify-center pt-4 px-4 w-[138px] py-2 bg-orange text-white rounded-t-2xl">
-              Rooms
-            </a>
-            <a className="flex justify-center pt-4 px-4 w-[138px] py-2 bg-[#4a4a63] text-white rounded-t-2xl hover:bg-[#FB923C]">
-              New Room
-            </a>
-          </div>
-
-          {/* Room List */}
-          <div className="flex flex-col gap-4 h-[350px] bg-[#282C45] rounded-b-3xl scroller overflow-y-auto p-4">
-            {["RoomName 1", "RoomName 2", "RoomName 3", "RoomName 4", "RoomName 5"].map((room, index) => (
-              <div
-                key={index}
-                onClick={() => goToRoom(room)}
-                className="cursor-pointer w-full flex justify-between items-center bg-[#3b3b51] p-4 py-6 rounded-xl hover:bg-[#3b3b51]/80"
-              >
-                <span className="px-2 py-1 bg-[#FFE1FD] text-xs text-[#4a4a63] rounded-3xl h-fit w-14 flex justify-center">
-                  CHE
-                </span>
-                <span className="flex-grow text-white ml-2">{room}</span>
-                <div className="flex gap-0.5">
-                  <div className="text-white">4</div>
-                  <div className="text-orange">/5</div>
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </div>
@@ -185,7 +145,6 @@ const AnonyChat = () => {
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-[#282C45] border border-[#404664] p-[30px] rounded-2xl  flex flex-col items-center relative gap-5 w-72 lg:w-[400px]">
-            {/* Close button */}
             <button onClick={closeModal} className="absolute top-2 right-2">
               <img src="close.svg" alt="" />
             </button>

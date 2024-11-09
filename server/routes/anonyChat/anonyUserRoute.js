@@ -9,4 +9,6 @@ router.post('/setfake', anonyUserController.createAnony);
 // Route to get the fake name by user ID
 router.get('/:userId', anonyUserController.getAnony);
 
+router.delete('/:userId', anonyUserController.deleteAnonyById);
+
 module.exports = router;

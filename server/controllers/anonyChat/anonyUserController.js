@@ -39,3 +39,16 @@ exports.getAnony = async (req, res, next) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+exports.deleteAnonyById = async (req, res) => {
+    try {
+        const fakeName = await AnonyUser.findOne({ userId: req.params.userId });
+        if (!fakeName) {
+            return res.status(404).json({ message: 'Fake Id not found' });
+        }
+        await AnonyUser.deleteOne({ userId: req.params.userId });
+        res.json({ message: 'delete succes' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};

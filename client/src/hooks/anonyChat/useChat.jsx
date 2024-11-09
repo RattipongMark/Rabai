@@ -21,7 +21,7 @@ const useChat = (roomName, fakedata, message, setMessage) => {
     const fetchMessages = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/api/messages/${roomName}`);
-        setMessages(response.data.data.messages);
+        setMessages(response.data.data.messages.reverse());
       } catch (err) {
         console.error('Error fetching messages:', err);
       }

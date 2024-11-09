@@ -32,7 +32,7 @@ const useAnony = () => {
     setError(null);
     try {
       const response = await axios.get(`http://localhost:3000/api/anony/${userId}`);
-
+      console.log(response)
       if (response.status === 200) {
         return { success: true, fakedata: response.data};
       } else {

@@ -2,33 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useAnony from '../../hooks/anonyChat/useAnony';
 import useChat from '../../hooks/anonyChat/useChat';
+import useRoom from '../../hooks/anonyChat/useRoom';
+import io from 'socket.io-client';
 
 const RoomTemplate = () => {
   const { roomName } = useParams();
-  const { getFakeName, loading, error: fetchError } = useAnony();
-  const [fakedata, setFakeData] = useState([]);
-  const [fakeName, setFakeName] = useState("");
-  const [message, setMessage] = useState("");
-  const storedData = JSON.parse(localStorage.getItem("user_data"));
-  const currentUserId = storedData?.user?._id;
 
-  // Fetch fake name
-  useEffect(() => {
-    const fetchFakeName = async () => {
-      if (storedData && storedData.user._id) {
-        const { success, fakedata, message } = await getFakeName(storedData.user._id);
-        setFakeData(fakedata);
-        if (success) {
-          setFakeName(fakedata.fakeName);
-        } else {
-          alert(message || 'Failed to fetch fake name');
-        }
-      }
-    };
-    fetchFakeName();
-  }, []);
-
-  const { sending, error, messages, handleSendMessage } = useChat(roomName, fakedata, message, setMessage);
+  const {
+    loading,
+    fetchError,
+    fakeName,
+    userCount,
+    message,
+    setMessage,
+    sending,
+    error,
+    messages,
+    handleSendMessage
+  } = useRoom();
 
   return (
     <div className="room-template max-w-3xl mx-auto my-6 p-4 border rounded-lg shadow-lg">
@@ -38,7 +29,7 @@ const RoomTemplate = () => {
         <div className="text-center text-red-600">{fetchError.message}</div>
       ) : (
         <div className="fake-name text-center">
-          <h1 className="text-2xl font-semibold">Welcome to {roomName}</h1>
+          <h1 className="text-2xl font-semibold">Welcome to {roomName} {userCount.count}</h1>
           <h3 className="text-xl text-gray-700">Welcome, {fakeName}!</h3>
         </div>
       )}
@@ -80,3 +71,7 @@ const RoomTemplate = () => {
 };
 
 export default RoomTemplate;
+
+
+
+  

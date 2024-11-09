@@ -1,9 +1,10 @@
 const AnonyRoom = require('../../models/anonyChat/anonyRoomModel');
+const Message = require('../../models/anonyChat/messageModel'); 
 
 exports.createAnonyRoom = async (req, res) => {
     try {
         const { roomName, maxParticipants, tagId } = req.body;
-
+        console.log("hi")
         if (!roomName || !maxParticipants || !tagId) {
             return res.status(400).json({ message: 'All fields are required.' });
         }
@@ -18,15 +19,13 @@ exports.createAnonyRoom = async (req, res) => {
 };
 
 
-exports.getAnonyRoomByRoomName = async (req, res) => {
+exports.getAnonyRoomByRoomId = async (req, res) => {
     try {
-        const { roomName } = req.params;
-        const room = await AnonyRoom.findOne({ roomName }).populate('tagId'); // Populate tag details if needed
-
+        const { roomId } = req.params;
+        const room = await AnonyRoom.findById(roomId)
         if (!room) {
             return res.status(404).json({ message: 'Room not found' });
         }
-
         res.status(200).json(room);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -34,10 +33,10 @@ exports.getAnonyRoomByRoomName = async (req, res) => {
 };
 
 
-exports.deleteAnonyRoomByRoomName = async (req, res) => {
+exports.deleteAnonyRoomByRoomId = async (req, res) => {
     try {
-        const { roomName } = req.params;
-        const room = await AnonyRoom.findOneAndDelete({ roomName });
+        const { roomId } = req.params;
+        const room = await AnonyRoom.findById(roomId)
 
         if (!room) {
             return res.status(404).json({ message: 'Room not found' });
@@ -48,3 +47,35 @@ exports.deleteAnonyRoomByRoomName = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+exports.getAllAnonyRooms = async (req, res) => {
+    try {
+        // ดึงข้อมูลทุกห้องจากฐานข้อมูล
+        const rooms = await AnonyRoom.find()
+
+        if (rooms.length === 0) {
+            return res.status(404).json({ message: 'No rooms found' });
+        }
+
+        res.status(200).json(rooms);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+
+exports.getUserCountInRoom = async (req, res) => {
+    try {
+        const { roomId } = req.params;
+        
+        // นับจำนวน userId ที่ไม่ซ้ำในห้องที่มี roomId ที่ระบุ
+        const userCount = await Message.distinct('userId', { room: roomId }).countDocuments();
+        console.log(userCount)
+        res.status(200).json({ roomId, userCount });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
