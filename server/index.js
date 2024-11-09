@@ -7,7 +7,9 @@ const socketIo = require('socket.io');
 const app = express();
 const anonyUserRouter = require('./routes/anonyChat/anonyUserRoute');
 const anonyRoomRouter = require('./routes/anonyChat/anonyRoomRoute');
-const tagRouter = require('./routes/tagRoute')
+const boardRouter = require('./routes/discussBoard/boardRoute');
+const commmentRouter  = require('./routes/discussBoard/commentRoute');
+const tagRouter = require('./routes/tagRoute');
 const axios = require('axios');
 
 // Middlewares
@@ -20,6 +22,8 @@ app.use('/api/messages', messageRouter);
 app.use('/api/anony', anonyUserRouter);
 app.use('/api/room', anonyRoomRouter);
 app.use('/api/tag', tagRouter);
+app.use('/api/board', boardRouter);
+app.use('/api/comment', commmentRouter);
 
 // DB Connection
 mongoose

@@ -1,26 +1,35 @@
 const mongoose = require('mongoose');
 
-const commentSchema = new mongoose.Schema({
+const boardSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',  
         required: true,
     },
-    boardId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Board',  
+    title:{
+        type: String,
         required: true,
     },
-    content: {
+    description: {
         type: String,
         required: true,  
+    },
+    tagId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tag',  
+        required: true,
     },
     create_at: {
         type: Date,
         default: Date.now, 
     },
+    update_at: {
+        type: Date,
+        default: Date.now,
+        required: true, 
+    },
 });
 
-const Comment = mongoose.model('Comment', commentSchema);
+const Board = mongoose.model('Board', boardSchema);
 
-module.exports = Comment;
+module.exports = Board;
