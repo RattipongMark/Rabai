@@ -1,16 +1,30 @@
-import React from 'react'
+import {React, useState, useEffect} from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import Navb from '../assets/Navbar';
 import Bg from '../assets/bg';
 import '../css/AnonyChat.css'
 import '../App.css'
+import { Fetch } from 'socket.io-client';
 
 const Dashboard = () => {
   const { logout } = useAuth();
-
   const handleLogout = async () => {
     await logout();
   }
+
+  const [posts, setPosts] = useState([])
+  useEffect(()=>{
+    const fetchPosts = async () => {
+      try{
+        const response = await fetch(`http://localhost:3000/api/messages/`)
+        const data = await response.json()
+        setPosts(data) 
+      }catch(error){
+        console.error('error fetching posts : ',error)
+      }
+    }
+    fetchPosts()
+  },[])
 
   const PostTemplate = ({ avatar, name, time, tag, content, likes, comments }) => {
     return (
@@ -70,15 +84,18 @@ const Dashboard = () => {
               <p className='lgt-txt'>What’s on your mind, Username</p>
             </div>
           </div>
-          <PostTemplate 
-            avatar="./profilegoose2.svg"
-            name="The duck of hell"
-            time="1 h ago"
-            tag="CPE"
-            content="Lorem ipsum dolor sit amet..."
-            likes="30K"
-            comments="150"
-          />
+          {posts.map((post, index) => (
+            <PostTemplate
+              key={index} 
+              avatar="./profilegoose2.svg"//post.avatar
+              name="The duck of hell"//post.name
+              time="1 h ago"//post.time
+              tag="CPE"//post.tag
+              content="Lorem ipsum dolor sit amet..."//post.content
+              likes="30K"//post.likes
+              comments="150"//post.comments
+            />
+          ))}
         </div>
       </div>
     </Bg>
