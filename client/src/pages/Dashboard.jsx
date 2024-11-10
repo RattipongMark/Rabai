@@ -84,18 +84,27 @@ const Dashboard = () => {
               <p className='lgt-txt'>What’s on your mind, Username</p>
             </div>
           </div>
-          {posts.map((post, index) => (
+          <PostTemplate
+            avatar="./profilegoose2.svg"
+            name="The duck of hell"
+            time="1 h ago"
+            tag="CPE"
+            content="Lorem ipsum dolor sit amet..."
+            likes="30K"
+            comments="150"
+          />
+          {/* {posts.map((post, index) => (
             <PostTemplate
               key={index} 
-              avatar="./profilegoose2.svg"//post.avatar
-              name="The duck of hell"//post.name
-              time="1 h ago"//post.time
-              tag="CPE"//post.tag
-              content="Lorem ipsum dolor sit amet..."//post.content
-              likes="30K"//post.likes
-              comments="150"//post.comments
+              avatar={post.avatar}
+              name={post.name}
+              time={post.time}
+              tag={post.tag}
+              content={post.content}
+              likes={post.likes}
+              comments={post.comments}
             />
-          ))}
+          ))} */}
         </div>
       </div>
     </Bg>
