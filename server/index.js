@@ -7,7 +7,9 @@ const socketIo = require('socket.io');
 const app = express();
 const anonyUserRouter = require('./routes/anonyChat/anonyUserRoute');
 const anonyRoomRouter = require('./routes/anonyChat/anonyRoomRoute');
-const tagRouter = require('./routes/tagRoute')
+const boardRouter = require('./routes/discussBoard/boardRoute');
+const commmentRouter  = require('./routes/discussBoard/commentRoute');
+const tagRouter = require('./routes/tagRoute');
 const axios = require('axios');
 
 // Middlewares
@@ -20,6 +22,8 @@ app.use('/api/messages', messageRouter);
 app.use('/api/anony', anonyUserRouter);
 app.use('/api/room', anonyRoomRouter);
 app.use('/api/tag', tagRouter);
+app.use('/api/board', boardRouter);
+app.use('/api/comment', commmentRouter);
 
 // DB Connection
 mongoose
@@ -60,7 +64,7 @@ io.on('connection', (socket) => {
     socket.emit('allRoomUserCounts', usersInRoom);
 
     socket.on('joinRoom', (roomName, userName) => {
-        console.log('Client connected');
+        // console.log('Client connected');
         
         if (!userName) {
             return; // If there's no userName, don't join the room
@@ -78,7 +82,7 @@ io.on('connection', (socket) => {
         io.emit('updateUserCount', { roomName, count: usersInRoom[roomName] });
         
 
-        console.log(`${userName} joined ${roomName} : ${usersInRoom[roomName]}`);
+        // console.log(`${userName} joined ${roomName} : ${usersInRoom[roomName]}`);
     });
 
     
@@ -110,11 +114,11 @@ io.on('connection', (socket) => {
         checkUser[userName] = false; // Mark user as left the room
         try {
             const response = await axios.delete(`http://localhost:3000/api/anony/${userId}`);
-            console.log('Delete response:', response.data); // Log the API response
+            // console.log('Delete response:', response.data); 
     
             // Emit updated user count to everyone in the room
             io.emit('updateUserCount', { roomName, count: usersInRoom[roomName] });
-            console.log(`${userName} left ${roomName} : ${usersInRoom[roomName]}`);
+            // console.log(`${userName} left ${roomName} : ${usersInRoom[roomName]}`);
         } catch (error) {
             console.error('Error deleting user:', error.message);
         }
@@ -122,7 +126,7 @@ io.on('connection', (socket) => {
 
     // Handle disconnection of a client
     socket.on('disconnect', () => {
-        console.log('Client disconnected');
+        // console.log('Client disconnected');
         // Here, you could clean up user counts or manage other disconnect logic if needed
     });
 });

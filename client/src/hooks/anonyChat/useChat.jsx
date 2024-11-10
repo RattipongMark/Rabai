@@ -55,7 +55,6 @@ const useChat = (roomName, fakedata, message, setMessage) => {
         room: newMessage.roomName,
         content: newMessage.content,
       });
-      console.log("Message sent successfully", response.data);
 
       // Emit the message through socket
       socketRef.current.emit('sendMessage', newMessage);

@@ -144,7 +144,7 @@ export default function Navb() {
                 {storedData.user.name}
               </a>
             </li>
-            <li><a>Settings</a></li>
+            <li><a>Edit Profile</a></li>
             <li><a onClick={handleLogout} className="text-danger">Logout</a></li>
           </ul>
         </div>

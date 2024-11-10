@@ -21,7 +21,6 @@ export const AuthProvider = ({ children }) => {
             'user_data',
             JSON.stringify({ token: newToken, user: newData }),
         );
-        console.log(newData);
         setToken(newToken);
         setuserData(newData);
         window.location.reload();

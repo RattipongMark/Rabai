@@ -4,7 +4,6 @@ const Message = require('../../models/anonyChat/messageModel');
 exports.createAnonyRoom = async (req, res) => {
     try {
         const { roomName, maxParticipants, tagId } = req.body;
-        console.log("hi")
         if (!roomName || !maxParticipants || !tagId) {
             return res.status(400).json({ message: 'All fields are required.' });
         }
