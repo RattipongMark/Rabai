@@ -7,6 +7,7 @@ import Navb from "../../assets/Navbar";
 import "/src/css/AnonyChat.css";
 import { Tag } from "antd";
 import io from "socket.io-client";
+import { Spin, message  } from 'antd'; 
 
 
 const avatars = [
@@ -31,10 +32,14 @@ const AnonyChat = () => {
   const [selectedRoom, setSelectedRoom] = useState("");
   const [selectedAvatar, setSelectedAvatar] = useState(""); 
   const [userCount, setUserCount] = useState({});
+  
 
-  console.log("room",rooms)
   const goToRoom = (roomName) => {
     setSelectedRoom(roomName);
+    if (!selectedAvatar) {
+      message.error('Please select an avatar before joining a room.');
+      return;
+    }
     setShowModal(true);
   };
 
@@ -73,19 +78,20 @@ const AnonyChat = () => {
     <Bg>
       <Navb />
       {/* Desktop View */}
-      <div className="hidden lg:flex w-full h-full py-5 justify-center items-center text-white px-48 gap-8 text-sm">
+      <div className="flex w-full h-full py-5 justify-center items-center text-white px-48 gap-8 text-sm">
         {/* Avatar Selection Section */}
-        <div className="w-full sm:w-1/2 rounded-lg p-6">
+        <div className="w-1/2 flex flex-col justify-center item-center rounded-lg p-6 ">
           <div className="flex w-full justify-center gap-1 pb-5 text-3xl font-extrabold">
             <span className="text-orange-500">Select</span>
             <span>Avatar</span>
           </div>
-          <div className="grid grid-cols-3 justify-item-center gap-8 w-full bg-white">
+          <div className='w-full flex justify-center'>
+          <div className="grid grid-cols-3 justify-items-center gap-8 w-fit ">
             {avatars.map((avatar, index) => (
               <div
                 key={index}
-                className={`flex justify-center items-start pl-4 pt-4 w-[110px] h-[110px] bg-avatar rounded-full overflow-hidden cursor-pointer ${
-                  selectedAvatar === avatar ? "border border-orange-500" : ""
+                className={`flex justify-center items-start pl-4 pt-4 w-[110px] h-[110px] bg-avatar rounded-full overflow-hidden cursor-pointer  hover:border border-white/20  ${
+                  selectedAvatar === avatar ? "border boder-xl border-orange-500" : ""
                 }`}
                 onClick={() => setSelectedAvatar(avatar)}
               >
@@ -97,13 +103,16 @@ const AnonyChat = () => {
               </div>
             ))}
           </div>
-          <div className="pt-8 flex justify-center w-full bg-white">
+          </div>
+          
+          <div className="pt-8 flex justify-center w-full">
             <img src="glass.svg" alt="" />
           </div>
         </div>
 
         {/* Room List Section */}
-        <div className="w-full sm:w-1/2 rounded-lg p-6">
+        <div className="w-1/2 flex justify-center">
+        <div className="w-full rounded-lg p-6">
           <div className="flex justify-start">
             <a className="flex justify-center pt-4 px-4 w-[138px] py-2 bg-orange text-white rounded-t-3xl">
               Rooms
@@ -114,11 +123,11 @@ const AnonyChat = () => {
           </div>
 
           {/* Room List */}
-          <div className="flex flex-col gap-4 h-[490px] bg-[#282C45] rounded-b-3xl scroller overflow-y-auto p-6">
+          <div className="flex flex-col gap-4 h-[490px] bg-[#282C45] rounded-b-3xl rounded-tr-3xl scroller overflow-y-auto p-6">
             {roomsLoading ? (
-              <div>Loading rooms...</div>
+              <div className='w-full h-full flex justify-center items-center'><Spin size="medium" /></div>
             ) : roomsError ? (
-              <div className="text-red-500">Error loading rooms: {roomsError}</div>
+              <div className="w-full h-full flex justify-center items-center text-orange">Error loading rooms: {roomsError}</div>
             ) : (
               rooms.map((room, index) => (
                 <div
@@ -139,6 +148,8 @@ const AnonyChat = () => {
             )}
           </div>
         </div>
+        </div>
+
       </div>
 
       {/* Modal for Entering Username */}

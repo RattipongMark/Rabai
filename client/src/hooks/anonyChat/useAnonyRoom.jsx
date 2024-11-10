@@ -25,19 +25,13 @@ const useAnonyRoom = () => {
         });
 
         // Fetch user counts for each room and map each room's tagId to tag name
-        const roomsWithTagsAndCounts = await Promise.all(
+        const roomsWithTags= await Promise.all(
           roomsData.map(async (room) => {
             const tagName = room.tagId ? tagMap.get(room.tagId) || "Unknown Tag" : "No Tag";
-            
-            // Fetch the user count for this room
-            const countResponse = await axios.get(`http://localhost:3000/api/room/count/${room._id}`);
-            const userCount = countResponse.data.userCount || 0;
-
-            return { ...room, tagName: tagName, userCount: userCount };  // Add the tagName and userCount
+            return { ...room, tagName: tagName};  // Add the tagName and userCount
           })
         );
-        console.log(roomsWithTagsAndCounts);  
-        setRooms(roomsWithTagsAndCounts);  // Update rooms state with new rooms that have tagNames and userCount
+        setRooms(roomsWithTags);  // Update rooms state with new rooms that have tagNames and userCount
       } catch (err) {
         setError(err.message);  // Handle errors
       } finally {

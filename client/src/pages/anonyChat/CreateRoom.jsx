@@ -7,6 +7,7 @@ import Bg from "../../assets/bg";
 import Navb from "../../assets/Navbar";
 import "/src/css/AnonyChat.css";
 import Select from "react-select";
+import { Spin, message  } from 'antd'; 
 
 const avatars = [
   "/public/anony/anony1.svg",
@@ -43,6 +44,25 @@ const CreateAnonyChat = () => {
   }));
 
   const goToRoom = () => {
+    if (!selectedAvatar) {
+      message.error('Please select an avatar before joining a room.');
+      return;
+    }
+
+    if (!roomName.trim()) {
+      message.error('Please enter a room name.');
+      return;
+    }
+    
+    if (!maxParticipants) {
+      message.error('Please specify the maximum number of participants.');
+      return;
+    }
+    
+    if (!selectedTag) {
+      message.error('Please select a tag.');
+      return;
+    }
     setShowModal(true);
   };
 
@@ -51,9 +71,10 @@ const CreateAnonyChat = () => {
   };
 
   const handleCreateRoom = async () => {
+
     if (fakeName.trim() && selectedAvatar) {
       if (!roomName || !maxParticipants || !selectedTag) {
-        alert("Please fill in all fields.");
+        message.error('Please fill in all fields.');
         return;
       }
       const { success, message } = await createFakeName(
@@ -85,19 +106,20 @@ const CreateAnonyChat = () => {
   return (
     <Bg>
       <Navb />
-      <div className="hidden lg:flex w-full h-full py-5 justify-center items-center text-white px-48 gap-8 text-sm">
+      <div className="flex w-full h-full py-5 justify-center items-center text-white px-48 gap-8 text-sm">
         {/* Avatar Selection Section */}
-        <div className="w-full sm:w-1/2 rounded-lg p-6">
+        <div className="w-1/2 flex flex-col justify-center item-center rounded-lg p-6">
           <div className="flex w-full justify-center gap-1 pb-5 text-3xl font-extrabold">
             <span className="text-orange-500">Select</span>
             <span>Avatar</span>
           </div>
+          <div className='w-full flex justify-center'>
           <div className="grid grid-cols-3 gap-8">
             {avatars.map((avatar, index) => (
               <div
                 key={index}
-                className={`flex justify-center items-start pl-4 pt-4 w-[110px] h-[110px] bg-avatar rounded-full overflow-hidden cursor-pointer ${
-                  selectedAvatar === avatar ? "border border-orange-500" : ""
+                className={`flex justify-center items-start pl-4 pt-4 w-[110px] h-[110px] bg-avatar rounded-full overflow-hidden cursor-pointer  hover:border border-white/20 ${
+                  selectedAvatar === avatar ? "border border-xl border-orange-500" : ""
                 }`}
                 onClick={() => setSelectedAvatar(avatar)}
               >
@@ -109,10 +131,15 @@ const CreateAnonyChat = () => {
               </div>
             ))}
           </div>
+          </div>
+          <div className="pt-8 flex justify-center w-full">
+            <img src="glass.svg" alt="" />
+          </div>
         </div>
 
         {/* Room List Section */}
-        <div className="w-full sm:w-1/2 rounded-lg p-6">
+        <div className="w-1/2 flex justify-center">
+        <div className="w-full rounded-lg p-6">
           <div className="flex justify-start">
             <a href="/Anonymous-Chat" className="flex justify-center pt-4 px-4 w-[138px] py-2 bg-[#4a4a63] text-white rounded-t-3xl hover:bg-[#FB923C]">
               Rooms
@@ -181,6 +208,8 @@ const CreateAnonyChat = () => {
             </div>
           </div>
         </div>
+        </div>
+        
       </div>
 
       {/* Modal for Entering Username */}

@@ -6,14 +6,22 @@ body{
  }
 
 .bg-image {
-    background-image: url('./public/bg.svg');
+    background-image: url('/public/bg.svg');
     background-size: cover;
     background-position: center;
     z-index: -1;
   }
 
+.bg-chat {
+    background-image: url('/public/bg-chat.svg');
+    background-size: auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 0;
+  }
+
 .bg-avatar {
-  background-image: url('./public/bg-avatar.svg');
+  background-image: url('/public/bg-avatar.svg');
   background-size: cover;
   background-position: center;
   overflow: hidden;

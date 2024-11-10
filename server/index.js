@@ -90,6 +90,7 @@ io.on('connection', (socket) => {
             userName: newMessage.user.userName,
             roomName: newMessage.roomName,
             content: newMessage.content,
+            avatar: newMessage.user.avatar,
         });
     });
 

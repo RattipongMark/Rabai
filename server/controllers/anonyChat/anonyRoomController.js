@@ -65,17 +65,4 @@ exports.getAllAnonyRooms = async (req, res) => {
 
 
 
-exports.getUserCountInRoom = async (req, res) => {
-    try {
-        const { roomId } = req.params;
-        
-        // นับจำนวน userId ที่ไม่ซ้ำในห้องที่มี roomId ที่ระบุ
-        const userCount = await Message.distinct('userId', { room: roomId }).countDocuments();
-        console.log(userCount)
-        res.status(200).json({ roomId, userCount });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
 

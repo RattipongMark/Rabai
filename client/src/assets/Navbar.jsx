@@ -76,7 +76,7 @@ export default function Navb() {
             ))}
           </ul>
         </div>
-        <a className="hidden lg:block"><img src="./public/Logo.svg" alt="Logo" /></a>
+        <a className="hidden lg:block"><img src="/public/Logo.svg" alt="Logo" /></a>
       </div>
 
       {/* Center - Navbar Links for Desktop */}

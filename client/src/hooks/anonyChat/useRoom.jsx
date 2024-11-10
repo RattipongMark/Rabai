@@ -41,7 +41,7 @@ const useRoom = () => {
     });
 
     return () => {
-     socket.emit("leaveRoom", roomName, fakeName,fakedata.userId);
+      socket.emit("leaveRoom", roomName, fakeName,fakedata.userId);
       socket.disconnect();
     };
   }, [roomName, fakeName]);

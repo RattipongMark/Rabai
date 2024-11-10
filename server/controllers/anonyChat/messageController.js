@@ -36,7 +36,7 @@ exports.getMessagesByRoom = async (req, res, next) => {
         const { room } = req.params;
 
         const messages = await Message.find({ room })
-            .populate('userId', 'userName') // ดึงข้อมูลของผู้ส่ง
+            .populate('userId', 'fakeName avatar') // ดึงข้อมูลของผู้ส่ง
             .sort({ timestamp: -1 }); // เรียงตามเวลาใหม่ที่สุด
 
         res.status(200).json({

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import io from 'socket.io-client';
+import { Avatar } from 'antd';
 
 const useChat = (roomName, fakedata, message, setMessage) => {
   const [sending, setSending] = useState(false);
@@ -8,19 +9,24 @@ const useChat = (roomName, fakedata, message, setMessage) => {
   const [messages, setMessages] = useState([]);
   const socketRef = useRef(null);
 
+  
   // Socket.IO setup
   useEffect(() => {
     socketRef.current = io('http://localhost:3000'); // เชื่อมต่อกับเซิร์ฟเวอร์
   
     // ฟังข้อความใหม่จากเซิร์ฟเวอร์
     socketRef.current.on('newMessage', (newMessage) => {
-      setMessages((prevMessages) => [...prevMessages,newMessage]);
+      console.log(newMessage.roomName);
+      if(roomName == newMessage.roomName){
+        setMessages((prevMessages) => [...prevMessages,newMessage]);
+      }
     });
   
     // Fetch initial messages when joining the room
     const fetchMessages = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/api/messages/${roomName}`);
+        console.log("fetch",response)
         setMessages(response.data.data.messages.reverse());
       } catch (err) {
         console.error('Error fetching messages:', err);
@@ -30,6 +36,7 @@ const useChat = (roomName, fakedata, message, setMessage) => {
 
     // Clean up the socket connection when the component is unmounted
     return () => {
+      // socketRef.current.emit("leaveRoom", roomName, fakeName,fakedata.userId);
       socketRef.current.disconnect();
     };
   }, [roomName]);
@@ -71,7 +78,7 @@ const useChat = (roomName, fakedata, message, setMessage) => {
 
       const newMessage = {
         content: message,
-        user: { userId: fakedata._id, userName: fakedata.fakeName },
+        user: { userId: fakedata._id, userName: fakedata.fakeName ,avatar:fakedata.avatar},
         roomName: roomName,
       };
       sendMessage(newMessage);

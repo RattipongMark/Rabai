@@ -4,11 +4,12 @@ import './App.css';
 import Register from './Auth/Register';
 import Login from './Auth/Login';
 import Dashboard from './pages/Dashboard';
-import AnonyChat from './pages/anonyChat/AnonyRoom';
+import AnonyChat from './pages/anonyChat/Anonyroom';
 import RoomTemplate from './pages/anonyChat/Roomtemplate';
 import CreateAnonyChat from './pages/anonyChat/CreateRoom';
 import { useAuth } from './contexts/AuthContext';
 import Activity from './pages/Activity';
+import Rooma from './pages/anonyChat/temproom';
 
 const App = () => {
   // ตรวจสอบข้อมูลจาก localStorage และตรวจสอบว่าเป็น null หรือไม่
@@ -33,6 +34,8 @@ const App = () => {
         <Route path='/CreateAnonymous-Chat' element={check ? <CreateAnonyChat /> : <Navigate to="/login" />} />
 
         <Route path='/Activity' element={check ? <Activity /> : <Navigate to="/login" />} />
+
+        <Route path='/roomss' element={check ? <Rooma/> : <Navigate to="/login" />} />
       </Routes>
     </Router>
   );

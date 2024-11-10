@@ -1,6 +1,6 @@
 .scroller {
 --scrollbar-color-thumb: rgb(232, 115, 32);
---scrollbar-color-track: rgba(107, 107, 117, 0.372);
+--scrollbar-color-track: rgba(107, 107, 117, 0);
 --scrollbar-width: thin;
 --scrollbar-width-legacy: 0.5rem;
 }
