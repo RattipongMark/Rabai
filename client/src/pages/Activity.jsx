@@ -98,7 +98,7 @@ const Activity = () => {
             </div>
             <p className="lgt-txt text-sm leading-relaxed">{activity.details}</p>
             <div className="flex justify-end">
-                <Button onClick={() => handleJoin(activity.id)} type="primary">Join</Button>
+                <Button onClick={() => handleJoin(activity.id)} type="primary" style={{backgroundColor:'#FB923C'}}>Join</Button>
             </div>
         </div>
     );    
@@ -141,12 +141,14 @@ const Activity = () => {
           </div>
 
           <Modal
-            title="Create New Activity"
+            title={<span style={{ frontSize:'24px', color:'#FB923C', fontWeight:'bold', textAlign:'center', display:'block'}}>create Activities</span>}
             visible={isModalVisible}
             onCancel={() => setIsModalVisible(false)}
             onOk={handleCreateActivity}
+            okButtonProps={{ style: { backgroundColor: '#FB923C', borderColor: '#FB923C', color: 'white' } }}
+            cancelButtonProps={{ style: { backgroundColor: '#D1D5DB', color: '#333' } }}
           >
-            <Form layout="vertical">
+            <Form layout="vertical" >
               <Form.Item label="Title">
                 <Input name="title" value={newActivity.title} onChange={handleInputChange} />
               </Form.Item>
