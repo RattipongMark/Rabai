@@ -16,11 +16,11 @@ const Activity = () => {
         <Bg>
             <Navbar/>
             {/* main content*/}
-            <div className="container mx-auto px-4 py-6 flex gap-6">
+            <div className="container mx-auto px-4 py-6 flex gap-6 pt-[100px]">
                 {/*Sidebar*/}
                 <aside className="w-64 flex-shrink-0">
                     <button className="w-full bg-orange h0ver:bg-orange-light text-white mb-6" size='lg'>
-                        <Plus className='mr-2 h-4 w-4'/>New Activity
+                        {/* <Plus className='mr-2 h-4 w-4'/>New Activity */}
                     </button>
                     
                     <div className="space-y-4">

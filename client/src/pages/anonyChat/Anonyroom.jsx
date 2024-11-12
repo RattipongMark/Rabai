@@ -11,16 +11,17 @@ import { Spin, message  } from 'antd';
 
 
 const avatars = [
-  "/public/anony/anony1.svg",
-  "/public/anony/anony2.svg",
-  "/public/anony/anony3.svg",
-  "/public/anony/anony4.svg",
-  "/public/anony/anony5.svg",
-  "/public/anony/anony6.svg",
-  "/public/anony/anony7.svg",
-  "/public/anony/anony8.svg",
-  "/public/anony/anony9.svg",
+  "/public/anony/anony1",
+  "/public/anony/anony2",
+  "/public/anony/anony3",
+  "/public/anony/anony4",
+  "/public/anony/anony5",
+  "/public/anony/anony6",
+  "/public/anony/anony7",
+  "/public/anony/anony8",
+  "/public/anony/anony9",
 ];
+
 
 const AnonyChat = () => {
   const { createFakeName, loading, error } = useAnony();
@@ -96,7 +97,7 @@ const AnonyChat = () => {
                 onClick={() => setSelectedAvatar(avatar)}
               >
                 <img
-                  src={avatar}
+                  src={`${avatar}.svg`}
                   alt={`anonygoose ${index + 1}`}
                   className="w-[100px] object-cover"
                 />
@@ -127,7 +128,7 @@ const AnonyChat = () => {
             {roomsLoading ? (
               <div className='w-full h-full flex justify-center items-center'><Spin size="medium" /></div>
             ) : roomsError ? (
-              <div className="w-full h-full flex justify-center items-center text-orange">Error loading rooms: {roomsError}</div>
+              <div className="w-full h-full flex justify-center items-center text-orange">{roomsError}</div>
             ) : (
               rooms.map((room, index) => (
                 <div
@@ -151,6 +152,7 @@ const AnonyChat = () => {
         </div>
 
       </div>
+
 
       {/* Modal for Entering Username */}
       {showModal && (

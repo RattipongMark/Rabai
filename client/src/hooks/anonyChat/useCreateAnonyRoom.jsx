@@ -7,6 +7,7 @@ const useCreateAnonyRoom = () => {
 
   const createRoom = async (roomName, maxParticipants, tagId) => {
     setLoading(true);
+    console.log(roomName, maxParticipants, tagId);
     try {
       // Sending request to backend to create the room
       const response = await axios.post("http://localhost:3000/api/room/create", {
