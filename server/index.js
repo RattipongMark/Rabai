@@ -75,7 +75,7 @@ io.on('connection', (socket) => {
         socket.join(roomName);
         try {
             const user = await AnonyUser.findOne({ fakeName: userName });
-            console.log(user)
+
             if (user) {
                 // Add the user to usersInRoom
                 if (!usersInRoom[roomName]) {
@@ -125,6 +125,14 @@ io.on('connection', (socket) => {
                 checkUser[userName] = false;
             }
 
+            if(usersInRoom[roomName].length == 0){
+                try {
+                    const res = await axios.delete(`http://localhost:3000/api/room/name/${roomName}`);
+                    console.log("room delete succes");
+                } catch (error) {
+                    console.error('Error deleting user:', error.message);
+                }
+            }
             // Emit updated user list and count
             io.to(roomName).emit('updateRoomUsers', usersInRoom[roomName]);
             io.to(roomName).emit('updateUserCount', { roomName, count: usersInRoom[roomName].length });

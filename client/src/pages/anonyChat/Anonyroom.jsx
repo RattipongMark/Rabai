@@ -33,14 +33,22 @@ const AnonyChat = () => {
   const [selectedRoom, setSelectedRoom] = useState("");
   const [selectedAvatar, setSelectedAvatar] = useState(""); 
   const [userCount, setUserCount] = useState({});
+  const [maxp , setMaxp] = useState();
   
 
-  const goToRoom = (roomName) => {
+  const goToRoom = (roomName,maxP) => {
     setSelectedRoom(roomName);
     if (!selectedAvatar) {
       message.error('Please select an avatar before joining a room.');
       return;
     }
+
+    if (userCount[roomName] >= maxP){
+      message.error('Sorry, This room is full.');
+      return;
+    }
+
+    setMaxp(maxP);
     setShowModal(true);
   };
 
@@ -57,7 +65,8 @@ const AnonyChat = () => {
       );
       if (success) {
         setShowModal(false);
-        navigate(`/room/${selectedRoom}`, { state: { fakeName, selectedAvatar } });
+
+        navigate(`/room/${selectedRoom}`, { state: { fakeName, selectedAvatar, maxp } });
       } else {
         alert(message);
       }
@@ -68,7 +77,6 @@ const AnonyChat = () => {
   useEffect(() => {
     const socket = io('http://localhost:3000');
     socket.on('allRoomUserCounts', (usersInRoom) => {
-        console.log('User count in all rooms:', usersInRoom);
         setUserCount(usersInRoom);
     });
   }, []);
@@ -133,7 +141,7 @@ const AnonyChat = () => {
               rooms.map((room, index) => (
                 <div
                   key={index}
-                  onClick={() => goToRoom(room.roomName)}
+                  onClick={() => goToRoom(room.roomName,room.maxParticipants)}
                   className="cursor-pointer w-full flex justify-between items-center bg-[#3b3b51] p-4 py-6 rounded-xl hover:bg-[#3b3b51]/80"
                 >
                   <span className="px-2 py-1 bg-[#FFE1FD] text-xs text-[#4a4a63] rounded-3xl h-fit w-14 flex justify-center">

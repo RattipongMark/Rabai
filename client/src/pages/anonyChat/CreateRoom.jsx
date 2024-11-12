@@ -34,6 +34,7 @@ const CreateAnonyChat = () => {
   const [maxParticipants, setMaxParticipants] = useState("");
   const [selectedAvatar, setSelectedAvatar] = useState("");
   const [selectedTag, setSelectedTag] = useState(null);
+  const [maxp , setMaxp] = useState();
 
   const handleTagChange = (selectedOption) => {
     setSelectedTag(selectedOption);
@@ -64,6 +65,7 @@ const CreateAnonyChat = () => {
       message.error('Please select a tag.');
       return;
     }
+    setMaxp(maxParticipants);
     setShowModal(true);
   };
 
@@ -83,9 +85,10 @@ const CreateAnonyChat = () => {
       try {
         const tagId = selectedTag.value; // Assuming 'selectedTag' has 'value'
         const response = await createRoom(roomName, maxParticipants, tagId);
-        console.log(response); // Handle success (e.g., navigate to the room)
+
         setShowModal(false);
-        navigate(`/room/${roomName}`); // Example, navigate to the room
+        console.log("maxpprev:",maxp)
+        navigate(`/room/${roomName}`, { state: { maxp }}); // Example, navigate to the room
       } catch (err) {
         console.error(err);
       }

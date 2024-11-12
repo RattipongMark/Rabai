@@ -12,6 +12,17 @@ const TagSchema = new mongoose.Schema({
     },
 });
 
+TagSchema.pre('remove', async function(next) {
+    try {
+        // Find and delete all AnonyRooms that reference this Tag
+        await AnonyRoom.deleteMany({ tagId: this._id });
+        next();
+    } catch (error) {
+        next(error);
+    }
+});
+
+
 const Tag = mongoose.model('Tag', TagSchema);
 
 module.exports = Tag;

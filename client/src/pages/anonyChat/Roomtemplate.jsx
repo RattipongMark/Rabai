@@ -9,12 +9,16 @@ import { useParams } from "react-router-dom";
 import useAnony from "../../hooks/anonyChat/useAnony";
 import useRoom from "../../hooks/anonyChat/useRoom";
 import io from "socket.io-client";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 
 const RoomTemplate = () => {
   const navigate = useNavigate();
   const { roomName } = useParams();
+  const location = useLocation();
+  const { maxp } = location.state || {};
   const { logout } = useAuth();
+
+  console.log("maxp:",maxp)
   const handleLogout = async () => {
     await logout();
   };
@@ -35,14 +39,15 @@ const RoomTemplate = () => {
 
   console.log(usersInRoom);
   const handleLogoutRoom = async () => {
-    // Emit leaveRoom event before logging out
+
     if (roomName && fakeName && fakedata?.userId) {
       const socket = io("http://localhost:3000");
       socket.emit("leaveRoom", roomName, fakeName, fakedata.userId);
       socket.disconnect();
       navigate("/Anonymous-Chat");
     }
-     // Redirect to the login page after logging out
+
+    navigate("/Anonymous-Chat");
   };
 
   const messagesEndRef = useRef(null);
@@ -131,7 +136,7 @@ const RoomTemplate = () => {
                   <div>
                     <img src="./public/Users.svg" alt="" />
                   </div>
-                  <div>{userCount.count} / 5</div>
+                  <div>{userCount.count} / {maxp}</div>
                 </div>
                 <div className="w-1/3 flex justify-center">{roomName}</div>
                 <div className="w-1/3 flex justify-end">

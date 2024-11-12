@@ -37,6 +37,10 @@ const useRoom = () => {
 
   // Socket.IO setup and message fetching
   useEffect(() => {
+    if (socketRef.current) {
+      socketRef.current.emit("leaveRoom", roomName, fakeName, fakedata.userId);
+    }
+
     socketRef.current = io("http://localhost:3000");
 
     // Join the room
@@ -49,7 +53,6 @@ const useRoom = () => {
 
     // Listen for users in room updates
     socketRef.current.on("updateRoomUsers", (usersInRoom) => {
-      console.log(usersInRoom);
       setUsersInRoom(usersInRoom);
     });
 
@@ -64,7 +67,6 @@ const useRoom = () => {
     const fetchMessages = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/api/messages/${roomName}`);
-        console.log("fetch", response);
         setMessages(response.data.data.messages.reverse());
       } catch (err) {
         console.error("Error fetching messages:", err);

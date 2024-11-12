@@ -1,5 +1,6 @@
 const AnonyUser = require('../../models/anonyChat/anonyUserModel'); 
 const createError = require('../../utils/appError');
+const Message = require('../../models/anonyChat/messageModel')
 
 exports.createAnony = async (req, res, next) => {
     try {
@@ -48,6 +49,8 @@ exports.deleteAnonyById = async (req, res) => {
             return res.status(404).json({ message: 'Fake Id not found' });
         }
         await AnonyUser.deleteOne({ userId: req.params.userId });
+        // const result = await Message.deleteMany({ userId: fakeName._id });
+        // console.log('Deleted messages:', result);
         res.json({ message: 'delete succes' });
     } catch (error) {
         res.status(500).json({ message: error.message });

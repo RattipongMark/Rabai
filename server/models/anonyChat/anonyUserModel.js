@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const anonyUserSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -18,6 +19,8 @@ const anonyUserSchema = new mongoose.Schema({
     }
 });
 
-const AnonyUser = mongoose.model('AnonyUser', anonyUserSchema);
+
+
+const AnonyUser  = mongoose.model('AnonyUser', anonyUserSchema);
 
 module.exports = AnonyUser;
