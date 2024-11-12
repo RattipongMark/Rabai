@@ -9,8 +9,6 @@ import RoomTemplate from './pages/anonyChat/Roomtemplate';
 import CreateAnonyChat from './pages/anonyChat/CreateRoom';
 import { useAuth } from './contexts/AuthContext';
 import Activity from './pages/Activity';
-import Rooma from './pages/anonyChat/temproom';
-
 const App = () => {
   // ตรวจสอบข้อมูลจาก localStorage และตรวจสอบว่าเป็น null หรือไม่
   const storedData = JSON.parse(localStorage.getItem('user_data'));
@@ -35,7 +33,6 @@ const App = () => {
 
         <Route path='/Activity' element={check ? <Activity /> : <Navigate to="/login" />} />
 
-        <Route path='/roomss' element={check ? <Rooma/> : <Navigate to="/login" />} />
       </Routes>
     </Router>
   );

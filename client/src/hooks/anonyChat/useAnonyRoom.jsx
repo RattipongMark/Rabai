@@ -33,7 +33,13 @@ const useAnonyRoom = () => {
         );
         setRooms(roomsWithTags);  // Update rooms state with new rooms that have tagNames and userCount
       } catch (err) {
-        setError(err.message);  // Handle errors
+        console.log(err);
+        if(err.status == 404){
+          setError("No Room Available")
+        } else{
+          setError(err.message);  // Handle errors
+        }
+       
       } finally {
         setLoading(false);  // Finish loading
       }

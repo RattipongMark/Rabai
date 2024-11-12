@@ -6,6 +6,7 @@ exports.createAnony = async (req, res, next) => {
         const { userId, fakeName,avatar } = req.body;
         // Check if the fake name already exists in the database
         const existingFakeName = await AnonyUser.findOne({ fakeName });
+        console.log("from server",existingFakeName)
         if (existingFakeName) {
             return res.status(400).json({ message: 'Fake name already taken!' });
         }

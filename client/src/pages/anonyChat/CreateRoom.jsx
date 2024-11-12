@@ -10,16 +10,17 @@ import Select from "react-select";
 import { Spin, message  } from 'antd'; 
 
 const avatars = [
-  "/public/anony/anony1.svg",
-  "/public/anony/anony2.svg",
-  "/public/anony/anony3.svg",
-  "/public/anony/anony4.svg",
-  "/public/anony/anony5.svg",
-  "/public/anony/anony6.svg",
-  "/public/anony/anony7.svg",
-  "/public/anony/anony8.svg",
-  "/public/anony/anony9.svg",
+  "/public/anony/anony1",
+  "/public/anony/anony2",
+  "/public/anony/anony3",
+  "/public/anony/anony4",
+  "/public/anony/anony5",
+  "/public/anony/anony6",
+  "/public/anony/anony7",
+  "/public/anony/anony8",
+  "/public/anony/anony9",
 ];
+
 
 const CreateAnonyChat = () => {
   const { createFakeName, loading, error } = useAnony();
@@ -73,10 +74,7 @@ const CreateAnonyChat = () => {
   const handleCreateRoom = async () => {
 
     if (fakeName.trim() && selectedAvatar) {
-      if (!roomName || !maxParticipants || !selectedTag) {
-        message.error('Please fill in all fields.');
-        return;
-      }
+
       const { success, message } = await createFakeName(
         storedData.user._id,
         fakeName,
@@ -86,7 +84,7 @@ const CreateAnonyChat = () => {
         const tagId = selectedTag.value; // Assuming 'selectedTag' has 'value'
         const response = await createRoom(roomName, maxParticipants, tagId);
         console.log(response); // Handle success (e.g., navigate to the room)
-        setShowModal(true);
+        setShowModal(false);
         navigate(`/room/${roomName}`); // Example, navigate to the room
       } catch (err) {
         console.error(err);
@@ -124,7 +122,7 @@ const CreateAnonyChat = () => {
                 onClick={() => setSelectedAvatar(avatar)}
               >
                 <img
-                  src={avatar}
+                  src={`${avatar}.svg`}
                   alt={`anonygoose ${index + 1}`}
                   className="w-[100px] object-cover"
                 />
@@ -237,7 +235,7 @@ const CreateAnonyChat = () => {
             >
               {roomLoading ? "Creating..." : "Join"}
             </button>
-            {roomError && <div className="text-red-500 mt-2">{error.message}</div>}
+            {/* {roomError && <div className="text-red-500 mt-2">{error.message}</div>} */}
           </div>
         </div>
       )}

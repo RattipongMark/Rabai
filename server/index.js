@@ -7,10 +7,9 @@ const socketIo = require('socket.io');
 const app = express();
 const anonyUserRouter = require('./routes/anonyChat/anonyUserRoute');
 const anonyRoomRouter = require('./routes/anonyChat/anonyRoomRoute');
-const boardRouter = require('./routes/discussBoard/boardRoute');
-const commmentRouter  = require('./routes/discussBoard/commentRoute');
-const tagRouter = require('./routes/tagRoute');
+const tagRouter = require('./routes/tagRoute')
 const axios = require('axios');
+const AnonyUser = require('./models/anonyChat/anonyUserModel'); 
 
 // Middlewares
 app.use(cors());
@@ -22,8 +21,6 @@ app.use('/api/messages', messageRouter);
 app.use('/api/anony', anonyUserRouter);
 app.use('/api/room', anonyRoomRouter);
 app.use('/api/tag', tagRouter);
-app.use('/api/board', boardRouter);
-app.use('/api/comment', commmentRouter);
 
 // DB Connection
 mongoose
@@ -61,28 +58,43 @@ let usersInRoom = {};
 let checkUser = {};
 
 io.on('connection', (socket) => {
-    socket.emit('allRoomUserCounts', usersInRoom);
+    const roomUserCounts = Object.keys(usersInRoom).reduce((counts, roomName) => {
+        counts[roomName] = usersInRoom[roomName].length; // Count users in each room
+        return counts;
+    }, {});
 
-    socket.on('joinRoom', (roomName, userName) => {
-        // console.log('Client connected');
+    socket.emit('allRoomUserCounts', roomUserCounts);
+
+    socket.on('joinRoom', async (roomName, userName) => {
+        console.log('Client connected');
         
         if (!userName) {
             return; // If there's no userName, don't join the room
         }
 
         socket.join(roomName);
+        try {
+            const user = await AnonyUser.findOne({ fakeName: userName });
+            console.log(user)
+            if (user) {
+                // Add the user to usersInRoom
+                if (!usersInRoom[roomName]) {
+                    usersInRoom[roomName] = [];
+                }
+                if(!checkUser[userName]){
+                    usersInRoom[roomName].push({ userName: user.fakeName, avatar: user.avatar });
+                    checkUser[userName] = true;
+                }
+                
 
-        // If user is new, increment the user count for the room
-        if (!checkUser[userName]) {
-            usersInRoom[roomName] = usersInRoom[roomName] ? usersInRoom[roomName] + 1 : 1;
+                // Emit the updated list of users to all clients in the room
+                io.to(roomName).emit('updateRoomUsers', usersInRoom[roomName]);
+                // console.log(usersInRoom[roomName].length)
+                io.to(roomName).emit('updateUserCount', { roomName, count: usersInRoom[roomName].length });
+            }
+        } catch (error) {
+            console.error('Error fetching user avatar:', error.message);
         }
-        checkUser[userName] = true; // Mark user as already joined
-
-        // Emit updated user count to everyone in the room
-        io.emit('updateUserCount', { roomName, count: usersInRoom[roomName] });
-        
-
-        // console.log(`${userName} joined ${roomName} : ${usersInRoom[roomName]}`);
     });
 
     
@@ -105,28 +117,32 @@ io.on('connection', (socket) => {
         if (!userName) {
             return; // Ensure userName is provided before removing
         }
+       
+        
+        if (usersInRoom[roomName]) {
+            if(checkUser[userName]){
+                usersInRoom[roomName] = usersInRoom[roomName].filter(user => user.userName !== userName);
+                checkUser[userName] = false;
+            }
 
-        if (checkUser[userName]) {
-            // Decrease the user count when they leave the room
-            usersInRoom[roomName] = usersInRoom[roomName] ? usersInRoom[roomName] - 1 : 0;
+            // Emit updated user list and count
+            io.to(roomName).emit('updateRoomUsers', usersInRoom[roomName]);
+            io.to(roomName).emit('updateUserCount', { roomName, count: usersInRoom[roomName].length });
         }
 
-        checkUser[userName] = false; // Mark user as left the room
+        // Optional: Delete the user from the database if required
         try {
-            const response = await axios.delete(`http://localhost:3000/api/anony/${userId}`);
-            // console.log('Delete response:', response.data); 
-    
-            // Emit updated user count to everyone in the room
-            io.emit('updateUserCount', { roomName, count: usersInRoom[roomName] });
-            // console.log(`${userName} left ${roomName} : ${usersInRoom[roomName]}`);
+            const res = await axios.delete(`http://localhost:3000/api/anony/${userId}`);
+            console.log("delete succes");
         } catch (error) {
             console.error('Error deleting user:', error.message);
         }
+
     });
 
     // Handle disconnection of a client
     socket.on('disconnect', () => {
-        // console.log('Client disconnected');
+        console.log('Client disconnected');
         // Here, you could clean up user counts or manage other disconnect logic if needed
     });
 });
