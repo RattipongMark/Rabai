@@ -14,7 +14,8 @@ const anonyRoomSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tag',  
         required: true,
-        unique: false 
+        unique: false,
+        index: true,
     },
     timestamp: {
         type: Date,

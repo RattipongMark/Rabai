@@ -5,6 +5,7 @@ const boardSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',  
         required: true,
+        index: true
     },
     title:{
         type: String,
@@ -18,6 +19,11 @@ const boardSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tag',  
         required: true,
+        index: true
+    },
+    like: {
+        type: Number,
+        default: 0,  
     },
     create_at: {
         type: Date,

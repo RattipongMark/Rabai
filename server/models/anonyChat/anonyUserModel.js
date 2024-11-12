@@ -7,6 +7,7 @@ const anonyUserSchema = new mongoose.Schema({
         ref: 'User',  
         required: true,
         unique: true, 
+        index: true
     },
     fakeName: {
         type: String,

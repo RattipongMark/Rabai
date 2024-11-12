@@ -1,5 +1,20 @@
 const Board = require('../../models/discussBoard/boardModel'); 
 
+exports.getAllBoards = async (req, res) => {
+    try {
+        const boards = await Board.find();
+
+        if (boards.length === 0) {
+            return res.status(404).json({ message: 'No boards found' });
+        }
+
+        res.status(200).json(boards);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching boards' });
+    }
+};
+
 
 exports.createBoard = async (req, res) => {
     try {
