@@ -4,6 +4,7 @@ import Navb from '../assets/Navbar';
 import Bg from '../assets/bg';
 import '../css/AnonyChat.css'
 import '../App.css'
+import useBoard from '../hooks/discussBoard/useBoard';
 import { Fetch } from 'socket.io-client';
 
 const Dashboard = () => {
@@ -12,21 +13,25 @@ const Dashboard = () => {
     await logout();
   }
 
+  
   const [posts, setPosts] = useState([])
   const [selectedTag, setSelectedTag] = useState('')
 
-  useEffect(()=>{
-    const fetchPosts = async () => {
-      try{
-        const response = await fetch(`http://localhost:3000/api/messages/`)
-        const data = await response.json()
-        setPosts(data) 
-      }catch(error){
-        console.error('error fetching posts : ',error)
-      }
-    }
-    fetchPosts()
-  },[])
+  const { boards, loading, error } = useBoard();
+  console.log(boards)
+  
+  // useEffect(()=>{
+  //   const fetchPosts = async () => {
+  //     try{
+  //       const response = await fetch(`http://localhost:3000/api/messages/`)
+  //       const data = await response.json()
+  //       setPosts(data) 
+  //     }catch(error){
+  //       console.error('error fetching posts : ',error)
+  //     }
+  //   }
+  //   fetchPosts()
+  // },[])
 
   const handleTagChange = (tag) => {
     setSelectedTag(tag);

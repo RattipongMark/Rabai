@@ -5,6 +5,7 @@ const messageSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'AnonyUser',  
         required: true,
+        index: true
     },
     userName:{
         type: String,
