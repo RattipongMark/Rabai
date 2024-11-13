@@ -9,7 +9,9 @@ const anonyUserRouter = require('./routes/anonyChat/anonyUserRoute');
 const anonyRoomRouter = require('./routes/anonyChat/anonyRoomRoute');
 const tagRouter = require('./routes/tagRoute')
 const axios = require('axios');
-const AnonyUser = require('./models/anonyChat/anonyUserModel'); 
+const AnonyUser = require('./models/anonyChat/anonyUserModel');
+const boardRouter = require('./routes/discussBoard/boardRoute');
+const commmentRouter  = require('./routes/discussBoard/commentRoute');
 
 // Middlewares
 app.use(cors());
@@ -21,6 +23,8 @@ app.use('/api/messages', messageRouter);
 app.use('/api/anony', anonyUserRouter);
 app.use('/api/room', anonyRoomRouter);
 app.use('/api/tag', tagRouter);
+app.use('/api/board', boardRouter);
+app.use('/api/comment', commmentRouter);
 
 // DB Connection
 mongoose

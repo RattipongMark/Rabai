@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import './App.css';
 import Register from './Auth/Register';
 import Login from './Auth/Login';
-import Dashboard from './pages/Dashboard';
+import DiscussionBoard from './pages/discussionBoard';
 import AnonyChat from './pages/anonyChat/Anonyroom';
 import RoomTemplate from './pages/anonyChat/Roomtemplate';
 import CreateAnonyChat from './pages/anonyChat/CreateRoom';
@@ -24,8 +24,8 @@ const App = () => {
         <Route path='/login' element={!check ? <Login /> : <Navigate to="/DiscussionBoard" />} />
 
         {/* ถ้ามี token จะเข้าถึงหน้า DiscussionBoard หรือ Anonymous-Chat ได้ */}
-        <Route path='/' element={check ? <Dashboard /> : <Navigate to="/login" />} />
-        <Route path='/DiscussionBoard' element={check ? <Dashboard /> : <Navigate to="/login" />} />
+        <Route path='/' element={check ? <DiscussionBoard /> : <Navigate to="/login" />} />
+        <Route path='/DiscussionBoard' element={check ? <DiscussionBoard /> : <Navigate to="/login" />} />
         
         <Route path='/Anonymous-Chat' element={check ? <AnonyChat /> : <Navigate to="/login" />} />
         <Route path="/room/:roomName" element={check ? <RoomTemplate /> : <Navigate to="/login" />} />
