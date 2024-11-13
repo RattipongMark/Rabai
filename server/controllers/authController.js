@@ -7,7 +7,7 @@ const createError = require('../utils/appError');
 // register
 exports.signup = async (req, res, next) => {
     try {
-        const { email, password, name } = req.body;
+        const { email, password, name, profile } = req.body;
 
         // Check if email ends with @mail.kmutt.ac.th
         if (!email.endsWith('@mail.kmutt.ac.th')) {
@@ -25,6 +25,7 @@ exports.signup = async (req, res, next) => {
             name,
             email,
             password: hashedPassword,
+            profile
         });
 
         // JWT token
@@ -41,6 +42,7 @@ exports.signup = async (req, res, next) => {
                 name: newUser.name,
                 email: newUser.email,
                 role: newUser.role,
+                profile: newUser.profile
             },
         });
 
@@ -82,6 +84,7 @@ exports.login = async (req, res, next) => {
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                profile: user.profile
             }
         })
 

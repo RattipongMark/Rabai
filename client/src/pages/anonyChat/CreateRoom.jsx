@@ -10,15 +10,15 @@ import Select from "react-select";
 import { Spin, message  } from 'antd'; 
 
 const avatars = [
-  "/public/anony/anony1",
-  "/public/anony/anony2",
-  "/public/anony/anony3",
-  "/public/anony/anony4",
-  "/public/anony/anony5",
-  "/public/anony/anony6",
-  "/public/anony/anony7",
-  "/public/anony/anony8",
-  "/public/anony/anony9",
+  "/anony/anony1",
+  "/anony/anony2",
+  "/anony/anony3",
+  "/anony/anony4",
+  "/anony/anony5",
+  "/anony/anony6",
+  "/anony/anony7",
+  "/anony/anony8",
+  "/anony/anony9",
 ];
 
 
@@ -34,7 +34,7 @@ const CreateAnonyChat = () => {
   const [maxParticipants, setMaxParticipants] = useState("");
   const [selectedAvatar, setSelectedAvatar] = useState("");
   const [selectedTag, setSelectedTag] = useState(null);
-  const [maxp , setMaxp] = useState();
+  const [maxp , setMaxp] = useState("");
 
   const handleTagChange = (selectedOption) => {
     setSelectedTag(selectedOption);
@@ -107,7 +107,8 @@ const CreateAnonyChat = () => {
   return (
     <Bg>
       <Navb />
-      <div className="flex w-full h-full py-5 justify-center items-center text-white px-48 gap-8 text-sm">
+       {/* Desktop View */}
+      <div className="hidden lg:flex w-full h-full py-5 justify-center items-center text-white px-48 gap-8 text-sm">
         {/* Avatar Selection Section */}
         <div className="w-1/2 flex flex-col justify-center item-center rounded-lg p-6">
           <div className="flex w-full justify-center gap-1 pb-5 text-3xl font-extrabold">
@@ -195,6 +196,115 @@ const CreateAnonyChat = () => {
               </div>
             </div>
             <div className="flex justify-center">
+              {roomLoading ? (
+                <span>Loading...</span> // Replace with your spinner or loading indicator
+              ) : (
+                <button
+                  type="submit"
+                  onClick={goToRoom}
+                  className="w-full  px-4 py-2 rounded-2xl bg-orange text-sm font-semibold leading-6 lgt-txt shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                >
+                  Create Room
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+        </div>
+        
+      </div>
+
+      {/* Mobile View */}
+      <div className="lg:hidden flex flex-col w-full h-full py-5 justify-center items-center text-white px-4 gap-2 text-sm">
+        {/* Avatar Selection Section */}
+        <div className="w-full flex flex-col justify-center item-center rounded-lg p-6 ">
+          <div className="flex w-full justify-center gap-1 pb-5 text-3xl font-extrabold">
+            <span className="text-orange-500">Select</span>
+            <span>Avatar</span>
+          </div>
+          <div className="w-full flex justify-start overflow-x-auto scrollbar-hide">
+            <div className="flex gap-2">
+              {avatars.map((avatar, index) => (
+                <div
+                  key={index}
+                  className={`flex justify-center items-start pl-2 pt-2 w-[80px] h-[80px] bg-avatar rounded-full overflow-hidden cursor-pointer hover:border border-white/20 ${
+                    selectedAvatar === avatar ? "border border-xl border-orange-500" : ""
+                  }`}
+                  onClick={() => setSelectedAvatar(avatar)}
+                >
+                  <img
+                    src={`${avatar}.svg`}
+                    alt={`anonygoose ${index + 1}`}
+                    className="w-[100px] object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          <div className="pt-8 flex justify-center w-full">
+            <img src="glass.svg" alt="" />
+          </div>
+        </div>
+
+
+        {/* Room List Section */}
+        <div className="w-full flex justify-center">
+        <div className="w-full rounded-lg px-6">
+          <div className="flex justify-start">
+            <a href="/Anonymous-Chat" className="flex justify-center items-center py-2 px-2 w-28  text-white rounded-t-xl bg-[#4a4a63]  hover:bg-[#FB923C]">
+              Rooms
+            </a>
+            <a className="flex justify-center items-center py-2 px-2 w-28  bg-orange text-white rounded-t-xl hover:bg-[#FB923C]">
+              New Room
+            </a>
+          </div>
+
+          {/* Room List */}
+          <div className="flex flex-col  justify-center gap-6 h-[400px] bg-[#282C45] rounded-b-3xl px-12">
+            <div className="w-full h-fit py-8 flex justify-center">
+              <input
+                type="text"
+                className="bg-white/0 border-b-2 border-[#8A8A8E] w-full text-xl text-center "
+                placeholder="Enter Room Name"
+                value={roomName}
+                onChange={(e) => setRoomName(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col gap-4 pt-2">
+              <div className="w-full flex flex-col gap-2">
+                <label htmlFor="tags" className="px-1">
+                  Choose a Tag
+                </label>
+                {tagsLoading ? (
+                  <span>Loading tags...</span>
+                ) : (
+                  <Select
+                    options={tagOptions}
+                    value={selectedTag}
+                    onChange={handleTagChange}
+                    placeholder="Pick your tag"
+                    isClearable={true}
+                    className="text-black"
+                  />
+                )}
+              </div>
+              <div className="w-full flex flex-col gap-2">
+                <label htmlFor="inputText" className="px-1">
+                  Max Participants
+                </label>
+                <input
+                  type="number"
+                  value={maxParticipants}
+                  onChange={handleMaxParticipantsChange}
+                  placeholder="Max Participants"
+                  className="input rounded-md max-w-xs h-[38px] bg-white text-black" // ใช้ bg เดียวกัน
+                  min="2" // ค่าต่ำสุด
+                  max="50" // ค่าสูงสุด
+                />
+              </div>
+            </div>
+            <div className="flex justify-center pt-4">
               {roomLoading ? (
                 <span>Loading...</span> // Replace with your spinner or loading indicator
               ) : (

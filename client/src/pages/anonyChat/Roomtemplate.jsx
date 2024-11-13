@@ -40,21 +40,23 @@ const RoomTemplate = () => {
   console.log(usersInRoom);
   const handleLogoutRoom = async () => {
 
-    if (roomName && fakeName && fakedata?.userId) {
-      const socket = io("http://localhost:3000");
-      socket.emit("leaveRoom", roomName, fakeName, fakedata.userId);
-      socket.disconnect();
-      navigate("/Anonymous-Chat");
-    }
+    // if (roomName && fakeName && fakedata?.userId) {
+    //   const socket = io("http://localhost:3000");
+    //   socket.emit("leaveRoom", roomName, fakeName, fakedata.userId);
+    //   socket.disconnect();
+    //   navigate("/Anonymous-Chat");
+    // }
 
     navigate("/Anonymous-Chat");
   };
 
   const messagesEndRef = useRef(null);
+  const messagesEndRef2 = useRef(null);
 
   useEffect(() => {
     // Scroll to the bottom when messages change
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef2.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const [userPositions, setUserPositions] = useState({});
@@ -94,10 +96,11 @@ const RoomTemplate = () => {
   return (
     <Bg>
       <Navb />
-      <div className="flex w-full h-full py-5 justify-center items-center text-white px-48 gap-32 text-sm">
-        <div className="w-1/2 h-4/6 bg-chat flex justify-end items-center relative overflow-hidden">
-          <div className="pl-8">
-            <img src="/public/shark.gif" alt="" className="w-[150px]" />
+      {/* desktop view */}
+      <div className="hidden lg:flex w-full h-full py-5 justify-center items-center text-white px-32 gap-12 text-sm">
+        <div className="w-1/2 h-4/6 bg-chat flex justify-end items-center relative overflow-hidden  px-4">
+          <div className="w-full px-12 flex justify-end">
+            <img src="/shark.gif" alt="" className="w-[150px]" />
           </div>
 
           {usersInRoom.map((user, index) => {
@@ -113,7 +116,7 @@ const RoomTemplate = () => {
                 <img
                   src={user.avatar + ".gif"} // เพิ่ม .svg ให้กับ path ของ avatar
                   alt={user.userName}
-                  className={`w-[100px] h-[100px] rounded-full ${flip}`}
+                  className={`w-[150px] h-[150px] rounded-full ${flip}`}
                 />
               </div>
             );
@@ -134,14 +137,14 @@ const RoomTemplate = () => {
               <div className="flex justify-between">
                 <div className="flex w-1/3 gap-4">
                   <div>
-                    <img src="./public/Users.svg" alt="" />
+                    <img src="Users.svg" alt="" />
                   </div>
                   <div>{userCount.count} / {maxp}</div>
                 </div>
                 <div className="w-1/3 flex justify-center">{roomName}</div>
                 <div className="w-1/3 flex justify-end">
                   <button onClick={handleLogoutRoom}>
-                    <img src="/public/Log out.svg" alt="Logout" />
+                    <img src="/Logout.svg" alt="Logout" />
                   </button>
                 </div>
               </div>
@@ -152,7 +155,7 @@ const RoomTemplate = () => {
             </div>
           </div>
 
-          <div className="h-full py-8 px-4  overflow-y-auto scroller">
+          <div className="h-full py-1 px-4  overflow-y-auto scroller">
             {messages.map((msg, index) => (
               <div
                 key={index}
@@ -227,6 +230,7 @@ const RoomTemplate = () => {
             <div ref={messagesEndRef} />
           </div>
 
+
           <div className="w-full flex items-center gap-4 bg-[#3D4362] p-4 rounded-xl">
             <div className="flex justify-center items-center w-[60px] h-[60px]">
               {" "}
@@ -258,6 +262,172 @@ const RoomTemplate = () => {
           </div>
         </div>
       </div>
+
+      <div className="lg:hidden flex flex-col  w-full h-full justify-center items-center text-white px-4 text-sm">
+
+        <div className="w-full flex flex-col gap-4 h-3/5 bg-[#404664] rounded-xl p-4 text-sm">
+          <div className="flex flex-col gap-4 pt-2">
+            {loading ? (
+              <div className="text-center text-gray-600 flex w-full justify-center">
+                <Spin size="medium" />
+              </div>
+            ) : fetchError ? (
+              <div className="text-center text-red-600">
+                {fetchError.message}
+              </div>
+            ) : (
+              <div className="flex justify-between">
+                <div className="flex w-1/3 gap-4">
+                  <div>
+                    <img src="/Users.svg" alt="" />
+                  </div>
+                  <div>{userCount.count} / {maxp}</div>
+                </div>
+                <div className="w-1/3 flex justify-center">{roomName}</div>
+                <div className="w-1/3 flex justify-end">
+                  <button onClick={handleLogoutRoom}>
+                    <img src="/Logout.svg" alt="Logout" />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            <div className="w-full px-8 pt-1 opacity-20">
+              <hr />
+            </div>
+          </div>
+
+          <div className="h-full py-1 px-4  overflow-y-auto scroller">
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                className={`${
+                  msg.userName === fakeName
+                    ? "chat chat-end"
+                    : "chat chat-start"
+                }`}
+              >
+                <div
+                  className={`${
+                    msg.userName === fakeName
+                      ? "hidden"
+                      : "flex justify-center items-end w-[60px] h-full"
+                  }`}
+                >
+                  <div
+                    className={`${
+                      msg.userName === fakeName
+                        ? "hidden"
+                        : "flex justify-center items-start pl-2 pt-2 w-[50px] h-[50px] bg-avatar rounded-full overflow-hidden cursor-pointer"
+                    }`}
+                  >
+                    <img
+                      alt="Avatar"
+                      src={msg.avatar ? `${msg.avatar}.svg` : "/Unknow.svg"}
+                      className="w-[100px] object-cover"
+                    />
+                  </div>
+                </div>
+                <div
+                  className={`${
+                    msg.userName === fakeName
+                      ? "flex justify-end pt-4 w-full "
+                      : "pt-4 w-full"
+                  }`}
+                >
+                  <div
+                    className={`${
+                      msg.userName === fakeName ? "hidden" : "chat-header mb-2 "
+                    }`}
+                  >
+                    {msg.avatar ? msg.userName : "Unknow"}
+                  </div>
+                  <div
+                    className={`${
+                      msg.userName === fakeName
+                        ? "chat-bubble text-md chat-end"
+                        : "chat-bubble text-md chat-start "
+                    } break-words whitespace-normal max-w-sm`}
+                  >
+                    {msg.content}
+                  </div>
+                </div>
+
+                {/* <div className="chat-footer opacity-50">
+                  <time
+                    className={`${
+                      msg.userName === fakeName
+                        ? "hidden"
+                        : "text-xs opacity-50"
+                    }`}
+                  >
+                    {new Date(msg.timestamp).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </time>
+                </div> */}
+              </div>
+            ))}
+            <div ref={messagesEndRef2} />
+          </div>
+
+          <div className="w-full flex items-center justify-between gap-4 bg-[#3D4362] px-4 py-2 rounded-xl">
+            <div className="flex justify-center items-center w-fit ">
+              {" "}
+              <div className="flex justify-center items-start pl-1 pt-1 w-[30px] h-[30px] bg-black/20 rounded-full overflow-hidden cursor-pointer ">
+                <img
+                  alt="Avatar"
+                  src={
+                    fakedata.avatar ? `${fakedata.avatar}.svg` : "/Unknow.svg"
+                  }
+                  className="w-[80px] object-cover"
+                />
+              </div>
+            </div>
+
+            <input
+              type="text"
+              placeholder="Type here"
+              className="input w-full  bg-white/0 text-white"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyDown={handleKeyPress}
+            />
+            <div className="w-8 hover:opacity-20 px-2 flex justify-center">
+              {error && <p className="text-red-600 text-sm">{error}</p>}
+              <button onClick={handleSendMessage} className="w-16">
+                <img src="/paper-airplane.svg" alt="Send" className="w-full" />
+              </button>
+            </div>
+          </div>
+
+        </div>
+        <div className="w-full pt-8">
+          {usersInRoom.map((user, index) => {
+              const position = userPositions[user.userName] || { x: 0, y: 0 };
+              const flip = userFlips[user.userName] || ''; 
+
+              return (
+                <div
+                  key={index}
+                  className="absolute"
+                  style={{ left: `${position.x}%` }}
+                >
+                  <img
+                    src={user.avatar + ".gif"} // เพิ่ม .svg ให้กับ path ของ avatar
+                    alt={user.userName}
+                    className={`w-[100px] h-100px] rounded-full ${flip}`}
+                  />
+                </div>
+              );
+            })}
+            <img src="/glass.svg" alt="" />
+        </div>
+
+
+      </div>
+
     </Bg>
   );
 };

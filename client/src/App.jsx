@@ -28,7 +28,7 @@ const App = () => {
         <Route path='/DiscussionBoard' element={check ? <Dashboard /> : <Navigate to="/login" />} />
         
         <Route path='/Anonymous-Chat' element={check ? <AnonyChat /> : <Navigate to="/login" />} />
-        <Route path="/room/:roomName" element={<RoomTemplate />} />
+        <Route path="/room/:roomName" element={check ? <RoomTemplate /> : <Navigate to="/login" />} />
         <Route path='/CreateAnonymous-Chat' element={check ? <CreateAnonyChat /> : <Navigate to="/login" />} />
 
         <Route path='/Activity' element={check ? <Activity /> : <Navigate to="/login" />} />
