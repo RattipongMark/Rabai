@@ -5,38 +5,22 @@ import Bg from '../assets/bg';
 import '../css/AnonyChat.css'
 import '../App.css'
 import useBoard from '../hooks/discussBoard/useBoard';
-import { Fetch } from 'socket.io-client';
 
-const Dashboard = () => {
+const DiscussionBoard = () => {
   const { logout } = useAuth();
   const handleLogout = async () => {
     await logout();
   }
 
-  
-  const [posts, setPosts] = useState([])
   const [selectedTag, setSelectedTag] = useState('')
 
   const { boards, loading, error } = useBoard();
   console.log(boards)
-  
-  // useEffect(()=>{
-  //   const fetchPosts = async () => {
-  //     try{
-  //       const response = await fetch(`http://localhost:3000/api/messages/`)
-  //       const data = await response.json()
-  //       setPosts(data) 
-  //     }catch(error){
-  //       console.error('error fetching posts : ',error)
-  //     }
-  //   }
-  //   fetchPosts()
-  // },[])
 
   const handleTagChange = (tag) => {
     setSelectedTag(tag);
   }
-  const filteredPosts = selectedTag ? posts.filter(post => post.tag === selectedTag) : posts
+  const filteredPosts = selectedTag ? boards.filter(board => board.tag === selectedTag) : boards
 
   const PostTemplate = ({ avatar, name, time, tag, content, likes, comments }) => {
     return (
@@ -96,7 +80,7 @@ const Dashboard = () => {
                   <button onClick={() => handleTagChange('CPE')}>CPE</button>
                 </li>
                 <li>
-                  <button onClick={() => handleTagChange('General')}>General</button>
+                  <button onClick={() => handleTagChange('CHE')}>CHE</button>
                 </li>
                 <li>
                   <button onClick={() => handleTagChange('')}>All Tags</button>
@@ -111,58 +95,22 @@ const Dashboard = () => {
               <p className='lgt-txt'>What’s on your mind, Username</p>
             </div>
           </div>
-          <PostTemplate
-            avatar="./profilegoose2.svg"
-            name="The duck of hell"
-            time="1 h ago"
-            tag='CPE'
-            content="Lorem ipsum dolor sit amet..."
-            likes="30K"
-            comments="150"
-          />
-          <PostTemplate
-            avatar="./profilegoose2.svg"
-            name="The duck of hell"
-            time="1 h ago"
-            tag='CHE'
-            content="Lorem ipsum dolor sit amet..."
-            likes="30K"
-            comments="150"
-          />
-          <PostTemplate
-            avatar="./profilegoose2.svg"
-            name="The duck of hell"
-            time="1 h ago"
-            tag='CPE'
-            content="Lorem ipsum dolor sit amet..."
-            likes="30K"
-            comments="150"
-          />
-          <PostTemplate
-            avatar="./profilegoose2.svg"
-            name="The duck of hell"
-            time="1 h ago"
-            tag="CHE"
-            content="Lorem ipsum dolor sit amet..."
-            likes="30K"
-            comments="150"
-          />
-          {/* {filteredPosts.map((post, index) => (
+          {filteredPosts.map((board, index) => (
             <PostTemplate
               key={index} 
-              avatar={post.avatar}
-              name={post.name}
-              time={post.time}
-              tag={post.tag}
-              content={post.content}
-              likes={post.likes}
-              comments={post.comments}
+              avatar={board.create_at}
+              name={board.title}
+              time={board.time}
+              tag={board.tagId}
+              content={board.description}
+              likes={board.like}
+              comments={board.comments}
             />
-          ))} */}
+          ))}
         </div>
       </div>
     </Bg>
   );
 }
 
-export default Dashboard;
+export default DiscussionBoard;
