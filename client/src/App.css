@@ -14,7 +14,7 @@ body{
 
 .bg-chat {
     background-image: url('/public/bg-chat.svg');
-    background-size: auto;
+    background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
     z-index: 0;
@@ -25,6 +25,12 @@ body{
   background-size: cover;
   background-position: center;
   overflow: hidden;
+}
+
+.bg-regis {
+  background-image: url('/public/bg-regis.svg');
+  background-size: cover;
+  background-position: center;
 }
 
 .text-orange{

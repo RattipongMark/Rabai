@@ -49,6 +49,26 @@ exports.deleteAnonyRoomByRoomId = async (req, res) => {
     }
 };
 
+exports.deleteAnonyRoomByName = async (req, res) => {
+    try {
+        const { roomName } = req.params;
+        // เปลี่ยนจาก findById เป็น findOne และใช้ roomName ในการค้นหา
+        const room = await AnonyRoom.findOne({ roomName });
+        
+        if (!room) {
+            return res.status(404).json({ message: 'Room not found' });
+        }
+
+        await AnonyRoom.deleteOne({ roomName: req.params.roomName });
+        const result = await Message.deleteMany({ room: req.params.roomName });
+        console.log('Deleted messages:', result);
+        res.status(200).json({ message: 'Room deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
 exports.getAllAnonyRooms = async (req, res) => {
     try {
         // ดึงข้อมูลทุกห้องจากฐานข้อมูล

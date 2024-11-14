@@ -1,0 +1,31 @@
+/* กำหนดสีพื้นหลังของ Header และ Footer */
+.custom-modal .ant-modal-header,
+.custom-modal .ant-modal-footer {
+    @apply bg-[#282C45]; /* ใช้ Tailwind class ที่ระบุสีตรงนี้ */
+}
+
+/* กำหนดสีพื้นหลังทั้งหมดของ Modal */
+.custom-modal .ant-modal-content {
+    @apply bg-[#282C45] rounded-lg;
+}
+
+/* สไตล์ของ select ที่เลือกแล้ว */
+.custom-select .ant-select-selector {
+    background-color: #4A5568 !important;  /* สีพื้นหลังของ select */
+    color: whitesmoke !important;  /* สีข้อความ */
+    border-radius: 0.5rem !important;  /* ความโค้งของมุม */
+}
+
+.custom-select .ant-select-arrow {
+    color: whitesmoke !important;  /* เปลี่ยนสีลูกศร */
+}
+
+/* สไตล์ของ dropdown */
+.custom-select .ant-select-item-option {
+    background-color: #4A5568 !important;  /* สีพื้นหลังใน dropdown */
+    color: whitesmoke !important;  /* สีข้อความใน dropdown */
+}
+
+.custom-select .ant-select-item-option-active {
+    background-color: #2D3748 !important;  /* สีพื้นหลังเมื่อเลือก */
+}

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const messageSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -24,6 +25,8 @@ const messageSchema = new mongoose.Schema({
         default: Date.now,  
     },
 });
+
+
 
 const Message = mongoose.model('Message', messageSchema);
 

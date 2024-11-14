@@ -9,7 +9,10 @@ const anonyUserRouter = require('./routes/anonyChat/anonyUserRoute');
 const anonyRoomRouter = require('./routes/anonyChat/anonyRoomRoute');
 const tagRouter = require('./routes/tagRoute')
 const axios = require('axios');
-const AnonyUser = require('./models/anonyChat/anonyUserModel'); 
+const AnonyUser = require('./models/anonyChat/anonyUserModel');
+const boardRouter = require('./routes/discussBoard/boardRoute');
+const commmentRouter  = require('./routes/discussBoard/commentRoute');
+const profileRouter = require('./routes/profileEditRoute');
 
 // Middlewares
 app.use(cors());
@@ -21,6 +24,9 @@ app.use('/api/messages', messageRouter);
 app.use('/api/anony', anonyUserRouter);
 app.use('/api/room', anonyRoomRouter);
 app.use('/api/tag', tagRouter);
+app.use('/api/board', boardRouter);
+app.use('/api/comment', commmentRouter);
+app.use('/api/profile', profileRouter);
 
 // DB Connection
 mongoose
@@ -75,7 +81,7 @@ io.on('connection', (socket) => {
         socket.join(roomName);
         try {
             const user = await AnonyUser.findOne({ fakeName: userName });
-            console.log(user)
+
             if (user) {
                 // Add the user to usersInRoom
                 if (!usersInRoom[roomName]) {
@@ -125,6 +131,14 @@ io.on('connection', (socket) => {
                 checkUser[userName] = false;
             }
 
+            if(usersInRoom[roomName].length == 0){
+                try {
+                    const res = await axios.delete(`http://localhost:3000/api/room/name/${roomName}`);
+                    console.log("room delete succes");
+                } catch (error) {
+                    console.error('Error deleting user:', error.message);
+                }
+            }
             // Emit updated user list and count
             io.to(roomName).emit('updateRoomUsers', usersInRoom[roomName]);
             io.to(roomName).emit('updateUserCount', { roomName, count: usersInRoom[roomName].length });

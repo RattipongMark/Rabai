@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useLogin from '../hooks/auth/useLogin'; // Assume you have a hook for login
 import { Spin } from 'antd'; // Import Spin for the loading spinner
 import '../App.css'
@@ -6,7 +6,7 @@ import Bg from '../assets/bg';
 
 const Login = () => {
   const { loading, loginUser } = useLogin(); // Assume you have login logic in useLogin hook
-
+  const [showPassword, setShowPassword] = useState(false);
   const handleLogin = (event) => {
     event.preventDefault();
     const values = {
@@ -19,18 +19,13 @@ const Login = () => {
 
   return (
     <Bg>
-    <div className="flex min-h-screen flex-col justify-center py-8 lg:px-8 w-screen">
-      <div className="flex justify-center space-x-2 sm:space-x-4 text-4xl font-bold baloo2 sm:mx-auto sm:w-full sm:max-w-xl sm:text-6xl md:text-7xl lg:text-8xl">
-        <span className="lgt-txt">
-          Just
-        </span>
-        <span className="text-orange">
-          Rabai !
-        </span>
+    <div className="flex min-h-screen flex-col justify-center items-center gap-14 py-8 lg:px-8 w-full">
+      <div className="flex justify-center w-full ">
+        <img src="jrb.svg" alt="" />
       </div>
 
-      <div className="mt-10 flex justify-center items-center sm:mx-auto sm:w-full sm:max-w-sm">
-        <form onSubmit={handleLogin} className="space-y-6">
+      <div className="flex justify-center items-center w-3/5 lg:w-1/5">
+        <form onSubmit={handleLogin} className="flex flex-col gap-8 w-full ">
           <div>
             <label htmlFor="email" className="block text-sm font-medium leading-6 lgt-txt baloo2">
               Username
@@ -42,7 +37,7 @@ const Login = () => {
                 type="email"
                 required
                 autoComplete="email"
-                className="block w-80 bg-white rounded-md px-2 py-1.5 text-gray-900 shadow-sm ring-4 ring-inset ring-gray-200 focus:ring-4 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6"
+                className="pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
               />
             </div>
           </div>
@@ -51,37 +46,48 @@ const Login = () => {
             <label htmlFor="password" className="block text-sm font-medium leading-6 lgt-txt baloo2">
               Password
             </label>
-            <div className="mt-2">
+            <div className="mt-2 relative">
               <input
                 id="password"
                 name="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 required
                 autoComplete="current-password"
-                className="block w-80 bg-white rounded-md px-2 py-1.5 text-gray-900 shadow-sm ring-4 ring-inset ring-gray-200 focus:ring-4 focus:ring-inset focus:ring-orange-400 sm:text-sm sm:leading-6"
+                className="pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
               />
+               <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-2 text-gray-500 lg:mt-6"
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
             </div>
           </div>
           <div className="baloo2">
-        <div className="flex justify-center">
+          <div className="flex justify-center w-full">
             {loading ? (
               <Spin size="small" /> // Show loading spinner while logging in
             ) : (
               <button
                 type="submit"
-                className="w-80 mt-10 px-4 py-2 rounded-2xl bg-orange text-sm font-semibold leading-6 lgt-txt shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                className="w-full mt-4 px-4 py-2 rounded-2xl bg-orange text-sm font-semibold leading-6 lgt-txt shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
                 Sign in
               </button>
             )}
           </div>
   
-        <p className="mt-4 text-center text-sm text-gray-500">
-          Don't have an account?{' '}
-          <a href="/register" className="font-semibold leading-6 text-orange hover:text-orange-300">
+          <div className='w-full flex justify-center'> 
+            <div className=' flex gap-2 text-sm items-center pt-6 w-fit'>
+            <div className="text-gray-500">Don't have an account?</div>
+            <a href="/register" className="font-semibold text-orange hover:text-orange-300">
             Register here
-          </a>
-        </p>
+            </a>
+          </div>
+          </div>
+
+
       </div>
         </form>
       </div>

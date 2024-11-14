@@ -14,7 +14,7 @@ export default function Navb() {
   const handleLogout = async () => {
     await logout();
   };
-
+  console.log(storedData)
   useEffect(() => {
     const handleScroll = () => {
       sections.forEach((section) => {
@@ -131,7 +131,7 @@ export default function Navb() {
             <div className="w-8 lg:w-10 rounded-full">
               <img
                 alt="User Avatar"
-                src="/public/profilegoose2.svg"
+                src={storedData.user.profile}
               />
             </div>
           </div>
