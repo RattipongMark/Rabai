@@ -20,11 +20,10 @@ exports.getAllBoards = async (req, res) => {
 
 exports.createBoard = async (req, res) => {
     try {
-        const { userId, title, description, tagId } = req.body;
+        const { userId, description, tagId } = req.body;
 
         const newBoard = new Board({
             userId,
-            title,
             description,
             tagId,
         });

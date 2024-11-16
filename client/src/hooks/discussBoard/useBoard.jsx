@@ -11,7 +11,7 @@ const useBoard = () => {
             try {
                 const response = await axios.get('http://localhost:3000/api/board');  
                 console.log(response.data);  
-                setBoards(response.data);  
+                setBoards(response.data.reverse());  
                 setLoading(false);  
             } catch (err) {
                 setError('Error fetching boards'); 

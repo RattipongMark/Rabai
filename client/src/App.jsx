@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import './App.css';
 import Register from './Auth/Register';
 import Login from './Auth/Login';
-import DiscussionBoard from './pages/discussionBoard';
+import DiscussionBoard from './pages/discussBoard/discussionBoard';
 import AnonyChat from './pages/anonyChat/Anonyroom';
 import RoomTemplate from './pages/anonyChat/Roomtemplate';
 import CreateAnonyChat from './pages/anonyChat/CreateRoom';

@@ -25,7 +25,7 @@ app.use('/api/anony', anonyUserRouter);
 app.use('/api/room', anonyRoomRouter);
 app.use('/api/tag', tagRouter);
 app.use('/api/board', boardRouter);
-app.use('/api/comment', commmentRouter);
+app.use('/api/comments', commmentRouter);
 app.use('/api/profile', profileRouter);
 
 // DB Connection

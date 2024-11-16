@@ -15,6 +15,25 @@ exports.getAllComments = async (req, res) => {
     }
 };
 
+exports.getCommentByBoardId = async (req, res) => {
+    try {
+        const { boardId } = req.params; // รับ boardId จากพารามิเตอร์
+
+        // ค้นหาความคิดเห็นที่ตรงกับ boardId ที่ระบุ
+        const comments = await Comment.find({ boardId }).populate('userId') // populate userId เพื่อดึงข้อมูล username ของผู้ใช้
+
+        if (comments.length === 0) {
+            return res.status(404).json({ message: 'No comments found for this board' });
+        }
+
+        res.status(200).json(comments);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching comments by boardId' });
+    }
+};
+
+
 exports.createComment = async (req, res) => {
     try {
         const { userId, boardId, content } = req.body;
