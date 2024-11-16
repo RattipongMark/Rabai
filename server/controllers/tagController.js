@@ -3,8 +3,8 @@ const Tag = require('../models/tagModel'); // import the Tag model
 // Create Tag
 const createTag = async (req, res) => {
     try {
-        const { tagName } = req.body;
-        const tag = new Tag({ tagName });
+        const { tagName,tagColor } = req.body;
+        const tag = new Tag({ tagName,tagColor });
         // Save the tag to the database
         await tag.save();
         res.status(201).json({ message: 'Tag created successfully', tag });

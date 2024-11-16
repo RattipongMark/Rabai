@@ -2,7 +2,9 @@ const Board = require('../../models/discussBoard/boardModel');
 
 exports.getAllBoards = async (req, res) => {
     try {
-        const boards = await Board.find();
+        const boards = await Board.find()
+            .populate('userId', 'name profile')
+            .populate('tagId', 'tagName tagColor');
 
         if (boards.length === 0) {
             return res.status(404).json({ message: 'No boards found' });

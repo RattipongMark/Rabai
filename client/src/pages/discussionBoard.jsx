@@ -5,9 +5,12 @@ import Bg from '../assets/bg';
 import '../css/AnonyChat.css'
 import '../App.css'
 import useBoard from '../hooks/discussBoard/useBoard';
+import useTags from "../hooks/useTags"; 
 
 const DiscussionBoard = () => {
   const { logout } = useAuth();
+  const { tags, loading: tagsLoading, error: tagsError } = useTags();
+
   const handleLogout = async () => {
     await logout();
   }
@@ -20,9 +23,14 @@ const DiscussionBoard = () => {
   const handleTagChange = (tag) => {
     setSelectedTag(tag);
   }
-  const filteredPosts = selectedTag ? boards.filter(board => board.tag === selectedTag) : boards
+  const filteredPosts = selectedTag ? boards.filter(board => board.tagId.tagName === selectedTag) : boards
 
-  const PostTemplate = ({ avatar, name, time, tag, content, likes, comments }) => {
+  const tagOptions = tags.map((tag) => ({
+    value: tag._id, // Assuming the tag object has an _id field
+    label: tag.tagName, // Assuming the tag object has a tagName field
+  }));
+
+  const PostTemplate = ({ avatar, name, time, tag, tagColor ,content, likes, comments }) => {
     return (
       <div className="card bg-[#404664] p-6 lgt-txt w-full space-y-4">
         <div className="flex items-center">
@@ -32,7 +40,7 @@ const DiscussionBoard = () => {
             <p className="text-gray-400 text-sm">{time}</p>
           </div>
           <div className="ml-auto">
-            <span className="bg-[#E1F3FF] text-xs font-semibold text-[#0095FF] px-5 py-0.5 rounded-full">{tag}</span>
+            <span className="text-xs font-light text-white px-5 py-0.5 rounded-full" style={{ backgroundColor: tagColor }}>{tag}</span>
           </div>
         </div>
 
@@ -76,7 +84,15 @@ const DiscussionBoard = () => {
               <ul
                 tabIndex={0}
                 className="dropdown-content menu bg-base-300  rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                <li>
+                {tags.map((tag) => (
+                  <li>
+                    <button onClick={() => handleTagChange(tag.tagName)}>{tag.tagName}</button>
+                  </li>
+                ))}
+                 <li>
+                  <button onClick={() => handleTagChange('')}>All Tags</button>
+                </li>
+                {/* <li>
                   <button onClick={() => handleTagChange('CPE')}>CPE</button>
                 </li>
                 <li>
@@ -84,7 +100,7 @@ const DiscussionBoard = () => {
                 </li>
                 <li>
                   <button onClick={() => handleTagChange('')}>All Tags</button>
-                </li>
+                </li> */}
               </ul>
             </div>
           </div>
@@ -98,10 +114,11 @@ const DiscussionBoard = () => {
           {filteredPosts.map((board, index) => (
             <PostTemplate
               key={index} 
-              avatar={board.create_at}
-              name={board.title}
-              time={board.time}
-              tag={board.tagId}
+              avatar={board.userId.profile}
+              name={board.userId.name}
+              time={board.upadate_at}
+              tag={board.tagId.tagName}
+              tagColor = {board.tagId.tagColor}
               content={board.description}
               likes={board.like}
               comments={board.comments}
