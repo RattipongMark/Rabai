@@ -9,7 +9,7 @@ const useTags = () => {
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/tag/tags"); // URL ของ API สำหรับดึง tags
+        const response = await axios.get("http://localhost:3000/api/tag/tags"); 
         setTags(response.data);
       } catch (err) {
         setError("Failed to fetch tags");

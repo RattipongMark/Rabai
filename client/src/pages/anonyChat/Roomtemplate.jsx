@@ -198,7 +198,7 @@ const RoomTemplate = () => {
                       msg.userName === fakeName ? "hidden" : "chat-header mb-2 "
                     }`}
                   >
-                    {msg.avatar ? msg.userName : "Unknow"}
+                    {msg.avatar ? msg.userName : "Unknown"}
                   </div>
                   <div
                     className={`${

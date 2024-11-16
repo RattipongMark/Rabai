@@ -3,6 +3,8 @@ const commentController = require('../../controllers/discussBoard/commentControl
 
 const router = express.Router();
 
+router.get('/', commentController.getAllComments);
+
 router.post('/create', commentController.createComment);
 
 router.delete('/:CommentId', commentController.deleteComment);
