@@ -9,6 +9,6 @@ router.get('/:boardId', commentController.getCommentByBoardId);
 
 router.post('/', commentController.createComment);
 
-router.delete('/:CommentId', commentController.deleteComment);
+router.delete('/delete', commentController.deleteComment);
 
 module.exports = router;
