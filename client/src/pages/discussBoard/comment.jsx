@@ -20,12 +20,12 @@ const Comment = ({ closeModal, activePost }) => {
     };
 
     return (
-        <div className="flex flex-col w-full h-full gap-4 pt-8">
-            <div className="flex items-center">
+        <div className="flex flex-col w-full h-full gap-4 pt-8 text-white">
+            <div className="flex items-center h-fit">
                 <img src={activePost.userId.profile} className="size-8 rounded-full mr-8 lg:size-12" />
-                <div>
-                    <p className="font-semibold text-sm lg:text-lg">{activePost.userId.name}</p>
-                    <p className="text-gray-400 text-sm">{timeAgo}</p>
+                <div className='flex flex-col gap-1'>
+                    <div className="font-semibold text-sm lg:text-lg">{activePost.userId.name}</div>
+                    <div className="text-gray-400 text-xs ">{timeAgo}</div>
                 </div>
                 <div className="ml-auto">
                     <span
@@ -37,14 +37,14 @@ const Comment = ({ closeModal, activePost }) => {
                 </div>
             </div>
 
-            <article className="text-sm leading-relaxed w-full break-words whitespace-pre-wrap max-h-2/3 h-fit min-h-16 overflow-y-auto scroller mt-4">
+            <article className="text-sm leading-relaxed w-full break-words whitespace-pre-wrap max-h-1/2 h-fit min-h-32  overflow-y-auto scroller mt-4 lg:text-lg">
                 {activePost?.description || "No description"}
             </article>
 
             <div className="opacity-20 h-4 "><hr /></div>
 
             {/* ส่วนแสดง comments */}
-            <div className="comments-section space-y-4 h-full overflow-y-auto scroller">
+            <div className="comments-section space-y-4 max-h-1/2 h-full overflow-y-auto scroller">
                 {loading ? (
                     <p>Loading comments...</p>
                 ) : error ? (

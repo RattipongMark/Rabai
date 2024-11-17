@@ -11,6 +11,8 @@ import CreateBoard from "./createBoard";
 import Comment from "./comment";
 import { formatDistanceToNow, parseISO } from 'date-fns';
 
+
+
 const DiscussionBoard = () => {
   const { logout } = useAuth();
   const { tags, loading: tagsLoading, error: tagsError } = useTags();
@@ -114,7 +116,7 @@ const DiscussionBoard = () => {
             className="flex items-center space-x-1 cursor-pointer"
             onClick={() => handleLikeToggle(id)}
           >
-            <span>{likes}</span>
+            {/* <span>{likes}</span> */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -241,8 +243,8 @@ const DiscussionBoard = () => {
   return (
     <Bg>
       <Navb />
-      <div className="flex flex-col justify-center w-full h-svh gap-4 lg:flex-row">
-        <div className="hidden lg:flex lg:flex-col lg:gap-4 lg:block lg:items-center lg:w-1/5 lg:bg-[#20243C] lg:pt-32 ">
+      <div className="flex flex-col justify-center w-full h-svh gap-4 lg:flex-row  ">
+        <div className="hidden lg:flex lg:flex-col lg:gap-4 lg:block lg:items-center lg:w-1/5 lg:bg-[#20243C] lg:pt-24">
           <div
             onClick={handleMyB}
             className="flex items-center gap-4 w-4/5 py-2 px-2 rounded-xl hover:bg-white/10 cursor-pointer"
@@ -298,7 +300,7 @@ const DiscussionBoard = () => {
           </div>
         </div>
 
-        <div className="flex flex-col justify-start items-center w-full pt-20 px-8 h-svh overflow-y-auto lg:pt-32 lg:px-28 lg:w-4/5 ">
+        <div className="flex flex-col justify-start items-center w-full  px-8 h-svh overflow-y-auto  lg:px-28 lg:w-4/5 lg:pt-24">
           <div className="flex justify-end w-full items-center gap-2 mb-4">
             <div className="flex  justify-end items-center relative lg:w-1/4">
               <input
@@ -369,7 +371,7 @@ const DiscussionBoard = () => {
                   src={storedData.user.profile}
                   className="size-8 rounded-full lg:mr-8 lg:size-12"
                 />
-                <p className="text-sm lg:text-lg">What’s on your mind, Username</p>
+                <p className="text-sm text-white/60 lg:text-lg">What’s on your mind, {storedData.user.name}</p>
               </div>
             </div>
             {filteredPosts.map((board, index) => (

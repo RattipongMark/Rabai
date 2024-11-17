@@ -2,19 +2,47 @@ import { useState, useEffect } from "react";
 import "/src/index.css";
 import "/src/css/navbar.css";
 import { useAuth } from "../contexts/AuthContext";
+import useNotifications from "../hooks/useNoti"; // import custom hook
+import axios from "axios";
+import { Spin, message  } from 'antd'; 
+import 'antd/dist/reset.css'; 
 
 
 export default function Navb() {
   const [activeTab, setActiveTab] = useState("Home");
+  const [notifications, setNotifications] = useState([]); // สร้างสถานะสำหรับเก็บข้อมูล notifications
 
   const sections = ["DiscussionBoard", "Anonymous-Chat", "Activity"];
-
-  const {logout } = useAuth();
+  const { logout } = useAuth();
   const storedData = JSON.parse(localStorage.getItem('user_data'));
+  const userId = storedData?.user._id; // ดึง userId จาก storedData
+
+  const { notifications: fetchedNotifications, loading, error } = useNotifications(userId); // ใช้ hook ดึงการแจ้งเตือน
+  console.log(fetchedNotifications);
+
+  // ฟังก์ชันการลบทั้งหมด
+  const handleDeleteAllNoti = async() => {
+    try {
+    await axios.delete(`http://localhost:3000/api/noti/discussionboard/${userId}`);
+    setNotifications([]); 
+    message.success('All notifications have been deleted.');
+  } catch (error) {
+    console.error("Error deleting notifications:", error);
+
+    // Show an error message
+    message.error('Failed to delete notifications.');
+  }
+  }
+  useEffect(() => {
+    if (fetchedNotifications) {
+      setNotifications(fetchedNotifications); // อัพเดต notifications เมื่อโหลดข้อมูลเสร็จ
+    }
+  }, [fetchedNotifications]);
+
   const handleLogout = async () => {
     await logout();
   };
-  console.log(storedData)
+
   useEffect(() => {
     const handleScroll = () => {
       sections.forEach((section) => {
@@ -33,17 +61,24 @@ export default function Navb() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [sections]);
 
+  if (loading) {
+    return <div>Loading notifications...</div>;
+  }
+
+  if (error) {
+    return <div>Error loading notifications: {error}</div>;
+  }
 
   return (
-    <div className="navbar nav-blur fixed px-4 lg:px-16 pt-2 py-2 text-white font-thin z-50  w-full top-0 right-0 left-0">
+    <div className="fixed top-0 flex w-full justify-center items-center px-8 h-16 bg-[#20243C]/1 backdrop-blur-lg z-50 text-white lg:flex-row  lg:h-20">
       {/* Left Side - Logo and Mobile Menu */}
-      <div className="navbar-start flex w-full">
-        <div className="dropdown">
+      <div className="navbar-start flex w-full items-center">
+        <div className="dropdown lg:hidden ">
           <div
             tabIndex={0}
             role="button"
             aria-label="Toggle navigation"
-            className="btn btn-ghost lg:hidden"
+            className="btn btn-ghost color-white"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -76,11 +111,13 @@ export default function Navb() {
             ))}
           </ul>
         </div>
-        <a className="hidden lg:block "><img src="/public/Logo.svg" alt="Logo" /></a>
+        <a className="hidden lg:block">
+          <img src="/public/Logo.svg" alt="Logo" className="size-32"/>
+        </a>
       </div>
 
       {/* Center - Navbar Links for Desktop */}
-      <ul className="hidden w-full lg:flex gap-10 px-1 justify-center">
+      <ul className="hidden w-full h-full lg:flex lg:gap-10 lg:px-1 lg:justify-center lg:items-end pb-4">
         {sections.map((section) => (
           <li key={section}>
             <a
@@ -97,7 +134,7 @@ export default function Navb() {
       </ul>
 
       {/* Right Side - Notifications and User Profile */}
-      <div className="navbar-end flex gap-4 lg:gap-8 w-full justify-end">
+      <div className="navbar-end flex gap-4 lg:gap-8 w-full justify-end items-center">
         {/* Notifications Dropdown */}
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button">
@@ -105,20 +142,23 @@ export default function Navb() {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-noti backdrop-blur-lg rounded-2xl z-[1] mt-3 w-52 lg:w-[446px] max-h-[442px] h-fit p-4 shadow-lg flex flex-col gap-4"
+            className="menu menu-sm dropdown-content bg-noti backdrop-blur-lg rounded-2xl z-[1] mt-3 w-64 flex flex-col lg:w-[446px] p-4 lg:shadow-lg lg:gap-4"
           >
             <div className="text-orange-400 font-medium">Notification</div>
             <div className="text-gray-400 font-light">Discussion Board</div>
-            <div className="flex flex-col gap-2 min-h-[50px]">
-              {/* Notification Items */}
-              <NotificationCard
-                avatar="/public/profilegoose2.svg"
-                title="The cat of home"
-                message="Comment on your post : ซาหวัดดีรึค้าบวัยรุ่น..."
-              />
+            <div className="flex flex-col gap-2 w-full min-h-[50px] h-auto max-h-[300px] overflow-y-auto">
+              {/* แสดงรายการ notifications */}
+              {notifications.map((notification, index) => (
+                <NotificationCard
+                  key={index}
+                  avatar={notification.commentId.userId.profile || "/public/Unknow.svg"}
+                  title={notification.commentId.userId.name || "Unknown User"}
+                  message={`Comment : ${notification.commentId?.content || "No content available"}`}
+                />
+              ))}
             </div>
-            <div className="flex justify-end">
-              <button className="w-[90px] h-[28px] bg-danger text-white rounded-lg hover:bg-red-600">
+            <div className="flex justify-end pt-8">
+              <button onClick={handleDeleteAllNoti} className="w-[90px] h-[28px] bg-danger text-white rounded-lg hover:bg-red-600">
                 Delete All
               </button>
             </div>
@@ -131,7 +171,7 @@ export default function Navb() {
             <div className="w-8 lg:w-10 rounded-full">
               <img
                 alt="User Avatar"
-                src={storedData.user.profile}
+                src={storedData?.user?.profile}
               />
             </div>
           </div>
@@ -140,11 +180,11 @@ export default function Navb() {
             className="menu menu-sm dropdown-content bg-noti rounded-box z-[1] mt-3 w-40 lg:w-52 px-2 py-4 shadow flex flex-col gap-2"
           >
             <li>
-              <a className="justify-between hover:bg-white/10 ">
-                {storedData.user.name}
+              <a href="/Profile" className="justify-between hover:bg-white/10 ">
+                {storedData?.user?.name}
               </a>
             </li>
-            <li><a>Edit Profile</a></li>
+            <li><a  href="/Profile">Edit Profile</a></li>
             <li><a onClick={handleLogout} className="text-danger">Logout</a></li>
           </ul>
         </div>
@@ -153,9 +193,17 @@ export default function Navb() {
   );
 }
 
+// NotificationCard Component
 function NotificationCard({ avatar, title, message }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  // ฟังก์ชันที่จะทำการ toggle การแสดงข้อความ
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   return (
-    <div className="flex items-start px-2 py-2 rounded-lg h-[60px] w-full hover:border border-[#404664]">
+    <div className="flex items-start px-2 py-2 rounded-lg h-full w-full hover:border border-[#404664]">
       {/* Avatar Section */}
       <div className="relative w-8 h-8 lg:w-10 lg:h-10 mr-4">
         <img
@@ -167,9 +215,30 @@ function NotificationCard({ avatar, title, message }) {
           <img src="/public/incon_noti.svg" alt="" className="w-full h-full" />
         </div>
       </div>
-      <div>
+
+      <div className="w-32 lg:w-72">
         <h3 className="text-white font-semibold text-sm lg:text-base">{title}</h3>
-        <p className="text-gray-400 text-xs lg:text-sm">{message}</p>
+        {/* ข้อความการแจ้งเตือน */}
+        <p
+          className={`text-gray-400 text-xs lg:text-sm ${
+            !isExpanded ? "truncate" : "text-ellipsis" // ใช้ truncate ถ้าไม่ได้กดแสดงข้อความเพิ่มเติม
+          }`}
+          style={{
+            maxHeight: !isExpanded ? "40px" : "none", // จำกัดความสูงถ้าไม่ได้ขยาย
+            overflow: "hidden", // ซ่อนข้อความที่เกิน
+            textOverflow: "ellipsis", // แสดง "..." เมื่อข้อความยาวเกินไป
+          }}
+        >
+          {message}
+        </p>
+
+        {/* ปุ่มสำหรับขยายข้อความ */}
+        <button
+          className="text-blue-400 text-xs mt-2"
+          onClick={toggleExpand}
+        >
+          {isExpanded ? "Show less" : "Read more"}
+        </button>
       </div>
     </div>
   );

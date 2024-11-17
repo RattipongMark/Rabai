@@ -7,6 +7,6 @@ const profileEditController = require('../controllers/profileEditController');
 router.get('/', profileEditController.getProfilebyID);
 
 // Route to update profile by ID (use PUT or PATCH for updating)
-router.post('/updateprofile/', profileEditController.updateProfile);
+router.put('/updateprofile/', profileEditController.updateProfile);
 
 module.exports = router;
