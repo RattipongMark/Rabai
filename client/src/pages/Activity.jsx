@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import '../App.css';
-import { useAuth } from '../../contexts/AuthContext';
-import Bg from '../../assets/bg';
-import Navb from '../../assets/Navbar';
+import { useAuth } from "../contexts/AuthContext";
+import Bg from "../assets/bg";
+import Navb from "../assets/Navbar";
 import { Button, Input, Modal, Form } from "antd";
 import { FilterOutlined, PlusOutlined} from '@ant-design/icons';
 import { Select } from 'antd';
