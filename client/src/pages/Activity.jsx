@@ -18,10 +18,10 @@ const Activity = () => {
     const [selectedTag, setSelectedTag] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [newActivity, setNewActivity] = useState({
-        title: '',
-        details: '',
+        title: 'ฟฟ',
+        details: 'กหฟหกด',
         tag: '',
-        location: '',
+        location: 'กฟห',
         date: '',
         time: '',
         participants: ''
@@ -117,7 +117,8 @@ const Activity = () => {
     return (
         <Bg>
             <Navb />
-            <div className='justify-center p-28'>
+            <div className='justify-center p-28 '>
+                
                 <div className='flex justify-between mb-4'>
                     <Button icon={<PlusOutlined />} onClick={handleNewActivity} type="primary" style={{backgroundColor:'#FB923C'}}>New Activity</Button>
                     <div className='relative flex items-center'>

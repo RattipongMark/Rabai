@@ -4,7 +4,6 @@ const getProfilebyID = async (req,res) =>{
     try {
         const {id} = req.body;
         const profile = await User.findById(id);
-        console.log(id);
         
         res.status(200).json(profile)
     } catch (error) {
