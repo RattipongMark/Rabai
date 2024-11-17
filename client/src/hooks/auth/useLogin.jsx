@@ -22,6 +22,7 @@ const useLogin = () => {
 
             const data = await res.json();
             if (res.status === 200) {
+                console.log("succes")
                 message.success(data.message);
                 login(data.token, data.user);
             } else if (res.status === 401) {

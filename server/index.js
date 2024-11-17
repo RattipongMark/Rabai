@@ -13,10 +13,13 @@ const AnonyUser = require('./models/anonyChat/anonyUserModel');
 const boardRouter = require('./routes/discussBoard/boardRoute');
 const commmentRouter  = require('./routes/discussBoard/commentRoute');
 const profileRouter = require('./routes/profileEditRoute');
+const notiRouter = require('./routes/notiRoute');
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
+
+
 
 // Routes
 app.use('/api/auth', authRouter);
@@ -25,9 +28,9 @@ app.use('/api/anony', anonyUserRouter);
 app.use('/api/room', anonyRoomRouter);
 app.use('/api/tag', tagRouter);
 app.use('/api/board', boardRouter);
-app.use('/api/comment', commmentRouter);
+app.use('/api/comments', commmentRouter);
 app.use('/api/profile', profileRouter);
-
+app.use('/api/noti',notiRouter);
 // DB Connection
 mongoose
     .connect('mongodb+srv://Iamdev:password1234@rabaiweb.gpd3d.mongodb.net/rabaiweb?retryWrites=true&w=majority&appName=RabaiWeb')
@@ -64,6 +67,7 @@ let usersInRoom = {};
 let checkUser = {};
 
 io.on('connection', (socket) => {
+
     const roomUserCounts = Object.keys(usersInRoom).reduce((counts, roomName) => {
         counts[roomName] = usersInRoom[roomName].length; // Count users in each room
         return counts;
@@ -159,4 +163,5 @@ io.on('connection', (socket) => {
         console.log('Client disconnected');
         // Here, you could clean up user counts or manage other disconnect logic if needed
     });
+
 });

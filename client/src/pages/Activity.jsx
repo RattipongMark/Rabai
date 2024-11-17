@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import '../App.css';
-import { useAuth } from '../contexts/AuthContext';
-import Bg from '../assets/bg';
-import Navb from '../assets/Navbar';
+import { useAuth } from '../../contexts/AuthContext';
+import Bg from '../../assets/bg';
+import Navb from '../../assets/Navbar';
 import { Button, Input, Modal, Form } from "antd";
-import { FilterOutlined, PlusOutlined } from '@ant-design/icons';
+import { FilterOutlined, PlusOutlined} from '@ant-design/icons';
 import { Select } from 'antd';
+import { DatePicker, TimePicker } from "antd";
+import moment from "moment";
 import '../css/ActivityForm.css';
 
 const Activity = () => {
@@ -18,21 +20,24 @@ const Activity = () => {
     const [selectedTag, setSelectedTag] = useState('');
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [newActivity, setNewActivity] = useState({
-        title: '',
-        details: '',
+        title: 'ฟฟ',
+        details: 'กหฟหกด',
         tag: '',
-        location: '',
+        location: 'กฟห',
         date: '',
-        time: ''
+        time: '',
+        participants: ''
     });
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setNewActivity(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
-    };
+        if (name === "capacity") {
+            const parsedValue = Math.max(1, parseInt(value) || 1); // ล็อคให้ค่ามากกว่า 0
+            setNewActivity({ ...newActivity, [name]: parsedValue });
+            } else {
+        setNewActivity({ ...newActivity, [name]: value });
+    }
+    };    
 
     useEffect(() => {
         const fetchActivities = async () => {
@@ -114,18 +119,24 @@ const Activity = () => {
     return (
         <Bg>
             <Navb />
-            <div className='justify-center p-28'>
+            <div className='justify-center p-28 '>
                 <div className='flex justify-between mb-4'>
                     <Button icon={<PlusOutlined />} onClick={handleNewActivity} type="primary" style={{backgroundColor:'#FB923C'}}>New Activity</Button>
-                    <div className='relative'>
-                        <input className='w-[460px] h-14 pl-6 bg-white bg-opacity-50 rounded-full lgt-txt mr-5 placeholder:text-gray-300' type='text' placeholder='Search Activity'></input>
-                        <FilterOutlined className='absolute right-14 top-5 cursor-pointer' />
+                    <div className='relative flex items-center'>
+                        <input 
+                        className='w-[460px] h-14 pl-14 pr-6 bg-white bg-opacity-50 rounded-full lgt-txt placeholder:text-gray-300'  type='text' placeholder='Search Activity' 
+                        />
+                        <span className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17.5 10.5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </span>
                     </div>
                     <div className='dropdown dropdown-end'>
-                        <button tabIndex={0} className='size-14 bg-white bg-opacity-50 rounded-full relative'>
-                            <FilterOutlined className='absolute right-4 top-5' />
+                        <button tabIndex={0} className='flex items-center justify-center w-14 h-14 bg-white bg-opacity-50 rounded-full relative'>
+                            <FilterOutlined className='text-gray-500 text-xl' />
                         </button>
-                        <ul tabIndex={0} className="dropdown-content menu bg-base-300 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                        <ul tabIndex={0} className="dropdown-content menu bg-base-300 rounded-box z-[1] mt-3 w-52 p-2 shadoe">
                             <li><button onClick={() => handleTagChange('CPE')}>CPE</button></li>
                             <li><button onClick={() => handleTagChange('General')}>General</button></li>
                             <li><button onClick={() => handleTagChange('')}>All Tags</button></li>
@@ -229,32 +240,49 @@ const Activity = () => {
                             />
                         </Form.Item>
                         <div style={{ display: 'flex', gap: '16px' }}>
-                            <Form.Item label="Date" style={{ flex: 1 }}>
-                                <Input 
-                                name="date" 
-                                placeholder="YYYY-MM-DD" 
-                                value={newActivity.date} 
-                                onChange={handleInputChange} 
-                                className="bg-[#4A5568] text-white border-none rounded-lg" 
-                                style={{
-                                    backgroundColor: '#4A5568',
-                                    color: 'whitesmoke',
-                                }} 
-                                />
-                            </Form.Item>
-                            <Form.Item label="Time" style={{ flex: 1 }}>
-                                <Input 
-                                name="time" 
-                                placeholder="HH:MM"
-                                 value={newActivity.time} 
-                                 onChange={handleInputChange} 
-                                 className="bg-[#4A5568] text-white border-none rounded-lg"
-                                 style={{
-                                    backgroundColor: '#4A5568',
-                                    color: 'whitesmoke',
-                                }} 
-                                />
-                            </Form.Item>
+                        <Form.Item label="Date" style={{ flex: 1 }}>
+                            <DatePicker 
+                            name="date"
+                            placeholder="Select a date"
+                            value={newActivity.date ? moment(newActivity.date, 'YYYY-MM-DD') : null}
+                            onChange={(date, dateString) =>
+                                setNewActivity({ ...newActivity, date: dateString })
+                            }
+                            className="bg-[#4A5568] text-white border-none rounded-lg"
+                            style={{ backgroundColor: '#4A5568', color: 'whitesmoke' }}
+                            />
+                        </Form.Item>
+                        <Form.Item label="Time" style={{ flex: 1 }}>
+                            <TimePicker
+                            name="time"
+                            placeholder="Select a time"
+                            value={newActivity.time ? moment(newActivity.time, 'HH:mm') : null}
+                            onChange={(time, timeString) =>
+                                setNewActivity({ ...newActivity, time: timeString })
+                            }
+                            className="bg-[#4A5568] text-white border-none rounded-lg"
+                            style={{ backgroundColor: '#4A5568', color: 'whitesmoke' }}
+                            format="HH:mm"
+                            />
+                        </Form.Item>
+                        <Form.Item label="participants">
+                            <Input
+                            name="capacity" 
+                            type="number" 
+                            placeholder="Enter maximum participants"
+                            value={newActivity.capacity} 
+                            onChange={(e) => {
+                                const value = Math.max(1, parseInt(e.target.value) || 1); // ล็อคค่าไม่ให้ต่ำกว่า 1
+                                setNewActivity({ ...newActivity, capacity: value });
+                            }} 
+                            className="bg-[#4A5568] text-white border-none rounded-lg"
+                            style={{
+                                backgroundColor: '#4A5568',
+                                color: 'whitesmoke',
+                            }}
+                            min={1}
+                            />
+                        </Form.Item>
                         </div>
                     </Form>
                 </Modal>

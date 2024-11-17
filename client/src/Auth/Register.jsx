@@ -58,11 +58,11 @@ const Register = () => {
           <p className="text-orange baloo2">Profile</p>
         </div>
 
-        <div className="flex flex-col w-full justify-center items-center gap-8 lg:flex-row lg:gap-16 lg:items-start">
-          <div className="flex justify-center items-center bg-regis rounded-full size-32 lg:size-80 " onClick={openModal}>
+        <div className="flex flex-col w-full justify-center items-center gap-8 lg:flex-row lg:gap-8 lg:items-start lg:px-[200px]">
+          <div className="flex justify-center items-center bg-regis rounded-full size-32 lg:size-60 " onClick={openModal}>
             <img src={selectedProfile || "/profile/profile1.svg"} alt="Profile" className="rounded-full size-10/12 hover:opacity-80 hover:cursor-pointer" />
           </div>
-          <form onSubmit={handleRegister} className="flex flex-col gap-8 w-full px-14 lg:grid grid-cols-2 lg:gap-16 lg:w-1/3">
+          <form onSubmit={handleRegister} className="flex flex-col gap-8 w-full px-14 lg:grid grid-cols-2 lg:gap-16 lg:w-2/3">
             <div>
               <label htmlFor="name" className="block text-sm font-medium leading-6 lgt-txt">
                 Username
@@ -92,7 +92,7 @@ const Register = () => {
                   // placeholder="Enter your email"
                   required
                   autoComplete="email"
-                  className="pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
+                  className="pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full text-white/60 lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
                 />
               </div>
             </div>
@@ -109,7 +109,7 @@ const Register = () => {
                   // placeholder="Enter your password"
                   required
                   autoComplete="new-password"
-                  className="pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
+                  className="pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full text-white/60 lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
                 />
                 <button
                   type="button"
@@ -133,7 +133,7 @@ const Register = () => {
                   // placeholder="Confirm your password"
                   required
                   autoComplete="new-password"
-                  className="pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
+                  className="pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full text-white/60 lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
                 />
                 <button
                   type="button"

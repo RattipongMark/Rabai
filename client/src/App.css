@@ -33,6 +33,13 @@ body{
   background-position: center;
 }
 
+.bg-art {
+  background-image: url('/public/art.png');
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+}
+
 .text-orange{
     color: #FB923C;
 }

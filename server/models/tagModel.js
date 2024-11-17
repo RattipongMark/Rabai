@@ -6,6 +6,11 @@ const TagSchema = new mongoose.Schema({
         required: true,
         unique: true, 
     },
+    tagColor:{
+        type: String,
+        require: true,
+        unique: true
+    },
     timestamp: {
         type: Date,
         default: Date.now,  
