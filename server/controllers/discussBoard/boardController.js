@@ -38,7 +38,7 @@ exports.createBoard = async (req, res) => {
 
 exports.deleteBoard = async (req, res) => {
     try {
-        const { BoardId } = req.params;
+        const { BoardId } = req.body;
         
         const deletedBoard = await Board.findByIdAndDelete(BoardId);
         

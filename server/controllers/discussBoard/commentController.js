@@ -36,7 +36,7 @@ exports.createComment = async (req, res) => {
 
 exports.deleteComment = async (req, res) => {
     try {
-        const { CommentId } = req.params;
+        const { CommentId } = req.body;
 
         const deletedComment = await Comment.findByIdAndDelete(CommentId);
 
