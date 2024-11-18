@@ -10,6 +10,7 @@ import CreateAnonyChat from './pages/anonyChat/CreateRoom';
 import { useAuth } from './contexts/AuthContext';
 import Activity from './pages/Activity';
 import UserProfile from './pages/userProfile';
+import GuestView from './pages/guestView';
 
 const App = () => {
   // ตรวจสอบข้อมูลจาก localStorage และตรวจสอบว่าเป็น null หรือไม่
@@ -22,6 +23,7 @@ const App = () => {
     <Router>
       <Routes>
         {/* ถ้าไม่มี token จะไปที่หน้า Register หรือ Login */}
+        <Route path='/' element={!check ? <GuestView /> : <Navigate to="/DiscussionBoard" />} />
         <Route path='/register' element={!check ? <Register /> : <Navigate to="/DiscussionBoard" />} />
         <Route path='/login' element={!check ? <Login /> : <Navigate to="/DiscussionBoard" />} />
 

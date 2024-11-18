@@ -53,16 +53,21 @@ const Register = () => {
     <Bg>
       <div className="min-h-screen w-full flex flex-col justify-center gap-8 lg:px-8 lg:gap-24">
         <div className="flex justify-center items-center space-x-3 font-bold text-4xl sm:mx-auto sm:w-full sm:max-w-xl sm:text-6xl md:text-7xl lg:text-8xl">
-          <span className="lgt-txt baloo2">Create</span>
-          <span className="text-orange baloo2">Your</span>
-          <p className="text-orange baloo2">Profile</p>
+          <div className="lgt-txt baloo2">Create</div>
+          <div className="text-orange baloo2">Your</div>
+          <div className="text-orange baloo2">Profile</div>
         </div>
 
-        <div className="flex flex-col w-full justify-center items-center gap-8 lg:flex-row lg:gap-8 lg:items-start lg:px-[200px]">
-          <div className="flex justify-center items-center bg-regis rounded-full size-32 lg:size-60 " onClick={openModal}>
-            <img src={selectedProfile || "/profile/profile1.svg"} alt="Profile" className="rounded-full size-10/12 hover:opacity-80 hover:cursor-pointer" />
+        <div className="flex flex-col w-full h-full justify-center items-center gap-8 lg:flex-row lg:gap-8 lg:items-center lg:px-[200px]">
+          <div className='flex flex-col items-center justify-center w-full gap-4 h-full lg:gap-4 lg:w-1/3'>   
+            {/* <div className='w-full text-center text-2xl text-orange'>Select Profile</div>    */}
+            <div className="flex justify-center items-center bg-regis rounded-full size-32  lg:size-72 " onClick={openModal}>
+              <img src={selectedProfile || "/profile/profile1.svg"} alt="Profile" className="rounded-full size-10/12 hover:opacity-80 hover:cursor-pointer" />
+            </div>
+            <img src="glass.svg" alt="" className='w-2/3 lg:w-full'/>
           </div>
-          <form onSubmit={handleRegister} className="flex flex-col gap-8 w-full px-14 lg:grid grid-cols-2 lg:gap-16 lg:w-2/3">
+
+          <form onSubmit={handleRegister} className="flex flex-col gap-8 w-full px-14  lg:grid grid-cols-2 lg:gap-16 lg:w-2/3">
             <div>
               <label htmlFor="name" className="block text-sm font-medium leading-6 lgt-txt">
                 Username
@@ -75,7 +80,7 @@ const Register = () => {
                   // placeholder="N'Sun"
                   required
                   autoComplete="name"
-                  className="pl-4 flex justify-center bg-white/0 border-b-2 border-[#8A8A8E] w-full lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
+                  className="text-white/60 pl-4 flex justify-center bg-white/0 border-b-2 border-[#8A8A8E] w-full lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
                 />
               </div>
             </div>
@@ -92,7 +97,7 @@ const Register = () => {
                   // placeholder="Enter your email"
                   required
                   autoComplete="email"
-                  className="pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full text-white/60 lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
+                  className="text-white/60 pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full text-white/60 lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
                 />
               </div>
             </div>
@@ -109,7 +114,7 @@ const Register = () => {
                   // placeholder="Enter your password"
                   required
                   autoComplete="new-password"
-                  className="pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full text-white/60 lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
+                  className="text-white/60 pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full text-white/60 lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
                 />
                 <button
                   type="button"
@@ -133,7 +138,7 @@ const Register = () => {
                   // placeholder="Confirm your password"
                   required
                   autoComplete="new-password"
-                  className="pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full text-white/60 lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
+                  className="text-white/60 pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full text-white/60 lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
                 />
                 <button
                   type="button"
