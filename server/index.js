@@ -62,6 +62,8 @@ const io = socketIo(server, {
     }
 });
 
+global.io = io;
+
 
 let usersInRoom = {};
 let checkUser = {};
@@ -156,6 +158,11 @@ io.on('connection', (socket) => {
             console.error('Error deleting user:', error.message);
         }
 
+    });
+
+    socket.on('joinNotifications', (userId) => {
+        socket.join(`notifications_${userId}`);
+        console.log(`User ${userId} joined their notification room`);
     });
 
     // Handle disconnection of a client

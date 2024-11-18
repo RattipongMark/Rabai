@@ -38,10 +38,12 @@ exports.getCommentByBoardId = async (req, res) => {
 };
 
 
+
 exports.createComment = async (req, res) => {
     try {
         const { userId, boardId, content } = req.body;
 
+        // สร้าง Comment ใหม่
         const newComment = new Comment({
             userId,
             boardId,
@@ -50,18 +52,31 @@ exports.createComment = async (req, res) => {
 
         const savedComment = await newComment.save();
 
+        // ค้นหาข้อมูลของ Board และเจ้าของ Board
         const board = await Board.findById(boardId);
         const boardOwnerId = board.userId;
 
-        if(boardOwnerId.toString() !== userId){
-            await NotiBoard.create({
+        if (boardOwnerId.toString() !== userId) {
+            // สร้าง Notification ใหม่
+            const newNotification = await NotiBoard.create({
                 userId: boardOwnerId,
                 boardId,
                 commentId: savedComment._id,
             });
+
+            // ค้นหา Notification พร้อม Populate
+            const populatedNotification = await NotiBoard.findById(newNotification._id)
+                .populate('boardId')
+                .populate({
+                    path: 'commentId',
+                    populate: { path: 'userId', select: 'name profile' },
+                });
+
+            // ส่ง Notification ผ่าน Socket.io
+            io.to(`notifications_${boardOwnerId}`).emit('notification', populatedNotification);
         }
 
-
+        // ส่ง Response กลับไปยัง Client
         res.status(201).json(savedComment);
     } catch (error) {
         console.error(error);
