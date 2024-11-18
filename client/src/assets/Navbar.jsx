@@ -25,7 +25,8 @@ export default function Navb() {
     try {
     await axios.delete(`http://localhost:3000/api/noti/discussionboard/${userId}`);
     setNotifications([]); 
-    message.success('All notifications have been deleted.');
+    // message.success('All notifications have been deleted.');
+    window.location.reload();
   } catch (error) {
     console.error("Error deleting notifications:", error);
 
