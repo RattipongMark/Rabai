@@ -65,9 +65,10 @@ const Login = () => {
             </div>
           </div>
           <div className="baloo2">
-          <div className="flex justify-center w-full">
+          <div className="flex items-center justify-center w-full">
             {loading ? (
-              <Spin size="small" /> // Show loading spinner while logging in
+              <div className='w-full flex justify-center'><Spin size="small" /></div>
+              
             ) : (
               <button
                 type="submit"

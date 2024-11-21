@@ -11,6 +11,7 @@ import { useAuth } from './contexts/AuthContext';
 import Activity from './pages/Activity';
 import UserProfile from './pages/userProfile';
 import GuestView from './pages/guestView';
+import ActivitiesBoard from './pages/activites/activitiesBoard';
 
 const App = () => {
   // ตรวจสอบข้อมูลจาก localStorage และตรวจสอบว่าเป็น null หรือไม่
@@ -35,7 +36,7 @@ const App = () => {
         <Route path="/room/:roomName" element={check ? <RoomTemplate /> : <Navigate to="/login" />} />
         <Route path='/CreateAnonymous-Chat' element={check ? <CreateAnonyChat /> : <Navigate to="/login" />} />
 
-        <Route path='/Activity' element={check ? <Activity /> : <Navigate to="/login" />} />
+        <Route path='/Activity' element={check ? <ActivitiesBoard /> : <Navigate to="/login" />} />
 
         <Route path='/Profile' element={check ? <UserProfile/> : <Navigate to="/login" />} />
 

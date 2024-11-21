@@ -1,9 +1,10 @@
-body{
+body {
   background-color: #20243C;
-  font-family: "Baloo 2", serif;
+  font-family: "Kanit", "Sarabun", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
- }
+}
+
 
 .bg-image {
     background-image: url('/public/bg.svg');
@@ -64,3 +65,8 @@ body{
   background-color: #F24D4D;
 }
 
+.baloo{
+  font-family: "Baloo 2", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}

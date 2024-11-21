@@ -8,12 +8,12 @@ import useBoard from "../../hooks/discussBoard/useBoard";
 import useTags from "../../hooks/useTags";
 import Select from "react-select";
 import CreateBoard from "./createBoard";
-import Comment from "./comment";
+import Comment from "../discussBoard/comment";
 import { formatDistanceToNow, parseISO } from 'date-fns';
 
 
 
-const DiscussionBoard = () => {
+const ActivitiesBoard = () => {
   const { logout } = useAuth();
   const { tags, loading: tagsLoading, error: tagsError } = useTags();
   const storedData = JSON.parse(localStorage.getItem("user_data"));
@@ -82,17 +82,20 @@ const DiscussionBoard = () => {
     name,
     time,
     tag,
+    title,
     tagColor,
     content,
-    likes,
-    comments,
-    id,
+    datetime,
+    location,
+    participant,
+    max_participant,
+    RegisDead
   }) => {
     const timeAgo = formatDistanceToNow(parseISO(time), { addSuffix: true });
     return (
-      <div className="card flex flex-col gap-4 bg-[#404664] p-4 lgt-txt w-full space-y-4 lg:p-6">
-        <div className="flex items-center gap-4">
-          <img src={avatar} className="size-8 rounded-full lg:size-12" />
+      <div className="card bg-[#404664] p-4 lgt-txt w-full space-y-4 lg:p-6 ">
+        <div className="flex items-center">
+          <img src={avatar} className="size-8 rounded-full mr-8 lg:size-12" />
           <div className="flex flex-col">
             <div className="font-semibold text-sm lg:text-lg">{name}</div>
             <div className="text-gray-400 text-sm">{timeAgo}</div>
@@ -106,52 +109,43 @@ const DiscussionBoard = () => {
             </div>
           </div>
         </div>
-
-        <article className="text-sm leading-relaxed w-full break-words whitespace-pre-wrap ">
-  {content}
-        </article>
-
-        <div className="flex items-center space-x-6 text-gray-400 text-sm">
-          <div
-            className="flex items-center space-x-1 cursor-pointer"
-            onClick={() => handleLikeToggle(id)}
-          >
-            {/* <span>{likes}</span> */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="#FFF9F0"
-              class="size-6"
-            >
-              <path
-                fill={like[id] ? "#FF2D55" : "none"}
-                stroke={like[id] ? "none" : "#FFF9F0"}
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
-              />
-            </svg>
+        <div className="w-full flex gap-6  min-h-40 max-h-72 pt-2">
+          <div className="w-1/3 bg-white/5 rounded-xl text-xl flex justify-center items-center">
+            <div>{title}</div>
           </div>
-          <div className="flex items-center space-x-1 cursor-pointer" onClick={() => handleComment(id)}>
-            <span>{comments}</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="#FFF9F0"
-              class="size-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z"
-              />
-            </svg>
+          <div className="flex flex-col pt-2 gap-4 w-2/3 font-light">
+            <div className="flex gap-2">
+              <div className="text-[#8A8A8E]">Date and Time : </div>
+              <div>{time}</div>
+            </div>
+
+            <div className="flex gap-2">
+              <div className="text-[#8A8A8E]">Location : </div>
+              <div>{location}</div>
+            </div>
+
+            <div className="flex gap-2">
+              <div className="text-[#8A8A8E]">Participation : </div>
+              <div>{participant} / {max_participant}</div>
+            </div>
+
+
+            <div className="flex gap-2 w-full">
+              <div className="text-[#8A8A8E] w-fit leading-loose">Eventent Details : </div>
+              <div className = "tracking-wide w-4/5 leading-loose">{content}</div>
+            </div>
+
           </div>
+          
         </div>
+        <div className="flex justify-between w-full pt-4">
+            <div className="flex gap-1 font-light">
+              <div>Registration Deadline:</div>
+              <div className="text-orange">{RegisDead}</div>
+            </div>
+            <div className="flex justify-center items-center h-10 w-20 rounded-xl bg-orange hover:bg-orange-500 ">Join</div>
+          </div>
+        
       </div>
     );
   };
@@ -374,20 +368,24 @@ const DiscussionBoard = () => {
                 <div className="text-sm text-white/60 lg:text-lg">What’s on your mind, {storedData.user.name}</div>
               </div>
             </div>
-            {filteredPosts.map((board, index) => (
-              <PostTemplate
-                key={index}
-                avatar={board.userId.profile}
-                name={board.userId.name}
-                time={board.update_at}
-                tag={board.tagId.tagName}
-                tagColor={board.tagId.tagColor}
-                content={board.description}
-                likes={board.like}
-                comments={board.comments}
-                id={board._id}
+            <PostTemplate
+                key="1"
+                avatar="/profile/profile1.svg"
+                name="bhum"
+                time="2024-11-20T02:06:53.628Z"
+                tag="CPE"
+                title = "ชวนตีแบดค้าบผมอิออิ"
+                tagColor="#FFF12F"
+                content="เข้าร่วมการแข่งขันแบดมินตันที่สนามแบด PY ! ไม่ว่าคุณจะเป็น
+มือใหม่หรือผู้เล่นที่มีประสบการณ์นี่คือโอกาสที่ดีในการแสดงทักษะและสนุกสนาน
+กับการแข่งขันที่เป็นมิตร"
+                datetime="[ 10:00 น ] 20 พฤศจิกายน  - [ 17:00 น ] 20 พฤศจิกายน "
+                location = "สนามแบด PY"
+                participant="18"
+                max_participant = "20"
+                RegisDead = "2024-11-20T02:06:53.628Z"
+                id=""
               />
-            ))}
           </div>
         </div>
 
@@ -471,4 +469,4 @@ const DiscussionBoard = () => {
   );
 };
 
-export default DiscussionBoard;
+export default ActivitiesBoard;
