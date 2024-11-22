@@ -15,11 +15,13 @@ const useActNotifications = (userId) => {
     const fetchActNotifications = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:3000/api/noti/activity/${userId}`); // API endpoint สำหรับดึงข้อมูล
+        const response = await fetch(`http://localhost:3000/api/noti/activity/${userId}`);
+         // API endpoint สำหรับดึงข้อมูล
         if (!response.ok) {
           throw new Error('Failed to fetch notifications');
         }
         const data = await response.json();
+        console.log("fnot",data)
         setActNotifications(data);
       } catch (error) {
         setError(error.message); 

@@ -56,7 +56,7 @@ exports.createRegistration = async (req, res) => {
         if (activityOwnerId.toString() !== userId) {
             // สร้าง Notification ใหม่
             const newNotification = await NotiAct.create({
-                userId: activityOwnerId,
+                OwnerActId: activityOwnerId,
                 activityId,
                 actregistId: savedRegistration._id,
             });

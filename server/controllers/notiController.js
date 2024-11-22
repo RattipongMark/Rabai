@@ -20,13 +20,14 @@ exports.getNotiBoard = async (req, res) => {
 
 exports.getNotiAct = async (req, res) => {
     try {
-        const { userId } = req.params;
-        const notifications = await NotiBoard.find({ userId })
+        const { OwnerActId } = req.params;
+        const notifications = await NotiAct.find({ OwnerActId })
             .populate('activityId')
             .populate({
                 path: 'actregistId', // ดึงข้อมูล Activity Registration
                 populate: { path: 'userId', select: 'name profile' } // ดึงข้อมูล User ของ Comment
-            })
+            }
+        )
             .sort({ createdAt: -1 });
 
         res.status(200).json(notifications);
