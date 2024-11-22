@@ -2,16 +2,16 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const useActivies = () => {
-    const [activites, setActivites] = useState([]);  
+    const [activities, setActivities] = useState([]);  
     const [loading, setLoading] = useState(true); 
     const [error, setError] = useState(null); 
 
     useEffect(() => {
         const fetchBoards = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/api/');  
+                const response = await axios.get('http://localhost:3000/api/activity/');  
                 console.log("activ",response.data);  
-                setActivites(response.data.reverse());  
+                setActivities(response.data.reverse());  
                 setLoading(false);  
             } catch (err) {
                 setError('Error fetching boards'); 
@@ -22,7 +22,7 @@ const useActivies = () => {
         fetchBoards();  
     }, []); 
 
-    return { activites, loading, error };  
+    return { activities, loading, error };  
 };
 
 export default useActivies;

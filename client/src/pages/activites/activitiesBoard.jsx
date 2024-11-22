@@ -4,13 +4,12 @@ import Navb from "../../assets/Navbar";
 import Bg from "../../assets/bg";
 import "../../css/AnonyChat.css";
 import "../../App.css";
-import useBoard from "../../hooks/discussBoard/useBoard";
+import useActivies from "../../hooks/activites/useActivities";
 import useTags from "../../hooks/useTags";
 import Select from "react-select";
 import CreateBoard from "./createBoard";
 import Comment from "../discussBoard/comment";
-import { formatDistanceToNow, parseISO } from 'date-fns';
-
+import { formatDistanceToNow, parseISO, format  } from 'date-fns';
 
 
 const ActivitiesBoard = () => {
@@ -20,6 +19,7 @@ const ActivitiesBoard = () => {
   const [showModal, setShowModal] = useState(false);
   const [showComment, setShowComment] = useState(false);
   const [activePost, setActivePost] = useState(null);
+  const { activities, loading, error } = useActivies();
 
   const handleLogout = async () => {
     await logout();
@@ -29,9 +29,6 @@ const ActivitiesBoard = () => {
   const [selectedTags, setSelectedTags] = useState([]);
   const [sKey, setSKey] = useState("");
   const [Myboard, SetMyBoard] = useState(false);
-
-  const { boards, loading, error } = useBoard();
-  console.log(boards);
 
   const handleTagOneChange = (tag) => {
     setSelectedTag(tag);
@@ -50,7 +47,7 @@ const ActivitiesBoard = () => {
     SetMyBoard((prevState) => !prevState);
   };
 
-  const filteredPosts = boards.filter((board) => {
+  const filteredPosts = activities.filter((board) => {
     const matchMyboard = Myboard
       ? board.userId._id === storedData.user._id
       : true;
@@ -61,11 +58,12 @@ const ActivitiesBoard = () => {
       selectedTags && selectedTags.length > 0
         ? selectedTags.some((tag) => tag.label === board.tagId.tagName)
         : true;
-    const matchesSearch = board.description
+    const matchesSearch = board.detail
       .toLowerCase()
       .includes(sKey.toLowerCase());
     return matchMyboard && matchesTagOne && matchesTag && matchesSearch;
   });
+  
 
   // const filteredPosts = selectedTag ? boards.filter(board => board.tag === selectedTag) : boards
 
@@ -77,13 +75,17 @@ const ActivitiesBoard = () => {
     title,
     tagColor,
     content,
-    datetime,
+    startDate,
+    endDate,
     location,
     participant,
     max_participant,
     RegisDead
   }) => {
     const timeAgo = formatDistanceToNow(parseISO(time), { addSuffix: true });
+    const formattedStartDate = format(new Date(startDate), 'dd MMMM yyyy');
+    const formattedEndDate = format(new Date(endDate), 'dd MMMM yyyy');
+    const formattedRegisDead = format(new Date(RegisDead), 'dd MMMM yyyy');
     return (
       <div className="card bg-[#404664] p-4 lgt-txt w-full space-y-4 lg:p-6 ">
         <div className="flex items-center">
@@ -108,7 +110,7 @@ const ActivitiesBoard = () => {
           <div className="flex flex-col pt-2 gap-4 w-2/3 font-light">
             <div className="flex gap-2">
               <div className="text-[#8A8A8E]">Date and Time : </div>
-              <div>{time}</div>
+              <div>{formattedStartDate} - {formattedEndDate}</div>
             </div>
 
             <div className="flex gap-2">
@@ -133,7 +135,7 @@ const ActivitiesBoard = () => {
         <div className="flex justify-between w-full pt-4">
             <div className="flex gap-1 font-light">
               <div>Registration Deadline:</div>
-              <div className="text-orange">{RegisDead}</div>
+              <div className="text-orange">{formattedRegisDead}</div>
             </div>
             <div className="flex justify-center items-center h-10 w-20 rounded-xl bg-orange hover:bg-orange-500 ">Join</div>
           </div>
@@ -360,24 +362,25 @@ const ActivitiesBoard = () => {
                 <div className="text-sm text-white/60 lg:text-lg">What’s on your mind, {storedData.user.name}</div>
               </div>
             </div>
+            {filteredPosts.map((board, index) => (
             <PostTemplate
                 key="1"
-                avatar="/profile/profile1.svg"
-                name="bhum"
-                time="2024-11-20T02:06:53.628Z"
-                tag="CPE"
-                title = "ชวนตีแบดค้าบผมอิออิ"
-                tagColor="#FFF12F"
-                content="เข้าร่วมการแข่งขันแบดมินตันที่สนามแบด PY ! ไม่ว่าคุณจะเป็น
-มือใหม่หรือผู้เล่นที่มีประสบการณ์นี่คือโอกาสที่ดีในการแสดงทักษะและสนุกสนาน
-กับการแข่งขันที่เป็นมิตร"
-                datetime="[ 10:00 น ] 20 พฤศจิกายน  - [ 17:00 น ] 20 พฤศจิกายน "
-                location = "สนามแบด PY"
+                avatar={board.userId.profile}
+                name={board.userId.name}
+                time={board.create_at}
+                tag={board.tagId.tagName}
+                title = {board.title}
+                tagColor={board.tagId.tagColor}
+                content={board.detail}
+                startDate = {board.start_time}
+                endDate = {board.end_time}
+                location = {board.location}
                 participant="18"
-                max_participant = "20"
-                RegisDead = "2024-11-20T02:06:53.628Z"
+                max_participant = {board.participant}
+                RegisDead = {board.deadline}
                 id=""
               />
+            ))}
           </div>
         </div>
 

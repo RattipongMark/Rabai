@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import Select from "react-select";
 import useTags from "../../hooks/useTags";
-import useCreatePost from "../../hooks/discussBoard/useCreat";
+import useCreatePost from "../../hooks/activites/useCreateAct";
 import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -13,6 +13,7 @@ const CreateBoard = ({ closeModal }) => {
   const { createPost, loading, error, success } = useCreatePost();
   const [selectedTag, setSelectedTag] = useState(null);
   const [title, setTitle] = useState("");
+  const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
@@ -40,18 +41,24 @@ const CreateBoard = ({ closeModal }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (description && selectedTag) {
-      console.log("aaa");
+    if (description && selectedTag && title && location) {
       const result = await createPost(
         storedData.user._id, // userId
         description, // description
-        selectedTag.value // tagId
+        selectedTag.value, // tagId
+        title, // title
+        location, // location
+        startDate, // startDate
+        endDate, // endDate
+        maxParticipants // maxParticipants
       );
-
+      
       if (result) {
-        console.log("Post created successfully:", result);
         closeModal();
       }
+    else{
+      console.log("das",description , selectedTag , title , location)
+    }
     }
   };
 
@@ -110,6 +117,8 @@ const CreateBoard = ({ closeModal }) => {
             <input
               id="title"
               name="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               required
               className="text-white/60 pl-4 bg-white/5 rounded-md  w-full text-white/60 lg-12 h-8 lg:h-12 focus:outline-none focus:border-orange-400 "
             />
@@ -121,6 +130,8 @@ const CreateBoard = ({ closeModal }) => {
             <input
               id="location"
               name="location"
+              value={location}  // Add state for location
+              onChange={(e) => setLocation(e.target.value)} // Bind location state
               required
               className="text-white/60 pl-4 bg-white/5 rounded-md  w-full text-white/60 lg-12 h-8 lg:h-12 focus:outline-none focus:border-orange-400"
             />
