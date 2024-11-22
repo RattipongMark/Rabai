@@ -12,6 +12,7 @@ const axios = require('axios');
 const AnonyUser = require('./models/anonyChat/anonyUserModel');
 const boardRouter = require('./routes/discussBoard/boardRoute');
 const commmentRouter  = require('./routes/discussBoard/commentRoute');
+const activityRouter  = require('./routes/activity/activityRoute');
 const profileRouter = require('./routes/profileEditRoute');
 const notiRouter = require('./routes/notiRoute');
 
@@ -27,8 +28,10 @@ app.use('/api/room', anonyRoomRouter);
 app.use('/api/tag', tagRouter);
 app.use('/api/board', boardRouter);
 app.use('/api/comments', commmentRouter);
+app.use('/api/activity', activityRouter);
 app.use('/api/profile', profileRouter);
 app.use('/api/noti',notiRouter);
+
 
 // DB Connection
 mongoose

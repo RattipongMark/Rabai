@@ -2,7 +2,12 @@ const Activity = require('../../models/activity/activityModel');
 
 exports.getAllActivities = async (req, res) => {
     try {
-        const activities = await Activity.find().populate('userId').populate('tagId');
+        const activities = await Activity.find()
+            .populate({
+                path: 'userId',
+                select: 'name profile'
+            })
+            .populate('tagId');
         res.status(200).json(activities);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching activities' });
@@ -12,13 +17,16 @@ exports.getAllActivities = async (req, res) => {
 
 exports.createActivity = async (req, res) => {
     try {
-        const { userId, title, description, location, event_time, tagId } = req.body;
+        const { userId, title, detail, location, participant, start_time, end_time, deadline, tagId } = req.body;
         const newActivity = new Activity({
             userId,
             title,
-            description,
+            detail,
             location,
-            event_time,
+            participant,
+            start_time,
+            end_time,
+            deadline,
             tagId,
         });
         const savedActivity = await newActivity.save();
