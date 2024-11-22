@@ -27,7 +27,6 @@ const ActivitiesBoard = () => {
 
   const [selectedTag, setSelectedTag] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
-  const [like, setLike] = useState(false);
   const [sKey, setSKey] = useState("");
   const [Myboard, SetMyBoard] = useState(false);
 
@@ -46,13 +45,6 @@ const ActivitiesBoard = () => {
     value: tag._id, // Assuming the tag object has an _id field
     label: tag.tagName, // Assuming the tag object has a tagName field
   }));
-
-  const handleLikeToggle = (postId) => {
-    setLike((prevLike) => ({
-      ...prevLike,
-      [postId]: !prevLike[postId],
-    }));
-  };
 
   const handleMyB = () => {
     SetMyBoard((prevState) => !prevState);
@@ -445,7 +437,7 @@ const ActivitiesBoard = () => {
 
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-8">
-          <div className="bg-[#282C45] border border-[#404664] p-4 rounded-2xl  flex flex-col items-center relative gap-5 w-full lg:w-2/5 h-3/5 lg:p-[30px]">
+          <div className="bg-[#282C45] border border-[#404664] p-4 rounded-2xl  flex flex-col items-center relative gap-5 w-full lg:w-2/5 h-fit lg:p-[30px]">
             <button onClick={closeModal} className="absolute top-2 right-2">
               <img src="close.svg" alt="" className="size-6"/>
             </button>
@@ -454,16 +446,6 @@ const ActivitiesBoard = () => {
         </div>
       )}
 
-      {showComment && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-8">
-          <div className="bg-[#282C45] border border-[#404664] p-4 rounded-2xl  flex flex-col items-center relative gap-5 w-full h-4/5 lg:w-3/5 h-3/5 lg:p-[30px]">
-            <button onClick={closeComment} className="absolute top-2 right-2">
-              <img src="close.svg" alt="" className="size-6"/>
-            </button>
-            <Comment closeModal={closeModal} activePost={activePost} />
-          </div>
-        </div>
-      )}
 
     </Bg>
   );

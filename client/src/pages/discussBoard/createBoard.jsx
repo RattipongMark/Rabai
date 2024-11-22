@@ -44,31 +44,34 @@ const CreateBoard = ({ closeModal }) => {
     const customStyles = {
         control: (provided, state) => ({
           ...provided,
-          backgroundColor: "#404664", // พื้นหลังของ Select
-          color: "white",
-          borderColor: "#404664", // สีขอบ
+          backgroundColor: "rgba(255, 255, 255, 0.05)", // พื้นหลังโปร่งใส 5%
+          color: "white", // สีข้อความใน control (เมื่อไม่ได้เลือก) เป็นสีขาว
+          height: "48px", // ความสูงเท่ากับอินพุตอื่นๆ
+          border: "none", // ไม่มีขอบ
+          boxShadow: "none", // ไม่มีเงา
+        }),
+        singleValue: (provided) => ({
+          ...provided,
+          color: "white", // สีข้อความเมื่อเลือกแล้ว (แสดงใน control)
         }),
         menu: (provided) => ({
           ...provided,
-          backgroundColor: "#2d2f45", // พื้นหลังของเมนู dropdown
-          color: "white",
+          backgroundColor: "#282C45", // พื้นหลังของเมนู dropdown
+          color: "white", // สีข้อความใน dropdown เป็นสีขาว
         }),
         option: (provided, state) => ({
           ...provided,
-        //   color: "white",
-          color: state.isSelected ? "#FB923C" : "white",
+          color: state.isSelected ? "white" : "white", // สีข้อความในตัวเลือก
           backgroundColor: state.isSelected
             ? "#FB923C" // สีพื้นหลังเมื่อเลือก
             : state.isFocused
             ? "#3e4a63" // สีพื้นหลังเมื่อ hover ตัวเลือก
             : "transparent", // สีพื้นหลังปกติ
-          color: state.isSelected ? "white" : "white", // สีข้อความ
           cursor: "pointer",
           "&:hover": {
             backgroundColor: "#3e4a63", // สีพื้นหลังเมื่อ hover ตัวเลือก
           },
         }),
-
       };
 
     return (
@@ -83,7 +86,7 @@ const CreateBoard = ({ closeModal }) => {
             </div>
             <div className="h-full w-full text-white pt-4">
                 <textarea
-                    className="bg-white/0 w-full h-full max-h-full p-2 focus:outline-none"
+                    className="bg-white/0 w-full h-full max-h-full p-2 focus:outline-none font-light"
                     placeholder="What’s on your mind"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}

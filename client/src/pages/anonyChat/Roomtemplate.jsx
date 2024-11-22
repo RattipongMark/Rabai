@@ -203,8 +203,8 @@ const RoomTemplate = () => {
                   <div
                     className={`${
                       msg.userName === fakeName
-                        ? "chat-bubble text-md chat-end"
-                        : "chat-bubble text-md chat-start "
+                        ? "chat-bubble text-md chat-end font-light"
+                        : "chat-bubble text-md chat-start font-light"
                     } break-words whitespace-normal max-w-sm`}
                   >
                     {msg.content}
@@ -248,7 +248,7 @@ const RoomTemplate = () => {
             <input
               type="text"
               placeholder="Type here"
-              className="input w-full bg-white/0 text-white"
+              className="input w-full bg-white/0 text-white font-light"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={handleKeyPress}
@@ -345,8 +345,8 @@ const RoomTemplate = () => {
                   <div
                     className={`${
                       msg.userName === fakeName
-                        ? "chat-bubble text-md chat-end"
-                        : "chat-bubble text-md chat-start "
+                        ? "chat-bubble text-md chat-end font-light"
+                        : "chat-bubble text-md chat-start font-light"
                     } break-words whitespace-normal max-w-sm`}
                   >
                     {msg.content}
@@ -389,7 +389,7 @@ const RoomTemplate = () => {
             <input
               type="text"
               placeholder="Type here"
-              className="input w-full  bg-white/0 text-white"
+              className="input w-full  bg-white/0 text-white font-light"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={handleKeyPress}
