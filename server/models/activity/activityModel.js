@@ -12,7 +12,7 @@ const activitySchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    description: {
+    detail: {
         type: String,
         required: true,  
     },
@@ -20,22 +20,32 @@ const activitySchema = new mongoose.Schema({
         type: String,
         required: true, 
     },
-    event_time: {
+    participant: {
+        type: Number,
+        required: true, 
+    }, 
+    start_time: {
         type: Date,
-        default: Date.now, 
+        required: true,
+    },
+    end_time: {
+        type: Date,
+        required: true,
+    },
+    deadline: {
+        type: Date,
+        required: true,
     },
     tagId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tag',  
         required: true,
-        index: true,
     },
     create_at: {
         type: Date,
         default: Date.now, 
     },
 });
-
 
 
 const Activity = mongoose.model('Activity', activitySchema);
