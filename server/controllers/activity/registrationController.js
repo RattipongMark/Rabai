@@ -9,6 +9,15 @@ exports.getAllRegistrations = async (req, res) => {
     }
 };
 
+exports.getIdRegistrations = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const registrations = await Actregist.find({ userId })
+        res.status(200).json(registrations);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching registrations' });
+    }
+};
 
 exports.createRegistration = async (req, res) => {
     try {

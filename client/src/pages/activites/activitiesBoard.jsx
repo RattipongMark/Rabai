@@ -6,6 +6,8 @@ import "../../css/AnonyChat.css";
 import "../../App.css";
 import useActivies from "../../hooks/activites/useActivities";
 import useTags from "../../hooks/useTags";
+import useJoinActivity from "../../hooks/activites/useJoin";
+import useJoinedActivities from "../../hooks/activites/useJoined";
 import Select from "react-select";
 import CreateBoard from "./createBoard";
 import Comment from "../discussBoard/comment";
@@ -80,12 +82,21 @@ const ActivitiesBoard = () => {
     location,
     participant,
     max_participant,
-    RegisDead
+    RegisDead,
+    activityId,
+    ownerId,
   }) => {
     const timeAgo = formatDistanceToNow(parseISO(time), { addSuffix: true });
     const formattedStartDate = format(new Date(startDate), 'dd MMMM yyyy');
     const formattedEndDate = format(new Date(endDate), 'dd MMMM yyyy');
     const formattedRegisDead = format(new Date(RegisDead), 'dd MMMM yyyy');
+    const { joinActivity, hasJoined, loading, error } = useJoinActivity(activityId, storedData.user._id, ownerId);
+
+    const joinedActivities = useJoinedActivities(storedData.user._id);
+    const hasUserJoined = (activityId) => {
+      return joinedActivities.some(activity => activity.activityId.toString() === activityId.toString());
+    };
+    console.log(activityId,"T-T",hasUserJoined(activityId))
     return (
       <div className="card bg-[#404664] p-4 lgt-txt w-full space-y-4 lg:p-6 ">
         <div className="flex items-center">
@@ -137,7 +148,14 @@ const ActivitiesBoard = () => {
               <div>Registration Deadline:</div>
               <div className="text-orange">{formattedRegisDead}</div>
             </div>
-            <div className="flex justify-center items-center h-10 w-20 rounded-xl bg-orange hover:bg-orange-500 ">Join</div>
+            <button
+          onClick={joinActivity}
+          disabled={loading || hasJoined || hasUserJoined(activityId) || storedData.user._id === ownerId}
+          className={`h-10 w-20 rounded-xl ${hasJoined || hasUserJoined(activityId) || storedData.user._id === ownerId ? 'bg-gray-400' : 'bg-orange hover:bg-orange-500'}`}
+        >
+          {hasJoined || hasUserJoined(activityId) ? "Joined" : "Join"}
+        </button>
+            {/* <div className="flex justify-center items-center h-10 w-20 rounded-xl bg-orange hover:bg-orange-500 ">Join</div> */}
           </div>
         
       </div>
@@ -378,7 +396,8 @@ const ActivitiesBoard = () => {
                 participant="18"
                 max_participant = {board.participant}
                 RegisDead = {board.deadline}
-                id=""
+                activityId={board._id}
+                ownerId = {board.userId._id}
               />
             ))}
           </div>

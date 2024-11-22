@@ -15,6 +15,7 @@ const commmentRouter  = require('./routes/discussBoard/commentRoute');
 const activityRouter  = require('./routes/activity/activityRoute');
 const profileRouter = require('./routes/profileEditRoute');
 const notiRouter = require('./routes/notiRoute');
+const regisActivRouter = require('./routes/activity/registrationRoute')
 
 // Middlewares
 app.use(cors());
@@ -31,6 +32,7 @@ app.use('/api/comments', commmentRouter);
 app.use('/api/activity', activityRouter);
 app.use('/api/profile', profileRouter);
 app.use('/api/noti',notiRouter);
+app.use('/api/join',regisActivRouter)
 
 
 // DB Connection

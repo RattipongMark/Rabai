@@ -5,6 +5,8 @@ const router = express.Router();
 
 router.get('/', registrationController.getAllRegistrations);
 
+router.get('/:userId', registrationController.getIdRegistrations);
+
 router.post('/create', registrationController.createRegistration);
 
 router.delete('/delete', registrationController.deleteRegistration);
