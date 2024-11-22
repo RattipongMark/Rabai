@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import "/src/index.css";
 import "/src/css/navbar.css";
 import { useAuth } from "../contexts/AuthContext";
-import useNotifications from "../hooks/useNoti"; // import custom hook
+import useBoardNotifications from "../hooks/useBoardNoti"; // import custom hook
+import useActNotifications from "../hooks/useActNoti";
 import axios from "axios";
 import { Spin, message  } from 'antd'; 
 import 'antd/dist/reset.css'; 
@@ -10,35 +11,57 @@ import 'antd/dist/reset.css';
 
 export default function Navb() {
   const [activeTab, setActiveTab] = useState("Home");
-  const [notifications, setNotifications] = useState([]); // สร้างสถานะสำหรับเก็บข้อมูล notifications
+  const [BoardNotifications, setBoardNotifications] = useState([]);
+  const [ActNotifications, setActNotifications] = useState([]);
 
   const sections = ["DiscussionBoard", "Anonymous-Chat", "Activity"];
   const { logout } = useAuth();
   const storedData = JSON.parse(localStorage.getItem('user_data'));
   const userId = storedData?.user._id; // ดึง userId จาก storedData
 
-  const { notifications: fetchedNotifications, loading, error } = useNotifications(userId); // ใช้ hook ดึงการแจ้งเตือน
-  console.log(fetchedNotifications);
+  const { BoardNotifications: fetchedBoardNotifications, BoardNotiloading, BoardNotierror } =  useBoardNotifications(userId); 
+  // console.log(fetchedBoardNotifications);
+  const { ActNotifications: fetchedActNotifications, ActNotiloading, ActNotierror } =  useActNotifications(userId); 
+  console.log(fetchedActNotifications);
 
   // ฟังก์ชันการลบทั้งหมด
-  const handleDeleteAllNoti = async() => {
+  const handleDeleteAllBoardNoti = async() => {
     try {
     await axios.delete(`http://localhost:3000/api/noti/discussionboard/${userId}`);
-    setNotifications([]); 
-    // message.success('All notifications have been deleted.');
+    setBoardNotifications([]); 
     window.location.reload();
   } catch (error) {
-    console.error("Error deleting notifications:", error);
+    console.error("Error deleting Board Notifications:", error);
 
     // Show an error message
-    message.error('Failed to delete notifications.');
+    message.error('Failed to delete Board Notifications.');
   }
   }
+
+  const handleDeleteAllActNoti = async() => {
+    try {
+    await axios.delete(`http://localhost:3000/api/noti/activity/${userId}`);
+    setActNotifications([]); 
+    window.location.reload();
+  } catch (error) {
+    console.error("Error deleting activity Notifications:", error);
+
+    // Show an error message
+    message.error('Failed to delete activity Notifications.');
+  }
+  }
+
+  
+
   useEffect(() => {
-    if (fetchedNotifications) {
-      setNotifications(fetchedNotifications); // อัพเดต notifications เมื่อโหลดข้อมูลเสร็จ
+    if (fetchedBoardNotifications) {
+      setBoardNotifications(fetchedBoardNotifications); 
     }
-  }, [fetchedNotifications]);
+    if (fetchedActNotifications) {
+      setActNotifications(fetchedActNotifications); 
+    }
+  }, [fetchedBoardNotifications, fetchedActNotifications]);
+  
 
   const handleLogout = async () => {
     await logout();
@@ -62,12 +85,20 @@ export default function Navb() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [sections]);
 
-  if (loading) {
-    return <div>Loading notifications...</div>;
+  if (BoardNotiloading) {
+    return <div>Loading board notifications...</div>;
   }
 
-  if (error) {
-    return <div>Error loading notifications: {error}</div>;
+  if (BoardNotierror) {
+    return <div>Error loading board notifications: {BoardNotierror}</div>;
+  }
+
+  if (ActNotiloading) {
+    return <div>Loading activity notifications...</div>;
+  }
+
+  if (ActNotierror) {
+    return <div>Error loading activity notifications: {ActNotierror}</div>;
   }
 
   return (
@@ -149,17 +180,17 @@ export default function Navb() {
             <div className="text-gray-400 font-light">Discussion Board</div>
             <div className="flex flex-col gap-2 w-full min-h-[50px] h-auto max-h-[300px] overflow-y-auto">
               {/* แสดงรายการ notifications */}
-              {notifications.map((notification, index) => (
+              {BoardNotifications.map((BoardNotifications, index) => (
                 <NotificationCard
                   key={index}
-                  avatar={notification.commentId.userId.profile || "/public/Unknow.svg"}
-                  title={notification.commentId.userId.name || "Unknown User"}
-                  message={`Comment : ${notification.commentId?.content || "No content available"}`}
+                  avatar={BoardNotifications.commentId.userId.profile || "/public/Unknow.svg"}
+                  title={BoardNotifications.commentId.userId.name || "Unknown User"}
+                  message={`Comment : ${BoardNotifications.commentId?.content || "No content available"}`}
                 />
               ))}
             </div>
             <div className="flex justify-end pt-8">
-              <button onClick={handleDeleteAllNoti} className="w-[90px] h-[28px] bg-danger text-white rounded-lg hover:bg-red-600">
+              <button onClick={handleDeleteAllBoardNoti} className="w-[90px] h-[28px] bg-danger text-white rounded-lg hover:bg-red-600">
                 Delete All
               </button>
             </div>

@@ -164,9 +164,12 @@ io.on('connection', (socket) => {
 
     });
 
-    socket.on('joinNotifications', (userId) => {
-        socket.join(`notifications_${userId}`);
-        console.log(`User ${userId} joined their notification room`);
+    socket.on('joinBoardNotifications', (userId) => {
+        socket.join(`BoardNotifications_${userId}`);
+    });
+
+    socket.on('joinActNotifications', (userId) => {
+        socket.join(`ActNotifications_${userId}`);
     });
 
     // Handle disconnection of a client

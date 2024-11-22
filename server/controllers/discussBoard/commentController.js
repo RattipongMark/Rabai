@@ -73,7 +73,7 @@ exports.createComment = async (req, res) => {
                 });
 
             // ส่ง Notification ผ่าน Socket.io
-            io.to(`notifications_${boardOwnerId}`).emit('notification', populatedNotification);
+            io.to(`BoardNotifications_${boardOwnerId}`).emit('BoardNotification', populatedNotification);
         }
 
         // ส่ง Response กลับไปยัง Client

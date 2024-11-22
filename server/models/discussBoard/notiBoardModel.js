@@ -7,5 +7,5 @@ const notificationSchema = new mongoose.Schema({
     isRead: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now }
 });
-const NotiBoard = mongoose.model('Notification', notificationSchema);
+const NotiBoard = mongoose.model('NotiBoard', notificationSchema);
 module.exports = NotiBoard
