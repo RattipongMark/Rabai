@@ -20,8 +20,6 @@ const notiRouter = require('./routes/notiRoute');
 app.use(cors());
 app.use(express.json());
 
-
-
 // Routes
 app.use('/api/auth', authRouter);
 app.use('/api/messages', messageRouter);
