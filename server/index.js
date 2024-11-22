@@ -19,8 +19,6 @@ const notiRouter = require('./routes/notiRoute');
 app.use(cors());
 app.use(express.json());
 
-
-
 // Routes
 app.use('/api/auth', authRouter);
 app.use('/api/messages', messageRouter);
@@ -31,6 +29,7 @@ app.use('/api/board', boardRouter);
 app.use('/api/comments', commmentRouter);
 app.use('/api/profile', profileRouter);
 app.use('/api/noti',notiRouter);
+
 // DB Connection
 mongoose
     .connect('mongodb+srv://Iamdev:password1234@rabaiweb.gpd3d.mongodb.net/rabaiweb?retryWrites=true&w=majority&appName=RabaiWeb')
