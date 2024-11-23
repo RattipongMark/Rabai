@@ -47,9 +47,7 @@ const Comment = ({ closeModal, activePost }) => {
             <div className="comments-section space-y-4 max-h-1/2 h-full overflow-y-auto scroller">
                 {loading ? (
                     <p>Loading comments...</p>
-                ) : error ? (
-                    <p>{error}</p>
-                ) : Array.isArray(comments) && comments.length > 0 ? (
+                ) :  Array.isArray(comments) && comments.length > 0 ? (
                     comments.map((comment, index) => (
                         // <div key={index} className="comment-item bg-gray-700 p-3 rounded">
                         //     <p className="text-sm font-medium text-white">{comment.userId.name}</p>
