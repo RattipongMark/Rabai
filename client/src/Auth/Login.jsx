@@ -19,7 +19,7 @@ const Login = () => {
 
   return (
     <Bg>
-    <div className="flex min-h-screen flex-col justify-center items-center gap-14 py-8 h-svh lg:px-8 w-full">
+    <div className="flex flex-col justify-center items-center gap-14 py-8 h-svh lg:px-8 w-full">
       <div className="flex justify-center w-full ">
         <img src="jrb.svg" alt="" />
       </div>
