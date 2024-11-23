@@ -166,9 +166,9 @@ const AnonyChat = () => {
       </div>
 
       {/* Mobile View */}
-      <div className="lg:hidden flex flex-col w-full h-full py-5 justify-center items-center text-white px-4 gap-2 text-sm">
+      <div className="lg:hidden flex flex-col w-full h-svh py-5 justify-center items-center text-white px-4 gap-2 text-sm">
         {/* Avatar Selection Section */}
-        <div className="w-full flex flex-col justify-center item-center rounded-lg p-6 ">
+        <div className="w-full flex flex-col justify-center item-center rounded-lg p-6 h-fit">
           <div className="flex w-full justify-center gap-1 pb-5 text-3xl font-extrabold">
             <span className="text-orange-500">Select</span>
             <span>Avatar</span>

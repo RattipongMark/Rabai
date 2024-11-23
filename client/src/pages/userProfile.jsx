@@ -156,7 +156,7 @@ const EditProfile = () => {
                                     className='w-full bg-white/1 h-12 flex items-center border border-white/50 px-4 rounded-xl truncate lg:h-14'/>
                             </div>
                             <div className='w-full flex justify-end gap-4'>
-                                <button onClick={handleEditClick} className='bg-danger text-white rounded-lg hover:bg-red-600 w-1/5 h-8 text-white'>Cancle</button>
+                                <button onClick={handleEditClick} className='bg-danger text-white rounded-lg hover:bg-red-600 w-1/5 h-8 text-white'>Cancel</button>
                                 {loading ? (
                                 <Spin size="small" /> // เมื่อมีการโหลดข้อมูลหรือการอัปเดต, แสดง spinner
                                 ) : (
