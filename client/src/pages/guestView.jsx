@@ -271,6 +271,7 @@ const GuestView = () => {
         </div>
 
         <div className="flex flex-col justify-start items-center w-full  px-8 h-svh overflow-y-auto  lg:px-28 lg:w-4/5 lg:pt-24">
+        <div className="pt-16 lg:hidden"></div>
           <div className="flex justify-end w-full items-center gap-2 mb-4">
             <div className="flex  justify-end items-center relative lg:w-1/4">
               <input

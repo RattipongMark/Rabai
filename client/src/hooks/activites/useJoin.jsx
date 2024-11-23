@@ -8,11 +8,11 @@ const useJoinActivity = (activityId, userId, ownerId) => {
 
   const joinActivity = async () => {
 
-    console.log(activityId, userId, ownerId)
+    console.log("aaaa",activityId, userId, ownerId)
     // Prevent the owner from joining their own activity
     if (userId === ownerId) {
       setError("You cannot join your own activity.");
-      console.log("err")
+      console.log("You cannot join your own activity.")
       return;
     }
 

@@ -19,7 +19,7 @@ const ActivitiesBoard = () => {
   const { tags, loading: tagsLoading, error: tagsError } = useTags();
   const storedData = JSON.parse(localStorage.getItem("user_data"));
   const [showModal, setShowModal] = useState(false);
-  const [showComment, setShowComment] = useState(false);
+
   const [activePost, setActivePost] = useState(null);
   const { activities, loading, error } = useActivies();
 
@@ -70,6 +70,7 @@ const ActivitiesBoard = () => {
   // const filteredPosts = selectedTag ? boards.filter(board => board.tag === selectedTag) : boards
 
   const PostTemplate = ({
+    key,
     avatar,
     name,
     time,
@@ -87,8 +88,8 @@ const ActivitiesBoard = () => {
     ownerId,
   }) => {
     const timeAgo = formatDistanceToNow(parseISO(time), { addSuffix: true });
-    const formattedStartDate = format(new Date(startDate), 'dd MMMM yyyy');
-    const formattedEndDate = format(new Date(endDate), 'dd MMMM yyyy');
+    const formattedStartDate = format(new Date(startDate), '[HH:mm] dd MMMM yyyy');
+    const formattedEndDate = format(new Date(endDate), '[HH:mm] dd MMMM yyyy');
     const formattedRegisDead = format(new Date(RegisDead), 'dd MMMM yyyy');
     const { joinActivity, hasJoined, loading, error } = useJoinActivity(activityId, storedData.user._id, ownerId);
 
@@ -96,14 +97,25 @@ const ActivitiesBoard = () => {
     const hasUserJoined = (activityId) => {
       return joinedActivities.some(activity => activity.activityId.toString() === activityId.toString());
     };
-    console.log(activityId,"T-T",hasUserJoined(activityId))
+
+    const [showModalConfirm, setShowModalConfirm] = useState(false);
+    const openModalConfirm = () => setShowModalConfirm(true);
+    const closeModalConfirm = () => setShowModalConfirm(false);
+
+    const handleJoinConfirmation = () => {
+      joinActivity();
+      closeModalConfirm(); // ปิด Modal หลังจากยืนยัน
+    };
+
+    console.log("bbb",key,activityId, storedData.user._id, ownerId)
     return (
+      <div>
       <div className="card bg-[#404664] p-4 lgt-txt w-full space-y-4 lg:p-6 ">
-        <div className="flex items-center">
-          <img src={avatar} className="size-8 rounded-full mr-8 lg:size-12" />
+        <div className="flex items-center gap-4">
+          <img src={avatar} className="size-8 rounded-full lg:size-12" />
           <div className="flex flex-col">
-            <div className="font-semibold text-sm lg:text-lg">{name}</div>
-            <div className="text-gray-400 text-sm">{timeAgo}</div>
+            <div className="lg:font-semibold font-normal text-sm lg:text-lg">{name}</div>
+            <div className="text-gray-400 text-xs">{timeAgo}</div>
           </div>
           <div className="min-w-12 ml-auto">
             <div
@@ -114,51 +126,66 @@ const ActivitiesBoard = () => {
             </div>
           </div>
         </div>
-        <div className="w-full flex gap-6  min-h-40 max-h-72 pt-2">
-          <div className="w-1/3 bg-white/5 rounded-xl text-xl flex justify-center items-center">
+        <div className="w-full flex flex-col gap-6  pt-2  lg:min-h-40 lg:max-h-72 lg:flex-row">
+          <div className="w-full min-h-20 lg:w-1/3 bg-white/5 rounded-xl text-lg lg:text-xl flex justify-center items-center">
             <div>{title}</div>
           </div>
-          <div className="flex flex-col pt-2 gap-4 w-2/3 font-light">
-            <div className="flex gap-2">
+          <div className="flex flex-col pt-2 gap-4 w-full lg:w-2/3 font-light text-xs lg:text-base">
+            <div className="flex gap-2 w-full">
               <div className="text-[#8A8A8E]">Date and Time : </div>
-              <div>{formattedStartDate} - {formattedEndDate}</div>
+              <div className="w-3/5 lg:w-4/5">{formattedStartDate} to {formattedEndDate}</div>
             </div>
 
             <div className="flex gap-2">
               <div className="text-[#8A8A8E]">Location : </div>
-              <div>{location}</div>
+              <div className="">{location}</div>
             </div>
 
             <div className="flex gap-2">
               <div className="text-[#8A8A8E]">Participation : </div>
-              <div>{participant} / {max_participant}</div>
+              <div className="">{participant} / {max_participant}</div>
             </div>
 
 
             <div className="flex gap-2 w-full">
               <div className="text-[#8A8A8E] w-fit leading-loose">Eventent Details : </div>
-              <div className = "tracking-wide w-4/5 leading-loose">{content}</div>
+              <div className = "tracking-wide w-3/5 leading-loose">{content}</div>
             </div>
 
           </div>
           
         </div>
-        <div className="flex justify-between w-full pt-4">
-            <div className="flex gap-1 font-light">
+        <div className="flex justify-between w-full pt-1 lg:pt-4 text-xs lg:text-sm">
+            <div className="flex flex-col gap-1 font-light lg:flex-row text-xs lg:text-sm">
               <div>Registration Deadline:</div>
               <div className="text-orange">{formattedRegisDead}</div>
             </div>
             <button
-          onClick={joinActivity}
-          disabled={loading || hasJoined || hasUserJoined(activityId) || storedData.user._id === ownerId}
-          className={`h-10 w-20 rounded-xl ${hasJoined || hasUserJoined(activityId) || storedData.user._id === ownerId ? 'bg-gray-400' : 'bg-orange hover:bg-orange-500'}`}
+          onClick={openModalConfirm}
+          disabled={loading || hasJoined || hasUserJoined(activityId) || storedData.user._id === ownerId || participant >= max_participant}
+          className={`h-6 w-12 rounded-md lg:h-10 lg:w-20 lg:rounded-xl  text-xs lg:text-sm ${hasJoined || hasUserJoined(activityId) || storedData.user._id === ownerId || participant >= max_participant ? 'bg-gray-400' : 'bg-orange hover:bg-orange-500'}`}
         >
           {hasJoined || hasUserJoined(activityId) ? "Joined" : "Join"}
         </button>
             {/* <div className="flex justify-center items-center h-10 w-20 rounded-xl bg-orange hover:bg-orange-500 ">Join</div> */}
-          </div>
-        
+        </div>
       </div>
+
+      {showModalConfirm && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-15 px-8 z-[50] text-white">
+          <div className="bg-[#282C45] border border-[#404664] p-4 rounded-2xl  flex flex-col items-center justify-center relative gap-5 w-full lg:w-[450px] h-56   lg:p-[30px]">
+          <div className="flex flex-col gap-8 justify-center items-center px-8">
+              <div className="flex justify-center text-base font-bold text-orange-500 lg:text-xl text-center">Confirm Attendance for the Event/Activity</div>
+              <div className="flex justify-between w-full gap-4">
+                <div onClick={closeModalConfirm} className="flex justify-center  items-center h-6 w-full rounded-md lg:h-10 lg:rounded-xl  text-xs lg:text-sm bg-gray-400 hover:bg-gray-500 cursor-pointer">Cancle</div>
+                <div onClick={handleJoinConfirmation} className="flex justify-center  items-center h-6 w-full rounded-md lg:h-10  lg:rounded-xl  text-xs lg:text-sm bg-orange hover:bg-orange-500 cursor-pointer">Join</div>
+              </div>
+          </div>
+          </div>
+        </div>
+      )}
+      </div>
+      
     );
   };
 
@@ -230,21 +257,18 @@ const ActivitiesBoard = () => {
     setShowModal(true);
   };
 
+  const handleConfirm = () => {
+    setShowModalConfirm(true);
+  };
+
   const closeModal = () => {
     setShowModal(false);
   };
 
-  const handleComment = (postId) => {
-    const selectedPost = boards.find((board) => board._id === postId); // ค้นหาโพสต์ที่เกี่ยวข้อง
-    setActivePost(selectedPost); 
-    console.log("aaaa",selectedPost)
-    setShowComment(true);
+  const closeModalConfirm = () => {
+    setShowModalConfirm(false);
   };
 
-  const closeComment = () => {
-    setShowComment(false);
-    setActivePost(null); 
-  };
 
   return (
     <Bg>
@@ -307,7 +331,8 @@ const ActivitiesBoard = () => {
         </div>
 
         <div className="flex flex-col justify-start items-center w-full  px-8 h-svh overflow-y-auto  lg:px-28 lg:w-4/5 lg:pt-24">
-          <div className="flex justify-end w-full items-center gap-2 mb-4">
+         <div className="pt-20 lg:hidden"></div>
+         <div className="flex justify-end w-full items-center gap-2 mb-4">
             <div className="flex  justify-end items-center relative lg:w-1/4">
               <input
                 className="w-full h-12 px-4 bg-white bg-opacity-50 rounded-full lgt-txt  placeholder:text-gray-300"
@@ -382,7 +407,7 @@ const ActivitiesBoard = () => {
             </div>
             {filteredPosts.map((board, index) => (
             <PostTemplate
-                key="1"
+                key= {index}
                 avatar={board.userId.profile}
                 name={board.userId.name}
                 time={board.create_at}
@@ -393,14 +418,16 @@ const ActivitiesBoard = () => {
                 startDate = {board.start_time}
                 endDate = {board.end_time}
                 location = {board.location}
-                participant="18"
+                participant={board.participantCount}
                 max_participant = {board.participant}
                 RegisDead = {board.deadline}
                 activityId={board._id}
                 ownerId = {board.userId._id}
               />
             ))}
+            <div className="pt-32 lg:hidden"></div>
           </div>
+          
         </div>
 
         <div className="fixed bottom-0 flex flex-col w-full justify-start pt-4 pb-10 px-8 h-fit bg-[#20243C]/1 backdrop-blur-lg  rounded-t-3xl lg:hidden">
@@ -458,8 +485,8 @@ const ActivitiesBoard = () => {
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-8">
-          <div className="bg-[#282C45] border border-[#404664] p-4 rounded-2xl  flex flex-col items-center relative gap-5 w-full lg:w-2/5 h-fit lg:p-[30px]">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-8 z-[50]">
+          <div className="bg-[#282C45] border border-[#404664] p-1 rounded-2xl  flex flex-col items-center relative gap-5 w-full lg:w-2/5 h-fit lg:p-[30px]">
             <button onClick={closeModal} className="absolute top-2 right-2">
               <img src="close.svg" alt="" className="size-6"/>
             </button>
@@ -467,6 +494,7 @@ const ActivitiesBoard = () => {
           </div>
         </div>
       )}
+
 
 
     </Bg>

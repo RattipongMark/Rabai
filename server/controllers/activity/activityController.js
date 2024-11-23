@@ -1,14 +1,28 @@
-const Activity = require('../../models/activity/activityModel'); 
+const Actregist = require('../../models/activity/registrationModel'); 
+const Activity = require('../../models/activity/activityModel');
 
 exports.getAllActivities = async (req, res) => {
     try {
+        // ดึงข้อมูลกิจกรรมทั้งหมด
         const activities = await Activity.find()
-            .populate({
-                path: 'userId',
-                select: 'name profile'
-            })
-            .populate('tagId');
-        res.status(200).json(activities);
+          .populate({
+            path: 'userId',
+            select: 'name profile'  // ดึงเฉพาะฟิลด์ name และ profile
+          })
+          .populate('tagId');
+    
+        // ใช้ Promise.all เพื่อรอการนับจำนวนผู้เข้าร่วมแต่ละกิจกรรมแบบ asynchronous
+        const activitiesWithCount = await Promise.all(activities.map(async (activity) => {
+          // นับจำนวนผู้เข้าร่วมในแต่ละกิจกรรม
+          const participantCount = await Actregist.countDocuments({ activityId: activity._id });
+          
+          // เพิ่มฟิลด์จำนวนผู้เข้าร่วมเข้าไปใน Object
+          return {
+            ...activity.toObject(),  // แปลง Mongoose Document เป็น Object
+            participantCount,        // เพิ่มจำนวนผู้เข้าร่วม
+          };
+        }));
+        res.status(200).json(activitiesWithCount);  // ส่งข้อมูลกลับไป
     } catch (error) {
         res.status(500).json({ error: 'Error fetching activities' });
     }

@@ -49,8 +49,8 @@ exports.delNotiBoard = async (req, res) => {
 
 exports.delNotiAct = async (req, res) => {
     try {
-        const { userId } = req.params;
-        const notifications = await NotiAct.deleteMany({ userId })
+        const { OwnerActId } = req.params;
+        const notifications = await NotiAct.deleteMany({ OwnerActId })
         
         res.status(200).json(notifications);
     } catch (error) {

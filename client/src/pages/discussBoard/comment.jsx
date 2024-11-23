@@ -60,12 +60,12 @@ const Comment = ({ closeModal, activePost }) => {
                         <div className="chat-image avatar">
                           <div className="w-8 rounded-full lg:w-12">
                             <img
-                              src={comment.userId.profile}/>
+                              src={comment.userId?.profile || storedData.user.profile}/>
                             
                           </div>
                         </div>
                         <div className="chat-header">
-                          {comment.userId.name}
+                          {comment.userId?.name || storedData.user.name}
                         </div>
                         <div className="ml-2 mt-2 chat-bubble bg-white/10">{comment.content}</div>
                       </div>

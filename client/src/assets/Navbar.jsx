@@ -29,12 +29,14 @@ export default function Navb() {
     try {
     await axios.delete(`http://localhost:3000/api/noti/discussionboard/${userId}`);
     setBoardNotifications([]); 
+    await axios.delete(`http://localhost:3000/api/noti/activity/${userId}`);
+    setActNotifications([]); 
     window.location.reload();
   } catch (error) {
-    console.error("Error deleting Board Notifications:", error);
+    console.error("Error deleting Notifications:", error);
 
     // Show an error message
-    message.error('Failed to delete Board Notifications.');
+    message.error('Failed to delete Notifications.');
   }
   }
 
@@ -199,9 +201,9 @@ export default function Navb() {
                 {ActNotifications.map((ActNotifications, index) => (
                   <NotificationCard
                     key={index}
-                    avatar={ActNotifications.actregistId.userId.profile || "/public/Unknow.svg"}
-                    title={ActNotifications.actregistId.userId.name || "Unknown User"}
-                    message={`Join : ${ActNotifications.activityId.title || "No content available"}`}
+                    avatar={ActNotifications.actregistId?.userId?.profile || "/public/Unknow.svg"}
+                    title={ActNotifications.actregistId?.userId?.name || "Unknown User"}
+                    message={`Join : ${ActNotifications?.activityId?.title || "No content available"}`}
                   />
                 ))}
               </div>
@@ -238,6 +240,7 @@ export default function Navb() {
           </ul>
         </div>
       </div>
+      
     </div>
   );
 }

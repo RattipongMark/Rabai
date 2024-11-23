@@ -90,12 +90,12 @@ const DiscussionBoard = () => {
   }) => {
     const timeAgo = formatDistanceToNow(parseISO(time), { addSuffix: true });
     return (
-      <div className="card flex flex-col gap-4 bg-[#404664] p-4 lgt-txt w-full space-y-4 lg:p-6">
+      <div className="card flex flex-col gap-4 bg-[#404664] p-4 lgt-txt w-full space-y-4 lg:p-6 ">
         <div className="flex items-center gap-4">
           <img src={avatar} className="size-8 rounded-full lg:size-12" />
-          <div className="flex flex-col">
-            <div className="font-semibold text-sm lg:text-lg">{name}</div>
-            <div className="text-gray-400 text-sm">{timeAgo}</div>
+          <div className="flex flex-col ">
+            <div className="lg:font-semibold font-normal text-sm lg:text-lg">{name}</div>
+            <div className="text-gray-400 text-xs">{timeAgo}</div>
           </div>
           <div className="min-w-12 ml-auto">
             <div
@@ -107,7 +107,7 @@ const DiscussionBoard = () => {
           </div>
         </div>
 
-        <article className="text-sm leading-relaxed w-full break-words whitespace-pre-wrap ">
+        <article className="font-light leading-relaxed w-full break-words whitespace-pre-wrap text-xs lg:text-base">
   {content}
         </article>
 
@@ -243,7 +243,9 @@ const DiscussionBoard = () => {
   return (
     <Bg>
       <Navb />
-      <div className="flex flex-col justify-center w-full h-svh gap-4 lg:flex-row  ">
+      
+      <div className="flex flex-col justify-center w-full h-svh gap-4 lg:flex-row ">
+        
         <div className="hidden lg:flex lg:flex-col lg:gap-4 lg:block lg:items-center lg:w-1/5 lg:bg-[#20243C] lg:pt-24">
           <div
             onClick={handleMyB}
@@ -301,6 +303,7 @@ const DiscussionBoard = () => {
         </div>
 
         <div className="flex flex-col justify-start items-center w-full  px-8 h-svh overflow-y-auto  lg:px-28 lg:w-4/5 lg:pt-24">
+        <div className="pt-16 lg:hidden"></div>
           <div className="flex justify-end w-full items-center gap-2 mb-4">
             <div className="flex  justify-end items-center relative lg:w-1/4">
               <input
@@ -388,6 +391,7 @@ const DiscussionBoard = () => {
                 id={board._id}
               />
             ))}
+            <div className="pt-32 lg:hidden"></div>
           </div>
         </div>
 
@@ -446,7 +450,7 @@ const DiscussionBoard = () => {
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-8">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-8 z-[50]">
           <div className="bg-[#282C45] border border-[#404664] p-4 rounded-2xl  flex flex-col items-center relative gap-5 w-full lg:w-2/5 h-3/5 lg:p-[30px]">
             <button onClick={closeModal} className="absolute top-2 right-2">
               <img src="close.svg" alt="" className="size-6"/>
@@ -457,7 +461,7 @@ const DiscussionBoard = () => {
       )}
 
       {showComment && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-8">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-8 z-[50]">
           <div className="bg-[#282C45] border border-[#404664] p-4 rounded-2xl  flex flex-col items-center relative gap-5 w-full h-4/5 lg:w-3/5 h-3/5 lg:p-[30px]">
             <button onClick={closeComment} className="absolute top-2 right-2">
               <img src="close.svg" alt="" className="size-6"/>

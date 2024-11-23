@@ -8,6 +8,6 @@ router.get('/activity/:OwnerActId', notiController.getNotiAct);
 
 router.delete('/discussionboard/:userId', notiController.delNotiBoard);
 
-router.delete('/activity/:userId', notiController.delNotiAct);
+router.delete('/activity/:OwnerActId', notiController.delNotiAct);
 
 module.exports = router;
