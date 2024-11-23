@@ -35,7 +35,7 @@ body {
 }
 
 .bg-art {
-  background-image: url('./art.png');
+  background-image: url('/art.png');
   background-size: cover;
   background-position: center;
   z-index: -1;

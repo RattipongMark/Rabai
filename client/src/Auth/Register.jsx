@@ -59,7 +59,7 @@ const Register = () => {
         </div>
 
         <div className="flex flex-col w-full h-fit justify-center items-center gap-8 lg:flex-row lg:gap-8 lg:items-center lg:px-[200px]">
-          <div className='flex flex-col items-center justify-center w-full gap-4 h-full lg:gap-4 lg:w-1/3'>   
+          <div className='flex flex-col items-center justify-center w-full gap-4 h-fit lg:gap-4 lg:w-1/3'>   
             {/* <div className='w-full text-center text-2xl text-orange'>Select Profile</div>    */}
             <div className="flex justify-center items-center bg-regis rounded-full size-32  lg:size-72 " onClick={openModal}>
               <img src={selectedProfile || "/profile/profile1.svg"} alt="Profile" className="rounded-full size-10/12 hover:opacity-80 hover:cursor-pointer" />
@@ -189,7 +189,7 @@ const Register = () => {
                     key={index}
                     src={profile}
                     alt={`Profile ${index + 1}`}
-                    className="w-full h-full cursor-pointer rounded-full hover:opacity-50"
+                    className="w-full cursor-pointer rounded-full hover:opacity-50"
                     onClick={() => selectProfile(profile)}
                   />
                 ))}
