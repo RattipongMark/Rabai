@@ -28,7 +28,7 @@ const Login = () => {
         <form onSubmit={handleLogin} className="flex flex-col gap-8 w-full ">
           <div>
             <label htmlFor="email" className="block text-sm font-medium leading-6 lgt-txt baloo2">
-              Username
+              Email
             </label>
             <div className="mt-2">
               <input
