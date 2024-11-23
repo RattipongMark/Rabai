@@ -146,7 +146,7 @@ export default function Navb() {
           </ul>
         </div>
         <a className="hidden lg:block">
-          <img src="/public/Logo.svg" alt="Logo" className="size-32"/>
+          <img src="/Logo.svg" alt="Logo" className="size-32"/>
         </a>
       </div>
 
@@ -172,7 +172,7 @@ export default function Navb() {
         {/* Notifications Dropdown */}
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button">
-            <img src="/public/noti.svg" alt="Notifications" />
+            <img src="/noti.svg" alt="Notifications" />
           </div>
           <ul
             tabIndex={0}
@@ -186,7 +186,7 @@ export default function Navb() {
                 {BoardNotifications.map((BoardNotifications, index) => (
                   <NotificationCard
                     key={index}
-                    avatar={BoardNotifications.commentId.userId.profile || "/public/Unknow.svg"}
+                    avatar={BoardNotifications.commentId.userId.profile || "/Unknow.svg"}
                     title={BoardNotifications.commentId.userId.name || "Unknown User"}
                     message={`Comment : ${BoardNotifications.commentId?.content || "No content available"}`}
                   />
@@ -201,7 +201,7 @@ export default function Navb() {
                 {ActNotifications.map((ActNotifications, index) => (
                   <NotificationCard
                     key={index}
-                    avatar={ActNotifications.actregistId?.userId?.profile || "/public/Unknow.svg"}
+                    avatar={ActNotifications.actregistId?.userId?.profile || "/Unknow.svg"}
                     title={ActNotifications.actregistId?.userId?.name || "Unknown User"}
                     message={`Join : ${ActNotifications?.activityId?.title || "No content available"}`}
                   />
@@ -264,7 +264,7 @@ function NotificationCard({ avatar, title, message }) {
           className="w-full h-full rounded-full"
         />
         <div className="absolute bottom-0 right-0 w-3 h-3 lg:w-4 lg:h-4 bg-green-500 rounded-full border-2 border-[#282C45]">
-          <img src="/public/incon_noti.svg" alt="" className="w-full h-full" />
+          <img src="incon_noti.svg" alt="" className="w-full h-full" />
         </div>
       </div>
 

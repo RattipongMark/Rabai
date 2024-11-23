@@ -7,14 +7,14 @@ body {
 
 
 .bg-image {
-    background-image: url('/public/bg.svg');
+    background-image: url('bg.svg');
     background-size: cover;
     background-position: center;
     z-index: -1;
   }
 
 .bg-chat {
-    background-image: url('/public/bg-chat.svg');
+    background-image: url('bg-chat.svg');
     background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
@@ -22,20 +22,20 @@ body {
   }
 
 .bg-avatar {
-  background-image: url('/public/bg-avatar.svg');
+  background-image: url('bg-avatar.svg');
   background-size: cover;
   background-position: center;
   overflow: hidden;
 }
 
 .bg-regis {
-  background-image: url('/public/bg-regis.svg');
+  background-image: url('bg-regis.svg');
   background-size: cover;
   background-position: center;
 }
 
 .bg-art {
-  background-image: url('/public/art.png');
+  background-image: url('art.png');
   background-size: cover;
   background-position: center;
   z-index: -1;

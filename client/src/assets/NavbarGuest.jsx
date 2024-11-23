@@ -11,7 +11,7 @@ export default function NavbGuest() {
       {/* Left Side - Logo and Mobile Menu */}
       <div className="navbar-start flex w-full items-center">
         <a className="hidden lg:block">
-          <img src="/public/Logo.svg" alt="Logo" className="size-32"/>
+          <img src="Logo.svg" alt="Logo" className="size-32"/>
         </a>
       </div>
 
