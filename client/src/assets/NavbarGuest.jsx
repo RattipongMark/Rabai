@@ -30,7 +30,7 @@ export default function NavbGuest() {
 
       {/* Right Side - Notifications and User Profile */}
       <div className="navbar-end flex gap-4 lg:gap-8 w-full justify-end items-center">
-        <a href="login" className="w-14 text-xs py-1 rounded-lg bg-orange text-center hover:bg-orange-600 lg:w-20 lg:text-md lg:py-2">SignIn</a>
+        <a href="login" className="w-14 text-xs py-1 rounded-lg bg-orange text-center hover:bg-orange-600 lg:w-20 lg:text-md lg:py-2">Sign In</a>
       </div>
     </div>
   );

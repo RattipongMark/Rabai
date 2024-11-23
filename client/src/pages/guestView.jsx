@@ -359,7 +359,9 @@ const GuestView = () => {
                 id={board._id}
               />
             ))}
+            <div className="pt-32 lg:hidden"></div>
           </div>
+          
         </div>
 
         <div className="fixed bottom-0 flex flex-col w-full justify-start pt-4 pb-10 px-8 h-fit bg-[#20243C]/1 backdrop-blur-lg  rounded-t-3xl lg:hidden">

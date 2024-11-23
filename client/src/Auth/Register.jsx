@@ -51,7 +51,7 @@ const Register = () => {
 
   return (
     <Bg>
-      <div className="min-h-screen w-full flex flex-col justify-center gap-8 lg:px-8 lg:gap-24">
+      <div className="min-h-screen w-full flex flex-col justify-center gap-8 h-svh lg:px-8 lg:gap-24">
         <div className="flex justify-center items-center space-x-3 font-bold text-4xl sm:mx-auto sm:w-full sm:max-w-xl sm:text-6xl md:text-7xl lg:text-8xl">
           <div className="lgt-txt baloo2">Create</div>
           <div className="text-orange baloo2">Your</div>
