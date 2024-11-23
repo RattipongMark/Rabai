@@ -11,7 +11,7 @@ const useAnony = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.post('http://localhost:3000/api/anony/setfake', { userId, fakeName,avatar });
+      const response = await axios.post('https://rabai-server.onrender.com/api/anony/setfake', { userId, fakeName,avatar });
 
       if (response.status === 201) {
         return { success: true, message: 'Fake name saved successfully!' };
@@ -31,7 +31,7 @@ const useAnony = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get(`http://localhost:3000/api/anony/${userId}`);
+      const response = await axios.get(`https://rabai-server.onrender.com/api/anony/${userId}`);
       if (response.status === 200) {
         return { success: true, fakedata: response.data};
       } else {

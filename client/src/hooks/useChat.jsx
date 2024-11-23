@@ -12,7 +12,7 @@
 //     setSending(true);
 //     setError(null);
 //     try {
-//       const response = await axios.post('http://localhost:3000/api/messages/', {
+//       const response = await axios.post('https://rabai-server.onrender.com/api/messages/', {
 //         userId: newMessage.user.userId,
 //         userName: newMessage.user.userName,
 //         room: newMessage.roomName,

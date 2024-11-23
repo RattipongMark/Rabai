@@ -41,7 +41,7 @@ const RoomTemplate = () => {
   const handleLogoutRoom = async () => {
 
     // if (roomName && fakeName && fakedata?.userId) {
-    //   const socket = io("http://localhost:3000");
+    //   const socket = io("https://rabai-server.onrender.com");
     //   socket.emit("leaveRoom", roomName, fakeName, fakedata.userId);
     //   socket.disconnect();
     //   navigate("/Anonymous-Chat");

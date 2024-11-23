@@ -41,7 +41,7 @@ const useRoom = () => {
       socketRef.current.emit("leaveRoom", roomName, fakeName, fakedata.userId);
     }
 
-    socketRef.current = io("http://localhost:3000");
+    socketRef.current = io("https://rabai-server.onrender.com");
 
     // Join the room
     socketRef.current.emit("joinRoom", roomName, fakeName);
@@ -66,7 +66,7 @@ const useRoom = () => {
     // Fetch initial messages
     const fetchMessages = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/messages/${roomName}`);
+        const response = await axios.get(`https://rabai-server.onrender.com/api/messages/${roomName}`);
         setMessages(response.data.data.messages.reverse());
       } catch (err) {
         console.error("Error fetching messages:", err);
@@ -89,7 +89,7 @@ const useRoom = () => {
     setError(null);
 
     try {
-      const response = await axios.post("http://localhost:3000/api/messages/", {
+      const response = await axios.post("https://rabai-server.onrender.com/api/messages/", {
         userId: newMessage.user.userId,
         userName: newMessage.user.userName,
         room: newMessage.roomName,

@@ -12,7 +12,7 @@
   
 //   // Socket.IO setup
 //   useEffect(() => {
-//     socketRef.current = io('http://localhost:3000'); // เชื่อมต่อกับเซิร์ฟเวอร์
+//     socketRef.current = io('https://rabai-server.onrender.com'); // เชื่อมต่อกับเซิร์ฟเวอร์
   
 //     // ฟังข้อความใหม่จากเซิร์ฟเวอร์
 //     socketRef.current.on('newMessage', (newMessage) => {
@@ -25,7 +25,7 @@
 //     // Fetch initial messages when joining the room
 //     const fetchMessages = async () => {
 //       try {
-//         const response = await axios.get(`http://localhost:3000/api/messages/${roomName}`);
+//         const response = await axios.get(`https://rabai-server.onrender.com/api/messages/${roomName}`);
 //         console.log("fetch",response)
 //         setMessages(response.data.data.messages.reverse());
 //       } catch (err) {
@@ -49,7 +49,7 @@
 //     setError(null);
 
 //     try {
-//       const response = await axios.post('http://localhost:3000/api/messages/', {
+//       const response = await axios.post('https://rabai-server.onrender.com/api/messages/', {
 //         userId: newMessage.user.userId,
 //         userName: newMessage.user.userName,
 //         room: newMessage.roomName,

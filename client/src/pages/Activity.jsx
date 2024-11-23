@@ -59,14 +59,14 @@ const Activity = () => {
         const fetchActivities = async () => {
             setLoading(true); // เริ่มการโหลด
             try {
-                const activityResponse = await fetch('http://localhost:3000/api/activities/');
+                const activityResponse = await fetch('https://rabai-server.onrender.com/api/activities/');
                 const activityData = await activityResponse.json();
                 setActivities(activityData);
 
                 // ดึงข้อมูลผู้ใช้ทั้งหมด
                 const userIds = activityData.map(activity => activity.userId);
                 const userResponses = await Promise.all(userIds.map(id => 
-                    fetch(`http://localhost:3000/api/users/${id}`).then(res => res.json())
+                    fetch(`https://rabai-server.onrender.com/api/users/${id}`).then(res => res.json())
                 ));
                 
                 const userMap = userResponses.reduce((acc, user) => {
@@ -91,7 +91,7 @@ const Activity = () => {
 
     const handleJoin = async (activityId) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/activities/${activityId}/join`, {
+            const response = await fetch(`https://rabai-server.onrender.com/api/activities/${activityId}/join`, {
                 method: 'POST',
             });
     
@@ -122,7 +122,7 @@ const Activity = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:3000/api/activities/', {
+            const response = await fetch('https://rabai-server.onrender.com/api/activities/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

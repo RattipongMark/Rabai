@@ -9,7 +9,7 @@ const useBoard = () => {
     useEffect(() => {
         const fetchBoards = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/api/board');  
+                const response = await axios.get('https://rabai-server.onrender.com/api/board');  
                 console.log(response.data);  
                 setBoards(response.data.reverse());  
                 setLoading(false);  

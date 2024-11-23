@@ -7,7 +7,7 @@ const useJoinedActivities = (userId) => {
   useEffect(() => {
     const fetchJoinedActivities = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/join/${userId}`);
+        const response = await axios.get(`https://rabai-server.onrender.com/api/join/${userId}`);
         console.log("a",response.data)
         setJoinedActivities(response.data); // ตั้งค่าข้อมูล join ที่ได้มา
       } catch (error) {

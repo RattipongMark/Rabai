@@ -9,7 +9,7 @@ const useActivies = () => {
     useEffect(() => {
         const fetchBoards = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/api/activity/');  
+                const response = await axios.get('https://rabai-server.onrender.com/api/activity/');  
                 console.log("activ",response.data);  
                 setActivities(response.data.reverse());  
                 setLoading(false);  

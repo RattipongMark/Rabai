@@ -11,11 +11,11 @@ const useAnonyRoom = () => {
       setLoading(true);
       try {
         // Fetch all rooms
-        const roomResponse = await axios.get("http://localhost:3000/api/room/");
+        const roomResponse = await axios.get("https://rabai-server.onrender.com/api/room/");
         const roomsData = roomResponse.data;
 
         // Fetch all tags once
-        const tagsResponse = await axios.get("http://localhost:3000/api/tag/tags");
+        const tagsResponse = await axios.get("https://rabai-server.onrender.com/api/tag/tags");
         const tagsData = tagsResponse.data;
 
         // Create a map of tagId to tagName for easy lookup

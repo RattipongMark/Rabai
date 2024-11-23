@@ -10,12 +10,12 @@ const useBoardNotifications = (userId) => {
     if (!userId) return; // ถ้าไม่มี userId ก็ไม่ดึงข้อมูล
 
     // สร้าง socket connection
-    const socket = io('http://localhost:3000');
+    const socket = io('https://rabai-server.onrender.com');
 
     const fetchBoardNotifications = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:3000/api/noti/discussionboard/${userId}`); // API endpoint สำหรับดึงข้อมูล
+        const response = await fetch(`https://rabai-server.onrender.com/api/noti/discussionboard/${userId}`); // API endpoint สำหรับดึงข้อมูล
         if (!response.ok) {
           throw new Error('Failed to fetch notifications');
         }

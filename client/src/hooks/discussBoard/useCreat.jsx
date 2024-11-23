@@ -12,7 +12,7 @@ const useCreatePost = () => {
         setSuccess(false);
 
         try {
-            const response = await axios.post('http://localhost:3000/api/board/create', {  // แก้ไข URL ตามที่ API ของคุณใช้งาน
+            const response = await axios.post('https://rabai-server.onrender.com/api/board/create', {  // แก้ไข URL ตามที่ API ของคุณใช้งาน
                 userId,
                 description,
                 tagId,

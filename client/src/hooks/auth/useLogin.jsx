@@ -12,7 +12,7 @@ const useLogin = () => {
             setError(null);
             setLoading(true); // Set loading to true when starting the request
 
-            const res = await fetch('http://localhost:3000/api/auth/login', {
+            const res = await fetch('https://rabai-server.onrender.com/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json', // Specify content type

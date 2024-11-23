@@ -75,7 +75,7 @@ const AnonyChat = () => {
 
 
   useEffect(() => {
-    const socket = io('http://localhost:3000');
+    const socket = io('https://rabai-server.onrender.com');
     socket.on('allRoomUserCounts', (usersInRoom) => {
         setUserCount(usersInRoom);
     });

@@ -14,7 +14,7 @@ const useEditProfile = () => {
         setError(null); // รีเซ็ต error เมื่อเริ่มต้นการอัปเดต
         console.log("data",userData)
         try {
-            const response = await axios.put('http://localhost:3000/api/profile/updateprofile', userData);
+            const response = await axios.put('https://rabai-server.onrender.com/api/profile/updateprofile', userData);
             if (response.status === 200) {
                 message.success(response.data.message);
                 // Handle success case

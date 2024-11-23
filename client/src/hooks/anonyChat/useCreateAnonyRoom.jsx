@@ -10,7 +10,7 @@ const useCreateAnonyRoom = () => {
     console.log(roomName, maxParticipants, tagId);
     try {
       // Sending request to backend to create the room
-      const response = await axios.post("http://localhost:3000/api/room/create", {
+      const response = await axios.post("https://rabai-server.onrender.com/api/room/create", {
         roomName,
         maxParticipants,
         tagId,

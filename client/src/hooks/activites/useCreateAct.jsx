@@ -11,7 +11,7 @@ const useCreatePost = () => {
       setLoading(true);
       setError(null);
 
-      const response = await axios.post('http://localhost:3000/api/activity/create', {
+      const response = await axios.post('https://rabai-server.onrender.com/api/activity/create', {
         userId,
         title,
         detail: description,

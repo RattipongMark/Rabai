@@ -27,9 +27,9 @@ export default function Navb() {
   // ฟังก์ชันการลบทั้งหมด
   const handleDeleteAllBoardNoti = async() => {
     try {
-    await axios.delete(`http://localhost:3000/api/noti/discussionboard/${userId}`);
+    await axios.delete(`https://rabai-server.onrender.com/api/noti/discussionboard/${userId}`);
     setBoardNotifications([]); 
-    await axios.delete(`http://localhost:3000/api/noti/activity/${userId}`);
+    await axios.delete(`https://rabai-server.onrender.com/api/noti/activity/${userId}`);
     setActNotifications([]); 
     window.location.reload();
   } catch (error) {
@@ -42,7 +42,7 @@ export default function Navb() {
 
   const handleDeleteAllActNoti = async() => {
     try {
-    await axios.delete(`http://localhost:3000/api/noti/activity/${userId}`);
+    await axios.delete(`https://rabai-server.onrender.com/api/noti/activity/${userId}`);
     setActNotifications([]); 
     window.location.reload();
   } catch (error) {

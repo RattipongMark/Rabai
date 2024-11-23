@@ -18,7 +18,7 @@ const useJoinActivity = (activityId, userId, ownerId) => {
 
     try {
       setLoading(true);
-      const response = await axios.post("http://localhost:3000/api/join/create", {
+      const response = await axios.post("https://rabai-server.onrender.com/api/join/create", {
         userId,
         activityId,
       });

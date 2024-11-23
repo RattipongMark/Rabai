@@ -11,7 +11,7 @@ const useComments = (boardId) => {
         const fetchComments = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(`http://localhost:3000/api/comments/${boardId}`);
+                const response = await axios.get(`https://rabai-server.onrender.com/api/comments/${boardId}`);
                 setComments(response.data);
             } catch (err) {
                 if (err.response) {
@@ -36,7 +36,7 @@ const useComments = (boardId) => {
     const createComment = async (userId, content) => {
         try {
             const newComment = { userId, boardId, content };
-            const response = await axios.post('http://localhost:3000/api/comments/', newComment);
+            const response = await axios.post('https://rabai-server.onrender.com/api/comments/', newComment);
             setComments([...comments, response.data]); // อัปเดตคอมเมนต์ใหม่ลงใน state
         } catch (err) {
             setError('Error creating comment');
