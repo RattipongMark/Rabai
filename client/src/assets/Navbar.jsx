@@ -212,13 +212,14 @@ export default function Navb() {
                     />
                   ))}
                 </div>
-                <div className="flex justify-end pt-4">
+
+              </div>
+             )}
+                             <div className="flex justify-end pt-4">
                   <button onClick={handleDeleteAllBoardNoti} className="w-[90px] h-[28px] bg-danger text-white rounded-lg hover:bg-red-600">
                     Delete All
                   </button>
                 </div>
-              </div>
-             )}
           </ul>
         </div>
 
