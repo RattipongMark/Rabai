@@ -64,10 +64,10 @@ const Register = () => {
             <div className="flex justify-center items-center bg-regis rounded-full size-32  lg:size-72 " onClick={openModal}>
               <img src={selectedProfile || "/profile/profile1.svg"} alt="Profile" className="rounded-full size-10/12 hover:opacity-80 hover:cursor-pointer" />
             </div>
-            <img src="glass.svg" alt="" className='w-2/3 lg:w-full'/>
+            <img src="glass.svg" alt="" className='hidden lg:block lg:w-2/3 lg:w-full'/>
           </div>
 
-          <form onSubmit={handleRegister} className="flex flex-col gap-8 w-full px-14  lg:grid grid-cols-2 lg:gap-16 lg:w-2/3">
+          <form onSubmit={handleRegister} className="flex flex-col gap-4 w-full px-14  lg:grid grid-cols-2 lg:gap-16 lg:w-2/3">
             <div>
               <label htmlFor="name" className="block text-sm font-medium leading-6 lgt-txt">
                 Username
@@ -80,7 +80,7 @@ const Register = () => {
                   // placeholder="N'Sun"
                   required
                   autoComplete="name"
-                  className="text-white/60 pl-4 flex justify-center bg-white/0 border-b-2 border-[#8A8A8E] w-full lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
+                  className="text-white/60 pl-4 flex justify-center bg-white/0 border-b-2 border-[#8A8A8E] w-full h-8 lg:h-16 focus:outline-none focus:border-orange-400"
                 />
               </div>
             </div>
@@ -97,7 +97,7 @@ const Register = () => {
                   // placeholder="Enter your email"
                   required
                   autoComplete="email"
-                  className="text-white/60 pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full text-white/60 lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
+                  className="text-white/60 pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full text-white/60 h-8 lg:h-16 focus:outline-none focus:border-orange-400"
                 />
               </div>
             </div>
@@ -114,7 +114,7 @@ const Register = () => {
                   // placeholder="Enter your password"
                   required
                   autoComplete="new-password"
-                  className="text-white/60 pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full text-white/60 lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
+                  className="text-white/60 pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full text-white/60 h-8 lg:h-16 focus:outline-none focus:border-orange-400"
                 />
                 <button
                   type="button"
@@ -138,7 +138,7 @@ const Register = () => {
                   // placeholder="Confirm your password"
                   required
                   autoComplete="new-password"
-                  className="text-white/60 pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full text-white/60 lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
+                  className="text-white/60 pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full text-white/60 h-8 lg:h-16 focus:outline-none focus:border-orange-400"
                 />
                 <button
                   type="button"
@@ -150,11 +150,11 @@ const Register = () => {
               </div>
             </div> 
 
-            <div className="col-span-2 flex justify-between items-center w-full pt-4">
-              <div className='flex flex-col gap-2  lg:flex-row text-sm'>
-                <p className="text-center text-sm text-gray-500">
+            <div className="col-span-2 flex justify-between items-center w-full">
+              <div className='flex flex-col gap-0.5 lg:gap-2  lg:flex-row text-sm'>
+                <div className="text-center text-sm text-gray-500">
                   Already a member?
-                </p>
+                </div>
                 <a href="/login" className="font-semibold text-orange hover:text-orange-300">
                     Sign in here
                   </a>

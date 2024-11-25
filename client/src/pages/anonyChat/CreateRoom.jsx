@@ -242,7 +242,7 @@ const CreateAnonyChat = () => {
             </div>
           </div>
           
-          <div className="pt-8 flex justify-center w-full">
+          <div className="pt-2 flex justify-center w-full">
             <img src="glass.svg" alt="" />
           </div>
         </div>
@@ -261,8 +261,8 @@ const CreateAnonyChat = () => {
           </div>
 
           {/* Room List */}
-          <div className="flex flex-col  justify-center gap-6 h-[400px] bg-[#282C45] rounded-b-3xl px-12">
-            <div className="w-full h-fit py-8 flex justify-center">
+          <div className="flex flex-col  justify-center gap-4 h-[300px] bg-[#282C45] rounded-b-3xl px-12">
+            <div className="w-full h-fit  flex justify-center">
               <input
                 type="text"
                 className="bg-white/0 border-b-2 border-[#8A8A8E] w-full text-xl text-center "
@@ -271,7 +271,7 @@ const CreateAnonyChat = () => {
                 onChange={(e) => setRoomName(e.target.value)}
               />
             </div>
-            <div className="flex flex-col gap-4 pt-2">
+            <div className="flex flex-col gap-2">
               <div className="w-full flex flex-col gap-2">
                 <label htmlFor="tags" className="px-1">
                   Choose a Tag
@@ -298,13 +298,13 @@ const CreateAnonyChat = () => {
                   value={maxParticipants}
                   onChange={handleMaxParticipantsChange}
                   placeholder="Max Participants"
-                  className="input rounded-md max-w-xs h-[38px] bg-white text-black" // ใช้ bg เดียวกัน
+                  className="input rounded-md max-w-xs h-[32px] bg-white text-black" // ใช้ bg เดียวกัน
                   min="2" // ค่าต่ำสุด
                   max="50" // ค่าสูงสุด
                 />
               </div>
             </div>
-            <div className="flex justify-center pt-4">
+            <div className="flex justify-center pt-2">
               {roomLoading ? (
                 <span>Loading...</span> // Replace with your spinner or loading indicator
               ) : (

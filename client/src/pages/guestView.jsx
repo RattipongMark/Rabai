@@ -271,7 +271,7 @@ const GuestView = () => {
         </div>
 
         <div className="flex flex-col justify-start items-center w-full  px-8 h-svh overflow-y-auto  lg:px-28 lg:w-4/5 lg:pt-24">
-        <div className="pt-16 lg:hidden"></div>
+        <div className="pt-20 lg:hidden"></div>
           <div className="flex justify-end w-full items-center gap-2 mb-4">
             <div className="flex  justify-end items-center relative lg:w-1/4">
               <input
@@ -364,7 +364,7 @@ const GuestView = () => {
           
         </div>
 
-        <div className="fixed bottom-0 flex flex-col w-full justify-start pt-4 pb-10 px-8 h-fit bg-[#20243C]/1 backdrop-blur-lg  rounded-t-3xl lg:hidden">
+        <div className="fixed bottom-0 flex flex-col w-full justify-start py-2 px-8 h-fit bg-[#20243C]/1 backdrop-blur-lg  rounded-t-3xl lg:hidden">
           <div className="flex items-center justify-between w-full">
             <div
               onClick={handleMyB}
@@ -372,20 +372,20 @@ const GuestView = () => {
             >
               <img
                 src="UK.svg"
-                className="size-8 rounded-full "
+                className="size-6 rounded-full "
               />
             </div>
             <div
               onClick={handleCreateBoard}
               className="flex justify-center w-full py-2 px-2 rounded-xl hover:bg-white/10 cursor-pointer"
             >
-              <img src="newDC.svg" className="size-8 rounded-full " />
+              <img src="newDC.svg" className="size-6 rounded-full " />
             </div>
             <div
               onClick={handleSearchClick}
               className="flex justify-center items-center w-full  rounded-xl hover:bg-white/10 cursor-pointer"
             >
-              <img src="Search2.svg" className="size-8 rounded-full " />
+              <img src="Search2.svg" className="size-6  rounded-full " />
               
             </div>
           </div>

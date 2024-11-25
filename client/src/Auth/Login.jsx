@@ -37,7 +37,7 @@ const Login = () => {
                 type="email"
                 required
                 autoComplete="email"
-                className="pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full text-white/60 lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
+                className="pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full text-white/60 h-8 lg:h-16 focus:outline-none focus:border-orange-400"
               />
             </div>
           </div>
@@ -53,7 +53,7 @@ const Login = () => {
                 type={showPassword ? "text" : "password"}
                 required
                 autoComplete="current-password"
-                className="pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full text-white/60 lg-12 lg:h-16 focus:outline-none focus:border-orange-400"
+                className="pl-4 bg-white/0 border-b-2 border-[#8A8A8E] w-full text-white/60 h-8 lg:h-16 focus:outline-none focus:border-orange-400"
               />
                <button
                   type="button"

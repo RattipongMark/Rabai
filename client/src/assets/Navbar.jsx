@@ -173,46 +173,52 @@ export default function Navb() {
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button">
             <img src="/noti.svg" alt="Notifications" />
+            {(BoardNotifications.length > 0 || ActNotifications.length > 0) && (
+              <div className="absolute top-0 right-0 w-3 h-3 bg-orange rounded-full"></div>
+            )}
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-noti backdrop-blur-lg rounded-2xl z-[1] mt-3 w-64 flex flex-col lg:w-[446px] p-4 lg:shadow-lg lg:gap-4"
+            className="menu menu-sm dropdown-content bg-noti backdrop-blur-lg rounded-2xl z-[1] mt-3 w-[250px] flex flex-col gap-2 lg:w-[446px] p-4 lg:shadow-lg lg:gap-4"
           >
             <div className="text-orange-400 font-medium">Notification</div>
-            <div className="flex flex-col gap-2">
-              <div className="text-gray-400 font-light pb-2">Discussion Board</div>
-              <div className="flex flex-col gap-2 w-full min-h-[50px] h-auto max-h-[300px] overflow-y-auto">
-                {/* แสดงรายการ notifications */}
-                {BoardNotifications.map((BoardNotifications, index) => (
-                  <NotificationCard
-                    key={index}
-                    avatar={BoardNotifications.commentId.userId.profile || "/Unknow.svg"}
-                    title={BoardNotifications.commentId.userId.name || "Unknown User"}
-                    message={`Comment : ${BoardNotifications.commentId?.content || "No content available"}`}
-                  />
-                ))}
+            {(BoardNotifications.length > 0 ) && (
+              <div className="flex flex-col gap-2">
+                <div className="text-gray-400 font-light lg:pb-2">Discussion Board</div>
+                <div className="flex flex-col gap-2 w-full min-h-[10px] h-auto max-h-[150px] lg:max-h-[300px] overflow-y-auto">
+                  {/* แสดงรายการ notifications */}
+                  {BoardNotifications.map((BoardNotifications, index) => (
+                    <NotificationCard
+                      key={index}
+                      avatar={BoardNotifications.commentId.userId.profile || "/Unknow.svg"}
+                      title={BoardNotifications.commentId.userId.name || "Unknown User"}
+                      message={`Comment : ${BoardNotifications.commentId?.content || "No content available"}`}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-            
-            <div className="flex flex-col gap-2">
-              <div className="text-gray-400 font-light pb-2">Acitivities Board</div>
-              <div className="flex flex-col gap-2 w-full min-h-[50px] h-auto max-h-[300px] overflow-y-auto">
-                {/* แสดงรายการ notifications */}
-                {ActNotifications.map((ActNotifications, index) => (
-                  <NotificationCard
-                    key={index}
-                    avatar={ActNotifications.actregistId?.userId?.profile || "/Unknow.svg"}
-                    title={ActNotifications.actregistId?.userId?.name || "Unknown User"}
-                    message={`Join : ${ActNotifications?.activityId?.title || "No content available"}`}
-                  />
-                ))}
+            )}
+            {(ActNotifications.length > 0) && (
+              <div className="flex flex-col gap-2">
+                <div className="text-gray-400 font-light pb-2">Acitivities Board</div>
+                <div className="flex flex-col gap-2 w-full  min-h-[10px] h-auto max-h-[150px] lg:max-h-[300px] overflow-y-auto">
+                  {/* แสดงรายการ notifications */}
+                  {ActNotifications.map((ActNotifications, index) => (
+                    <NotificationCard
+                      key={index}
+                      avatar={ActNotifications.actregistId?.userId?.profile || "/Unknow.svg"}
+                      title={ActNotifications.actregistId?.userId?.name || "Unknown User"}
+                      message={`Join : ${ActNotifications?.activityId?.title || "No content available"}`}
+                    />
+                  ))}
+                </div>
+                <div className="flex justify-end pt-4">
+                  <button onClick={handleDeleteAllBoardNoti} className="w-[90px] h-[28px] bg-danger text-white rounded-lg hover:bg-red-600">
+                    Delete All
+                  </button>
+                </div>
               </div>
-              <div className="flex justify-end pt-8">
-                <button onClick={handleDeleteAllBoardNoti} className="w-[90px] h-[28px] bg-danger text-white rounded-lg hover:bg-red-600">
-                  Delete All
-                </button>
-              </div>
-            </div>
+             )}
           </ul>
         </div>
 
@@ -276,7 +282,7 @@ function NotificationCard({ avatar, title, message }) {
             !isExpanded ? "truncate" : "text-ellipsis" // ใช้ truncate ถ้าไม่ได้กดแสดงข้อความเพิ่มเติม
           }`}
           style={{
-            maxHeight: !isExpanded ? "40px" : "none", // จำกัดความสูงถ้าไม่ได้ขยาย
+            maxHeight: !isExpanded ? "15px" : "none", // จำกัดความสูงถ้าไม่ได้ขยาย
             overflow: "hidden", // ซ่อนข้อความที่เกิน
             textOverflow: "ellipsis", // แสดง "..." เมื่อข้อความยาวเกินไป
           }}
@@ -286,7 +292,7 @@ function NotificationCard({ avatar, title, message }) {
 
         {/* ปุ่มสำหรับขยายข้อความ */}
         <button
-          className="text-blue-400 text-xs mt-2"
+          className="text-blue-400 text-xs"
           onClick={toggleExpand}
         >
           {isExpanded ? "Show less" : "Read more"}

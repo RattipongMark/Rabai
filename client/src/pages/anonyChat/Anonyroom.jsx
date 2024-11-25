@@ -166,9 +166,9 @@ const AnonyChat = () => {
       </div>
 
       {/* Mobile View */}
-      <div className="lg:hidden flex flex-col w-full h-svh py-5 justify-center items-center text-white px-4 gap-2 text-sm">
+      <div className="lg:hidden flex flex-col w-full h-svh py-4 justify-center items-center text-white px-4 gap-2 text-sm">
         {/* Avatar Selection Section */}
-        <div className="w-full flex flex-col justify-center item-center rounded-lg p-6 h-fit">
+        <div className="w-full flex flex-col justify-center item-center rounded-lg px-6 h-fit">
           <div className="flex w-full justify-center gap-1 pb-5 text-3xl font-extrabold">
             <span className="text-orange-500">Select</span>
             <span>Avatar</span>
@@ -193,7 +193,7 @@ const AnonyChat = () => {
             </div>
           </div>
           
-          <div className="pt-8 flex justify-center w-full">
+          <div className="pt-2 flex justify-center w-full">
             <img src="glass.svg" alt="" />
           </div>
         </div>
@@ -211,7 +211,7 @@ const AnonyChat = () => {
           </div>
 
           {/* Room List */}
-          <div className="flex flex-col gap-2 h-[400px] bg-[#282C45] rounded-b-3xl rounded-tr-3xl scroller overflow-y-auto p-6">
+          <div className="flex flex-col gap-2 h-[300px] bg-[#282C45] rounded-b-3xl rounded-tr-3xl scroller overflow-y-auto p-6">
             {roomsLoading ? (
               <div className='w-full h-full flex justify-center items-center'><Spin size="medium" /></div>
             ) : roomsError ? (
