@@ -40,14 +40,14 @@ const RoomTemplate = () => {
   console.log(usersInRoom);
   const handleLogoutRoom = async () => {
 
-    // if (roomName && fakeName && fakedata?.userId) {
-    //   const socket = io("https://rabai-server.onrender.com");
-    //   socket.emit("leaveRoom", roomName, fakeName, fakedata.userId);
-    //   socket.disconnect();
-    //   navigate("/Anonymous-Chat");
-    // }
+    if (roomName && fakeName && fakedata?.userId) {
+      const socket = io("https://rabai-server.onrender.com");
+      socket.emit("leaveRoom", roomName, fakeName, fakedata.userId);
+      socket.disconnect();
+      navigate("/Anonymous-Chat");
+    }
 
-    navigate("/Anonymous-Chat");
+    // navigate("/Anonymous-Chat");
   };
 
   const messagesEndRef = useRef(null);
@@ -137,7 +137,7 @@ const RoomTemplate = () => {
               <div className="flex justify-between">
                 <div className="flex w-1/3 gap-4">
                   <div>
-                    <img src="Users.svg" alt="" />
+                    <img src="/Users.svg" alt="" />
                   </div>
                   <div>{userCount.count} / {maxp}</div>
                 </div>

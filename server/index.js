@@ -129,19 +129,22 @@ io.on('connection', (socket) => {
     
     socket.on("leaveRoom", async (roomName, userName, userId) => {
         socket.leave(roomName);
-        
+        console.log("room will be delete 0");
         if (!userName) {
             return; // Ensure userName is provided before removing
         }
        
         
         if (usersInRoom[roomName]) {
+            console.log("room will be delete 1");
             if(checkUser[userName]){
                 usersInRoom[roomName] = usersInRoom[roomName].filter(user => user.userName !== userName);
                 checkUser[userName] = false;
+                console.log("room will be delete 2");
             }
 
             if(usersInRoom[roomName].length == 0){
+                console.log("room will be delete 3");
                 try {
                     const res = await axios.delete(`http://localhost:3000/api/room/name/${roomName}`);
                     console.log("room delete succes");

@@ -283,7 +283,7 @@ const ActivitiesBoard = () => {
               src={storedData.user.profile}
               className="w-10 h-10 rounded-full "
             />
-            <div className="text-white text-md">Myboard</div>
+            <div className="text-white text-md">MyActivities</div>
           </div>
           <div
             onClick={handleCreateBoard}
