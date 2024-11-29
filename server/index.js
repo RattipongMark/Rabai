@@ -143,7 +143,7 @@ io.on('connection', (socket) => {
                 console.log("room will be delete 2");
             }
 
-            if(usersInRoom[roomName].length == 0){
+            if(usersInRoom[roomName].length <= 0){
                 console.log("room will be delete 3");
                 try {
                     const res = await axios.delete(`http://localhost:3000/api/room/name/${roomName}`);

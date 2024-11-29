@@ -76,6 +76,7 @@ const useRoom = () => {
 
     // Clean up on component unmount
     return () => {
+      console.log("clear");
       socketRef.current.emit("leaveRoom", roomName, fakeName, fakedata.userId);
       socketRef.current.disconnect();
     };
