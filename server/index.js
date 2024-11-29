@@ -146,7 +146,7 @@ io.on('connection', (socket) => {
             if(usersInRoom[roomName].length <= 0){
                 console.log("room will be delete 3");
                 try {
-                    const res = await axios.delete(`http://localhost:3000/api/room/name/${roomName}`);
+                    const res = await axios.delete(`https://rabai-server.onrender.com/api/room/name/${roomName}`);
                     console.log("room delete succes");
                 } catch (error) {
                     console.error('Error deleting user:', error.message);
@@ -159,7 +159,7 @@ io.on('connection', (socket) => {
 
         // Optional: Delete the user from the database if required
         try {
-            const res = await axios.delete(`http://localhost:3000/api/anony/${userId}`);
+            const res = await axios.delete(`https://rabai-server.onrender.com/api/anony/${userId}`);
             console.log("delete succes");
         } catch (error) {
             console.error('Error deleting user:', error.message);
