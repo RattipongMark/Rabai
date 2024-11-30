@@ -44,7 +44,7 @@ const Comment = ({ closeModal, activePost }) => {
             <div className="opacity-20 h-4 "><hr /></div>
 
             {/* ส่วนแสดง comments */}
-            <div className="comments-section space-y-4 max-h-1/2 h-full overflow-y-auto scroller">
+            <div className="text-sm comments-section space-y-4 max-h-1/2 h-full overflow-y-auto scroller">
                 {loading ? (
                     <p>Loading comments...</p>
                 ) :  Array.isArray(comments) && comments.length > 0 ? (
@@ -65,7 +65,7 @@ const Comment = ({ closeModal, activePost }) => {
                         <div className="chat-header">
                           {comment.userId?.name || storedData.user.name}
                         </div>
-                        <div className="ml-2 mt-2 chat-bubble bg-white/10">{comment.content}</div>
+                        <div className="ml-2 mt-2 pt-3 chat-bubble bg-white/10">{comment.content}</div>
                       </div>
 
                     ))
