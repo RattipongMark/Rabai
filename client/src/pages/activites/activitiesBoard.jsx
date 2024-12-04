@@ -107,7 +107,6 @@ const ActivitiesBoard = () => {
       closeModalConfirm(); // ปิด Modal หลังจากยืนยัน
     };
 
-    console.log("bbb",key,activityId, storedData.user._id, ownerId)
     return (
       <div>
       <div className="card bg-[#404664] p-4 lgt-txt w-full space-y-4 lg:p-6 ">
@@ -177,7 +176,7 @@ const ActivitiesBoard = () => {
           <div className="flex flex-col gap-8 justify-center items-center px-8">
               <div className="flex justify-center text-base font-bold text-orange-500 lg:text-xl text-center">Confirm Attendance for the Event/Activity</div>
               <div className="flex justify-between w-full gap-4">
-                <div onClick={closeModalConfirm} className="flex justify-center  items-center h-6 w-full rounded-md lg:h-10 lg:rounded-xl  text-xs lg:text-sm bg-gray-400 hover:bg-gray-500 cursor-pointer">Cancle</div>
+                <div onClick={closeModalConfirm} className="flex justify-center  items-center h-6 w-full rounded-md lg:h-10 lg:rounded-xl  text-xs lg:text-sm bg-gray-400 hover:bg-gray-500 cursor-pointer">Cancel</div>
                 <div onClick={handleJoinConfirmation} className="flex justify-center  items-center h-6 w-full rounded-md lg:h-10  lg:rounded-xl  text-xs lg:text-sm bg-orange hover:bg-orange-500 cursor-pointer">Join</div>
               </div>
           </div>
@@ -283,18 +282,18 @@ const ActivitiesBoard = () => {
               src={storedData.user.profile}
               className="w-10 h-10 rounded-full "
             />
-            <div className="text-white text-md">MyActivities</div>
+            <div className="text-white text-md">My Activities</div>
           </div>
           <div
             onClick={handleCreateBoard}
             className="flex items-center gap-4 w-4/5 py-2 px-2 rounded-xl hover:bg-white/10 cursor-pointer"
           >
             <img src="newDC.svg" className="w-10 h-10 rounded-full " />
-            <div className="text-white text-md">New Discuss</div>
+            <div className="text-white text-md">New Activity</div>
           </div>
           <div
             onClick={handleSearchClick}
-            className="flex items-center gap-4 w-4/5 pt-2 px-2 rounded-xl hover:bg-white/10 cursor-pointer"
+            className="flex items-center gap-4 w-4/5 py-2 px-2 rounded-xl hover:bg-white/10 cursor-pointer"
           >
             <img src="Search2.svg" className="w-10 h-10 rounded-full " />
             <div className="text-white text-md">Search</div>

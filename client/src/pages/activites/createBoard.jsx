@@ -221,7 +221,7 @@ const CreateBoard = ({ closeModal }) => {
         className="bg-orange-500 p-2 w-full rounded-md text-white font-bold  mt-8"
         disabled={loading}
       >
-        {loading ? "Creating Post..." : "Create Board"}
+        {loading ? "Creating Activity..." : "Create Activity"}
       </button>
       {error && <div className="text-red-500 mt-2">{error}</div>}
       {success && (

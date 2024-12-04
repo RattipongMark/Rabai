@@ -14,7 +14,7 @@ export default function Navb() {
   const [BoardNotifications, setBoardNotifications] = useState([]);
   const [ActNotifications, setActNotifications] = useState([]);
 
-  const sections = ["DiscussionBoard", "Anonymous-Chat", "Activity"];
+  const sections = ["DiscussionBoard", "Anonymous-Chat", "Activities"];
   const { logout } = useAuth();
   const storedData = JSON.parse(localStorage.getItem('user_data'));
   const userId = storedData?.user._id; // ดึง userId จาก storedData
